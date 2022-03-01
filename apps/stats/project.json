@@ -12,8 +12,8 @@
         "outputPath": "dist/apps/stats",
         "index": "apps/stats/src/index.html",
         "baseHref": "/",
-        "main": "apps/stats/src/main.tsx",
-        "polyfills": "apps/stats/src/polyfills.ts",
+        "main": "apps/stats/src/main.jsx",
+        "polyfills": "apps/stats/src/polyfills.js",
         "tsConfig": "apps/stats/tsconfig.app.json",
         "assets": ["apps/stats/src/favicon.ico", "apps/stats/src/assets"],
         "styles": ["apps/stats/src/styles.scss"],
@@ -24,8 +24,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/stats/src/environments/environment.ts",
-              "with": "apps/stats/src/environments/environment.prod.ts"
+              "replace": "apps/stats/src/environments/environment.js",
+              "with": "apps/stats/src/environments/environment.prod.js"
             }
           ],
           "optimization": true,
