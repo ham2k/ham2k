@@ -1,0 +1,33 @@
+{
+  "root": "libs/qson/cabrillo",
+  "sourceRoot": "libs/qson/cabrillo/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/qson/cabrillo",
+        "main": "libs/qson/cabrillo/src/index.js",
+        "tsConfig": "libs/qson/cabrillo/tsconfig.lib.json",
+        "assets": ["libs/qson/cabrillo/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/qson/cabrillo/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/qson/cabrillo"],
+      "options": {
+        "jestConfig": "libs/qson/cabrillo/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
