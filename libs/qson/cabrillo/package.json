@@ -1,4 +1,7 @@
 {
   "name": "qson-cabrillo",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "dependencies": {
+    "camelcase": "^6.3.0"
+  }
 }
