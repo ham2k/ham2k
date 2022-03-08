@@ -12,6 +12,6 @@ describe('App', () => {
   it('should have a greeting as the title', () => {
     const { getByText } = render(<App />);
 
-    expect(getByText(/Welcome stats/gi)).toBeTruthy();
+    expect(getByText(/Ham2K Analizer/gi)).toBeTruthy();
   });
 });

@@ -2,7 +2,7 @@
   "version": 2,
   "projects": {
     "qson-cabrillo": "libs/qson/cabrillo",
-    "stats": "apps/stats",
-    "stats-e2e": "apps/stats-e2e"
+    "analizer": "apps/analizer",
+    "analizer-e2e": "apps/analizer-e2e"
   }
 }
