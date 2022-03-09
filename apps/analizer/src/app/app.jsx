@@ -1,24 +1,17 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import {
-  AppBar,
-  Container,
-  CssBaseline,
-  responsiveFontSizes,
-  Toolbar,
-  Typography,
-} from '@mui/material'
+import { AppBar, Container, CssBaseline, responsiveFontSizes, Toolbar, Typography } from "@mui/material"
 
-import { makeStyles } from '@mui/styles'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { makeStyles } from "@mui/styles"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
 
-import commonStyles from './styles/common'
+import commonStyles from "./styles/common"
 
 /* https://material.io/resources/color/ */
 let baseTheme = createTheme({
   palette: {
     primary: {
-      main: '#546e7a',
+      main: "#546e7a",
     },
   },
 })
@@ -28,26 +21,26 @@ const useStyles = makeStyles((theme) => ({
   ...commonStyles(theme),
 
   root: {
-    position: 'absolute',
+    position: "absolute",
     top: 10,
     right: 0,
     left: 0,
     bottom: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   toolbar: {
-    justifyContent: 'space-around',
-    [theme.breakpoints.up('xs')]: {
+    justifyContent: "space-around",
+    [theme.breakpoints.up("xs")]: {
       paddingLeft: theme.spacing(0.5),
       paddingRight: theme.spacing(0.5),
     },
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
     },
-    [theme.breakpoints.up('lg')]: {
+    [theme.breakpoints.up("lg")]: {
       paddingLeft: theme.spacing(3),
       paddingRight: theme.spacing(3),
     },
@@ -55,10 +48,10 @@ const useStyles = makeStyles((theme) => ({
 
   untitledLeft: {
     flexGrow: 1,
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'start',
-    alignItems: 'baseline',
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "start",
+    alignItems: "baseline",
   },
 
   footer: {
@@ -67,18 +60,18 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
 
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       paddingTop: theme.spacing(0.5),
       paddingBottom: theme.spacing(0.5),
       paddingLeft: theme.spacing(1),
       paddingRight: theme.spacing(1),
     },
 
-    textAlign: 'center',
+    textAlign: "center",
   },
   content: {
     flex: 1,
-    overflow: 'auto',
+    overflow: "auto",
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
@@ -106,11 +99,11 @@ export function App() {
       </Container>
       <footer className={classes.footer}>
         <b>Ham2K Analizer</b> developed by <a href="https://www.qrz.com/db/KI2D">KI2D</a>
-        {' • '}
+        {" • "}
         <a href="https://twitter.com/sd">@sd</a>
       </footer>
     </div>
-  );
+  )
 }
 
 export function ThemedApp() {
@@ -124,4 +117,4 @@ export function ThemedApp() {
   )
 }
 
-export default ThemedApp;
+export default ThemedApp

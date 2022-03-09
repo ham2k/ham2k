@@ -54,4 +54,3 @@ A QSL is when the other station has confirmed the contact.
 ```
 
 # Groups of QSOs
-
