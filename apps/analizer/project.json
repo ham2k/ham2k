@@ -15,7 +15,7 @@
         "main": "apps/analizer/src/main.jsx",
         "polyfills": "apps/analizer/src/polyfills.js",
         "tsConfig": "apps/analizer/tsconfig.app.json",
-        "assets": ["apps/analizer/src/favicon.ico", "apps/analizer/src/assets"],
+        "assets": ["apps/analizer/src/assets"],
         "styles": ["apps/analizer/src/styles.scss"],
         "scripts": [],
         "webpackConfig": "@nrwl/react/plugins/webpack"
