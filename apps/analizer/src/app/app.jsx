@@ -7,6 +7,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import commonStyles from "./styles/common"
 
+import { Counter } from "./components/Counter"
+
 /* https://material.io/resources/color/ */
 let baseTheme = createTheme({
   palette: {
@@ -96,6 +98,8 @@ export function App() {
       </AppBar>
       <Container maxWidth="md" className={classes.content}>
         Welcome!
+        <br />
+        <Counter />
       </Container>
       <footer className={classes.footer}>
         <b>Ham2K Analizer</b> developed by <a href="https://www.qrz.com/db/KI2D">KI2D</a>
