@@ -1,6 +1,6 @@
 const camelCase = require("camelcase")
 
-export function cabrilloToQSON(str) {
+function cabrilloToQSON(str) {
   return parseCabrillo(str)
 }
 
@@ -131,4 +131,8 @@ function selectContestSplitter(headers) {
     }
     return qso
   }
+}
+
+module.exports = {
+  cabrilloToQSON,
 }
