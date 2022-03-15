@@ -58,6 +58,7 @@ function parseCabrilloQSO(parts, headers, cache) {
   qso.freq = parseFrequency(parts[0])
   qso.mode = parts[1]
   qso.start = `${parts[2]} ${parts[3].substring(0, 2)}:${parts[3].substring(2, 4)}Z`
+  qso.startMillis = Date.parse(qso.start)
   if (cache.hasTransmitterId) {
     qso.our.transmitter = parts[parts.length - 1]
   }
@@ -74,6 +75,7 @@ function parseFrequency(freq) {
 function normalizeContestInfo(headers) {
   const info = {}
   info.contest = headers.contest
+  if (headers.callsign) info.callsign = headers.callsign
   if (headers.operators) info.operators = headers.operators.split(/(\,\s*|\s+)/)
   if (headers.location) info.location = headers.location
   if (headers.gridLocation) info.grid = headers.gridLocation

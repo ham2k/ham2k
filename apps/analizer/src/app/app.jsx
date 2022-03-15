@@ -8,6 +8,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import commonStyles from "./styles/common"
 
 import { LogLoader } from "./components/LogLoader"
+import { LogAnalysis } from "./components/LogAnalysis"
+// import { LogAnalysis } from "./components/LogAnalysis"
 
 /* https://material.io/resources/color/ */
 let baseTheme = createTheme({
@@ -97,6 +99,7 @@ export function App() {
         </Toolbar>
       </AppBar>
       <Container maxWidth="md" className={classes.content}>
+        <LogAnalysis />
         <LogLoader />
       </Container>
       <footer className={classes.footer}>

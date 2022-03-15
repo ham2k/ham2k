@@ -19,10 +19,6 @@ export function LogLoader() {
 
   return (
     <section>
-      <Typography component="h2" variant="h5">
-        Logs: {qsos ? <span>{qsos.length} QSOs loaded</span> : <span>No log loaded</span>}
-      </Typography>
-
       <p>
         Load a Cabrillo log file: <input type="file" onChange={handleFileSelected} />
       </p>
