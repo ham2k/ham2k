@@ -1,39 +1,63 @@
 import { DateTime } from "luxon"
 
-const HAM2K_CONTEST_TIMESTAMP = {
-  hour12: false,
-  weekday: "short",
-  hour: "numeric",
-  minute: "numeric",
-  timeZoneName: "short",
+const FORMATS = {
+  contestTimestamp: {
+    hourCycle: "h23",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    timeZoneName: "short",
+  },
+  contestTimestampZulu: {
+    hourCycle: "h23",
+    weekday: "short",
+    hour: "numeric",
+    minute: "numeric",
+    timeZoneName: "short",
+    timeZone: "Zulu",
+  },
+  monthYear: {
+    year: "numeric",
+    month: "long",
+  },
 }
 
-const HAM2K_CONTEST_TIMESTAMP_ZULU = {
-  ...HAM2K_CONTEST_TIMESTAMP,
-  timeZone: "UTC",
+const AFTER_FORMATS = {
+  contestTimestampZulu: (str) => str.replace(" UTC", "Z"),
 }
 
-export function contestTimestamp(dt) {
+function dateFormatterGenerator(format) {
+  return (dt) => {
+    if (typeof dt === "string") {
+      dt = DateTime.parse(dt)
+    } else if (typeof dt === "number") {
+      dt = DateTime.fromMillis(dt)
+    }
+    let s = dt.toLocaleString(FORMATS[format])
+    if (AFTER_FORMATS[format]) s = AFTER_FORMATS[format](s)
+
+    return s
+  }
+}
+
+export function fmtDateTime(dt, format) {
   if (typeof dt === "string") {
     dt = DateTime.parse(dt)
   } else if (typeof dt === "number") {
     dt = DateTime.fromMillis(dt)
   }
 
-  return dt.toLocaleString(HAM2K_CONTEST_TIMESTAMP)
+  let s = dt.toLocaleString(FORMATS[format])
+  if (AFTER_FORMATS[format]) s = AFTER_FORMATS[format](s)
+
+  return s
 }
 
-export function contestTimestampZulu(dt) {
-  if (typeof dt === "string") {
-    dt = DateTime.parse(dt)
-  } else if (typeof dt === "number") {
-    dt = DateTime.fromMillis(dt)
-  }
+export const fmtContestTimestamp = dateFormatterGenerator("contestTimestamp")
+export const fmtContestTimestampZulu = dateFormatterGenerator("contestTimestampZulu")
+export const fmtDateMonthYear = dateFormatterGenerator("monthYear")
 
-  return dt.toLocaleString(HAM2K_CONTEST_TIMESTAMP_ZULU)
-}
-
-export function minutesAsHM(minutes) {
+export function fmtMinutesAsHM(minutes) {
   const h = Math.floor(minutes / 60)
   const m = minutes % 60
 
