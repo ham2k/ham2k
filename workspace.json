@@ -1,8 +1,9 @@
 {
   "version": 2,
   "projects": {
-    "qson-cabrillo": "libs/qson/cabrillo",
     "analizer": "apps/analizer",
-    "analizer-e2e": "apps/analizer-e2e"
+    "analizer-e2e": "apps/analizer-e2e",
+    "data-operation": "libs/data/operation",
+    "qson-cabrillo": "libs/qson/cabrillo"
   }
 }

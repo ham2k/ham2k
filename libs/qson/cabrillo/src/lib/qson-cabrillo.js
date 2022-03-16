@@ -1,11 +1,12 @@
 const camelCase = require("camelcase")
+const { bandForFrequency } = require("@ham2k/data/operation")
 
 function cabrilloToQSON(str) {
   return parseCabrillo(str)
 }
 
 const REGEXP_FOR_END_OF_LINE = /\r?\n/
-const REGEXP_FOR_LINE_TAG = /^([A-Z\-]+):\s*(.*)\s*$/
+const REGEXP_FOR_LINE_TAG = /^([A-Z-]+):\s*(.*)\s*$/
 const REGEXP_FOR_LINE_PARTS = /\s+/
 
 function parseCabrillo(str) {
@@ -56,6 +57,7 @@ function parseCabrilloQSO(parts, headers, cache) {
   const qso = cache.contestSplitter(parts)
 
   qso.freq = parseFrequency(parts[0])
+  qso.band = bandForFrequency(qso.freq)
   qso.mode = parts[1]
   qso.start = `${parts[2]} ${parts[3].substring(0, 2)}:${parts[3].substring(2, 4)}Z`
   qso.startMillis = Date.parse(qso.start)
@@ -67,16 +69,19 @@ function parseCabrilloQSO(parts, headers, cache) {
 }
 
 const REGEXP_FOR_NUMERIC_FREQUENCY = /^\d+$/
+
 function parseFrequency(freq) {
   if (freq.match(REGEXP_FOR_NUMERIC_FREQUENCY)) return Number.parseInt(freq)
   else return freq
 }
 
+const REGEXP_FOR_OPERATOR_LIST = /(,\s*|\s+)/
+
 function normalizeContestInfo(headers) {
   const info = {}
   info.contest = headers.contest
   if (headers.callsign) info.callsign = headers.callsign
-  if (headers.operators) info.operators = headers.operators.split(/(\,\s*|\s+)/)
+  if (headers.operators) info.operators = headers.operators.split(REGEXP_FOR_OPERATOR_LIST)
   if (headers.location) info.location = headers.location
   if (headers.gridLocation) info.grid = headers.gridLocation
   if (headers.claimedScore) info.claimedScore = headers.claimedScore

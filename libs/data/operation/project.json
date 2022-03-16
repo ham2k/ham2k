@@ -1,0 +1,33 @@
+{
+  "root": "libs/data/operation",
+  "sourceRoot": "libs/data/operation/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/data/operation",
+        "main": "libs/data/operation/src/index.js",
+        "tsConfig": "libs/data/operation/tsconfig.lib.json",
+        "assets": ["libs/data/operation/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/data/operation/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/data/operation"],
+      "options": {
+        "jestConfig": "libs/data/operation/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
