@@ -8,8 +8,8 @@ describe("cabrilloToQSON", () => {
 
     const qson = cabrilloToQSON(iaru)
     expect(qson.qsos.length).toEqual(518)
-    expect(qson.qsos[0].start).toEqual("2021-07-10 12:07Z")
-    expect(qson.qsos[0].startMillis).toEqual(Date.parse("2021-07-10 12:07Z"))
+    expect(qson.qsos[0].start).toEqual("2021-07-10T12:07:00Z")
+    expect(qson.qsos[0].startMillis).toEqual(Date.parse("2021-07-10T12:07:00Z"))
     expect(qson.qsos[0].freq).toEqual(7002)
     expect(qson.qsos[0].band).toEqual("40m")
     expect(qson.qsos[0].mode).toEqual("CW")
@@ -27,8 +27,8 @@ describe("cabrilloToQSON", () => {
 
     const qson = cabrilloToQSON(rtty)
     expect(qson.qsos.length).toEqual(360)
-    expect(qson.qsos[0].start).toEqual("2022-02-26 18:01Z")
-    expect(qson.qsos[0].startMillis).toEqual(Date.parse("2022-02-26 18:01Z"))
+    expect(qson.qsos[0].start).toEqual("2022-02-26T18:01:00Z")
+    expect(qson.qsos[0].startMillis).toEqual(Date.parse("2022-02-26T18:01:00Z"))
     expect(qson.qsos[0].freq).toEqual(14087)
     expect(qson.qsos[0].band).toEqual("20m")
     expect(qson.qsos[0].mode).toEqual("RY")
@@ -46,8 +46,8 @@ describe("cabrilloToQSON", () => {
 
     const qson = cabrilloToQSON(sweeps)
     expect(qson.qsos.length).toEqual(499)
-    expect(qson.qsos[0].start).toEqual("2021-11-20 21:03Z")
-    expect(qson.qsos[0].startMillis).toEqual(Date.parse("2021-11-20 21:03Z"))
+    expect(qson.qsos[0].start).toEqual("2021-11-20T21:03:00Z")
+    expect(qson.qsos[0].startMillis).toEqual(Date.parse("2021-11-20T21:03:00Z"))
     expect(qson.qsos[0].freq).toEqual(14329)
     expect(qson.qsos[0].band).toEqual("20m")
     expect(qson.qsos[0].mode).toEqual("PH")

@@ -59,8 +59,8 @@ function parseCabrilloQSO(parts, headers, cache) {
   qso.freq = parseFrequency(parts[0])
   qso.band = bandForFrequency(qso.freq)
   qso.mode = parts[1]
-  qso.start = `${parts[2]} ${parts[3].substring(0, 2)}:${parts[3].substring(2, 4)}Z`
-  qso.startMillis = Date.parse(qso.start)
+  qso.start = `${parts[2]}T${parts[3].substring(0, 2)}:${parts[3].substring(2, 4)}:00Z`
+  qso.startMillis = Date.parse(qso.start).valueOf()
   if (cache.hasTransmitterId) {
     qso.our.transmitter = parts[parts.length - 1]
   }

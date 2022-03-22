@@ -30,7 +30,7 @@ export const contestSlice = createSlice({
   },
 })
 
-export const { loadCabrillo } = contestSlice.actions
+export const { loadCabrillo, setQSOs } = contestSlice.actions
 
 export const selectContestQSOs = (state) => {
   return state && state.contest.qsos
