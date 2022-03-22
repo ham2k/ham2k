@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@ham2k/data/contests": ["libs/data/contests/src/index.js"],
       "@ham2k/data/operation": ["libs/data/operation/src/index.js"],
       "@ham2k/qson/cabrillo": ["libs/qson/cabrillo/src/index.js"]
     }

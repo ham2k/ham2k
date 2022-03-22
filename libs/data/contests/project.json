@@ -1,0 +1,33 @@
+{
+  "root": "libs/data/contests",
+  "sourceRoot": "libs/data/contests/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/data/contests",
+        "main": "libs/data/contests/src/index.js",
+        "tsConfig": "libs/data/contests/tsconfig.lib.json",
+        "assets": ["libs/data/contests/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/data/contests/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/data/contests"],
+      "options": {
+        "jestConfig": "libs/data/contests/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
