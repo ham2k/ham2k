@@ -1,3 +1,4 @@
+import analyzeQSOs from "./analizeQSOs"
 import analyzeTimes from "./analyzeTimes"
 
 const options = {
@@ -7,6 +8,7 @@ const options = {
 
 const analizers = {
   times: { name: "Time Periods", analizer: analyzeTimes },
+  qsos: { name: "QSOs", analizer: analyzeQSOs },
 }
 
 export default function analyzeAll(qson) {

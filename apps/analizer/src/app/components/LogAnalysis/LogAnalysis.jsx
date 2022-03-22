@@ -34,10 +34,19 @@ export function LogAnalysis() {
         {fmtMinutesAsHM(analysis.times.inactiveMinutes)} inactive)
       </p>
 
+      <h2>Periods</h2>
+
       {analysis.times.periods.map((period) => (
         <p key={period.startMillis}>
           {period.qsos.length} QSOs from {fmtContestTimestampZulu(period.startMillis)} to{" "}
           {fmtContestTimestampZulu(period.endMillis)} - {fmtMinutesAsHM(period.activeMinutes)}
+        </p>
+      ))}
+
+      <h2>Rates</h2>
+      {Object.entries(analysis.qsos.slices).map((pair) => (
+        <p key={pair[1].startMillis}>
+          {pair[1].qsos.all} QSOs - {fmtContestTimestampZulu(pair[1].startMillis)}
         </p>
       ))}
     </section>
