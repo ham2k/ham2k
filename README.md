@@ -63,6 +63,8 @@ Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
 
 Run `nx affected:test` to execute the unit tests affected by a change.
 
+Run `nx run-many --target=test --all` to run ALL tests.
+
 ## Running end-to-end tests
 
 Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
