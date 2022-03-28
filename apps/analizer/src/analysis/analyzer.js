@@ -1,4 +1,5 @@
 import analyzeQSOs from "./analizeQSOs"
+import analyzeRates from "./analizeRates"
 import analyzeTimes from "./analyzeTimes"
 
 const options = {
@@ -8,6 +9,7 @@ const options = {
 
 const analizers = {
   times: { name: "Time Periods", analizer: analyzeTimes },
+  rates: { name: "Rates", analizer: analyzeRates },
   qsos: { name: "QSOs", analizer: analyzeQSOs },
 }
 
@@ -21,8 +23,10 @@ export default function analyzeAll(qson) {
 
     const analizer = analizers[key].analizer
 
-    for (let qso of qson.qsos) {
-      analizer(qso, options, results[key], scratchpads[key])
+    if (qson && qson.qsos) {
+      for (let qso of qson.qsos) {
+        analizer(qso, options, results[key], scratchpads[key])
+      }
     }
   }
 

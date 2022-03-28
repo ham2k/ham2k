@@ -36,6 +36,10 @@ describe("analyzeAll", () => {
 
     expect(results.times.activeMinutes).toEqual(51)
     expect(results.times.inactiveMinutes).toEqual(66 + 519)
+  })
+
+  it("should analyze qsos in slices", () => {
+    const results = analyzeAll(qson)
 
     expect(results.qsos.totals).toEqual({
       all: 25,
@@ -75,17 +79,19 @@ describe("analyzeAll", () => {
         qsos: { all: 4, "40m": 4 },
       },
     })
+  })
 
-    //   results.events.slices.toEqual({
-    //     "2022-02-19T13:00:00.000Z": {
-    //       qsos: { all: 13, "40m": 7, "20m": 5 },
-    //       Rates: { all: 52, "40m": 28, "20m": 20 },
-    //       start: "2022-02-19T13:00:00.000Z",
-    //     },
-    //     15: {},
-    //     30: {},
-    //     60: {},
-    //   })
-    // )
+  it("should analyze rates", () => {
+    const results = analyzeAll(qson, { rollingCount: 5 })
+
+    expect(results.rates.all.map((r) => r.rate)).toEqual([
+      1, 60, 30, 24, 21, 24, 23, 24, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 40, 40, 43, 29, 27, 27, 26,
+    ])
+    expect(results.rates["10m"].map((r) => r.rate)).toEqual([1])
+    expect(results.rates["20m"].map((r) => r.rate)).toEqual([1, 60, 30, 24, 21, 24, 23, 24])
+    expect(results.rates["40m"].map((r) => r.rate)).toEqual([
+      1, 60, 45, 48, 60, 60, 53, 48, 36, 40, 40, 43, 29, 27, 27, 26,
+    ])
+    expect(results.rates["40m"].length).toEqual(16)
   })
 })

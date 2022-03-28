@@ -17,15 +17,20 @@ export function ChartQSOs({ analysis }) {
   const rates = Object.values(analysis.rates.all)
 
   const chartData = [
+    // {
+    //   id: "QSOs",
+    //   data: slices.map((slice, i) => ({ x: new Date(slice.startMillis), y: slice.qsos.all * 4, slice })),
+    // },
     {
-      id: "QSOs",
-      data: slices.map((slice, i) => ({ x: new Date(slice.startMillis), y: slice.qsos.all })),
+      id: "Rates",
+      data: rates.map((entry, i) => ({ x: new Date(entry.qso.startMillis), y: entry.rate, entry })),
     },
   ]
 
   return (
     <div style={{ height: 200 }}>
       <ResponsiveLine
+        curve="monotoneX"
         data={chartData}
         margin={margin}
         xScale={{ type: "time" }}
@@ -48,7 +53,7 @@ export function ChartQSOs({ analysis }) {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "count",
+          legend: "QSO/h",
           legendOffset: -40,
           legendPosition: "middle",
         }}
@@ -58,6 +63,25 @@ export function ChartQSOs({ analysis }) {
         pointBorderColor={{ from: "serieColor" }}
         pointLabelYOffset={-12}
         useMesh={true}
+        tooltip={({ point }) => {
+          console.log(point)
+          return (
+            <div
+              style={{
+                background: "white",
+                padding: "9px 12px",
+                border: "1px solid #ccc",
+              }}
+            >
+              <div>
+                <b>
+                  {point.data.y} {point.serieId}
+                </b>
+              </div>
+              <div>{point?.data?.slice ? fmtContestTimestampZulu(point.data.slice.startMillis) : "?"}</div>
+            </div>
+          )
+        }}
         legends={[
           {
             anchor: "bottom-right",
