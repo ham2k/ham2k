@@ -1,18 +1,22 @@
 /* eslint-disable no-unused-vars */
-import React from "react"
+import React, { useMemo } from "react"
 import { Typography } from "@mui/material"
 import { useSelector } from "react-redux"
 
 import { fmtContestTimestampZulu, fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
 
-import { selectContestQSOs, selectContestRef, selectContestAnalysis } from "../../store/contest/contestSlice"
+import { selectContestQSOs, selectContestRef, selectContestQSON } from "../../store/contest/contestSlice"
 import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
 import { ChartQSOs } from "./ChartQSOs"
+import analyzeAll from "../../../analysis/analyzer"
 
 export function LogAnalysis() {
+  const qson = useSelector(selectContestQSON)
   const ref = useSelector(selectContestRef)
-  const analysis = useSelector(selectContestAnalysis)
   const qsos = useSelector(selectContestQSOs)
+  console.log("LogAnalysis", qson)
+
+  const analysis = useMemo(() => analyzeAll(qson), [qson])
 
   if (!analysis) {
     return null
@@ -24,7 +28,11 @@ export function LogAnalysis() {
         {ref.callsign}
         <i> in </i>
         {ref.contest}
-        <i> {fmtDateMonthYear(analysis.times.periods[0].startMillis)}</i>
+        {analysis.times && analysis.times.periods ? (
+          <i> {fmtDateMonthYear(analysis.times.periods[0].startMillis)}</i>
+        ) : (
+          <i>Unknown duration</i>
+        )}
       </Typography>
 
       <p>
@@ -35,16 +43,20 @@ export function LogAnalysis() {
         {fmtMinutesAsHM(analysis.times.inactiveMinutes)} inactive)
       </p>
 
-      <ChartQSOs data={analysis.qsos.slices} />
+      <ChartQSOs analysis={analysis} />
 
       <h2>Periods</h2>
 
-      {analysis.times.periods.map((period) => (
-        <p key={period.startMillis}>
-          {period.qsos.length} QSOs from {fmtContestTimestampZulu(period.startMillis)} to{" "}
-          {fmtContestTimestampZulu(period.endMillis)} - {fmtMinutesAsHM(period.activeMinutes)}
-        </p>
-      ))}
+      {analysis.times && analysis.times.periods ? (
+        analysis.times.periods.map((period) => (
+          <p key={period.startMillis}>
+            {period.qsos.length} QSOs from {fmtContestTimestampZulu(period.startMillis)} to{" "}
+            {fmtContestTimestampZulu(period.endMillis)} - {fmtMinutesAsHM(period.activeMinutes)}
+          </p>
+        ))
+      ) : (
+        <p>No periods</p>
+      )}
     </section>
   )
 }

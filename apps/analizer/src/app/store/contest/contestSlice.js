@@ -20,12 +20,12 @@ export const contestSlice = createSlice({
 
     loadCabrillo: (state, action) => {
       const qson = cabrilloToQSON(action.payload)
+      console.log("loadCabrillo", qson)
 
+      state.qson = qson
       state.qsos = qson.qsos
       state.ref = qson.refs.filter((ref) => ref.contest)[0] || {}
       state.rawCabrillo = qson.rawCabrillo
-
-      state.analysis = analyzeAll(qson)
     },
   },
 })
@@ -37,6 +37,6 @@ export const selectContestQSOs = (state) => {
 }
 export const selectContestRef = (state) => state.contest.ref
 
-export const selectContestAnalysis = (state) => state.contest.analysis
+export const selectContestQSON = (state) => state.contest.qson
 
 export default contestSlice.reducer

@@ -2,14 +2,19 @@ import React, { useEffect, useRef } from "react"
 import { ResponsiveLine } from "@nivo/line"
 import { fmtContestTimestampZulu } from "../../utils/format/dateTime"
 
-export function ChartQSOs({ data }) {
+export function ChartQSOs({ analysis }) {
   const svgRef = useRef(null)
   const wrapperRef = useRef(null)
   const width = 400
   const height = 100
   const margin = { top: 10, right: 80, bottom: 40, left: 60 }
 
-  const slices = Object.values(data)
+  if (!analysis?.qsos?.slices || !analysis.rates?.all) {
+    return null
+  }
+
+  const slices = Object.values(analysis.qsos.slices)
+  const rates = Object.values(analysis.rates.all)
 
   const chartData = [
     {
