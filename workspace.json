@@ -5,6 +5,7 @@
     "analizer-e2e": "apps/analizer-e2e",
     "data-callsigns": "libs/data/callsigns",
     "data-contests": "libs/data/contests",
+    "data-country-file": "libs/data/country-file",
     "data-operation": "libs/data/operation",
     "qson-cabrillo": "libs/qson/cabrillo"
   }

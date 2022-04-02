@@ -1,0 +1,33 @@
+{
+  "root": "libs/data/country-file",
+  "sourceRoot": "libs/data/country-file/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/data/country-file",
+        "main": "libs/data/country-file/src/index.js",
+        "tsConfig": "libs/data/country-file/tsconfig.lib.json",
+        "assets": ["libs/data/country-file/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/data/country-file/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/data/country-file"],
+      "options": {
+        "jestConfig": "libs/data/country-file/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
