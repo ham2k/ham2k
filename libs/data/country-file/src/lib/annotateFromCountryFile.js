@@ -7,16 +7,16 @@ function setCountryFileData(indexes) {
 }
 
 function annotateFromCountryFile(info) {
-  const { callsign, operator, prefix, preindicator } = info
+  const { call, baseCall, prefix, preindicator } = info
   let match
 
-  match = CountryFileData.exact[callsign]
-  match = match || CountryFileData.exact[operator]
+  match = CountryFileData.exact[call]
+  match = match || (baseCall && CountryFileData.exact[baseCall])
 
   if (!match) {
     // If call had an prefix indicator, then use that for lookup,
     // otherwise use the operator part of the callsign, which has been stripped out of any other indicators
-    let effectiveCall = preindicator ? prefix : operator
+    let effectiveCall = (preindicator ? prefix : baseCall) || call
     let i = effectiveCall.length
     while (!match && i > 0) {
       match = CountryFileData.prefix[effectiveCall.slice(0, i)]
