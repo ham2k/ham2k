@@ -5,9 +5,11 @@ const PARENS_REGEXP = /[()[\]]/
 function parseCountryFile(data) {
   const lines = data.split(END_OF_LINE_REGEXP)
   const indexes = {
+    entities: {},
     exact: {},
     prefix: {},
-    entities: {},
+    prefixWAE: {},
+    exactWAE: {},
   }
 
   lines.forEach((line) => {
@@ -26,28 +28,25 @@ function parseCountryFile(data) {
 
       indexes.entities[entity.entityPrefix] = entity
 
+      const isWAE = entity.entityPrefix.charAt(0) === "*"
+
       lineParts[9]
         .replace(";", "")
         .split(" ")
         .forEach((prefix) => {
           const prefixParts = prefix.match(PREFIX_REGEXP)
+
           if (prefixParts) {
-            const match = { p: entity.entityPrefix, i: entity.ituZone, c: entity.cqZone }
+            const match = { p: entity.entityPrefix }
             if (prefixParts[3]) match.c = Number.parseInt(prefixParts[3].replace(PARENS_REGEXP, ""))
             if (prefixParts[4]) match.i = Number.parseInt(prefixParts[4].replace(PARENS_REGEXP, ""))
 
             if (prefixParts[1] === "=") {
-              if (indexes.exact[prefixParts[2]]) {
-                console.error(`Duplicate exact match for ${prefixParts[2]}`)
-                console.error(`  ${indexes.exact[prefixParts[2]].p} & ${match.p}`)
-              }
-              indexes.exact[prefixParts[2]] = match
+              if (isWAE) indexes.exactWAE[prefixParts[2]] = match
+              else indexes.exact[prefixParts[2]] = match
             } else {
-              if (indexes.prefix[prefixParts[2]]) {
-                console.error(`Duplicate prefix for ${prefixParts[2]}`)
-                console.error(`  ${indexes.exact[prefixParts[2]].p} & ${match.p}`)
-              }
-              indexes.prefix[prefixParts[2]] = match
+              if (isWAE) indexes.prefixWAE[prefixParts[2]] = match
+              else indexes.prefix[prefixParts[2]] = match
             }
           }
         })

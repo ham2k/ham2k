@@ -1,17 +1,21 @@
-const CountryFileData = {}
+let CTYIndexes = {}
 
 function setCountryFileData(indexes) {
-  CountryFileData.entities = indexes.entities
-  CountryFileData.prefix = indexes.prefix
-  CountryFileData.exact = indexes.exact
+  CTYIndexes = indexes
 }
 
-function annotateFromCountryFile(info) {
+function annotateFromCountryFile(info, options = {}) {
   const { call, baseCall, prefix, preindicator } = info
   let match
 
-  match = CountryFileData.exact[call]
-  match = match || (baseCall && CountryFileData.exact[baseCall])
+  match = CTYIndexes.exact[call]
+  if (options.wae) {
+    match = match || CTYIndexes.exactWAE[call]
+  }
+  match = match || (baseCall && CTYIndexes.exact[baseCall])
+  if (options.wae) {
+    match = match || CTYIndexes.exactWAE[baseCall]
+  }
 
   if (!match) {
     // If call had an prefix indicator, then use that for lookup,
@@ -19,21 +23,24 @@ function annotateFromCountryFile(info) {
     let effectiveCall = (preindicator ? prefix : baseCall) || call
     let i = effectiveCall.length
     while (!match && i > 0) {
-      match = CountryFileData.prefix[effectiveCall.slice(0, i)]
+      if (options.wae) {
+        match = CTYIndexes.prefixWAE[effectiveCall.slice(0, i)]
+      }
+      match = match || CTYIndexes.prefix[effectiveCall.slice(0, i)]
       i--
     }
   }
 
   if (match?.p) {
-    const entity = CountryFileData.entities[match.p]
+    const entity = CTYIndexes.entities[match.p]
     info.entityPrefix = entity.entityPrefix
     info.entityName = entity.name
     info.dxccId = entity.dxccId
-    info.continent = entity.continent
-    info.cqZone = match.c
-    info.ituZone = match.i
-    info.lat = entity.lat
-    info.lon = entity.lon
+    info.continent = match.o || entity.continent
+    info.cqZone = match.c || entity.cqZone
+    info.ituZone = match.i || entity.ituZone
+    info.lat = match.y || entity.lat
+    info.lon = match.x || entity.lon
     info.gmtOffset = entity.gmtOffset
   }
 

@@ -51,5 +51,30 @@ describe("annotateFromCountryFile", () => {
     info = annotateFromCountryFile({ call: "UQ9Q", baseCall: "UQ9Q", prefix: "UQ9", isoPrefix: "UQ" })
     expect(info.entityPrefix).toEqual("UN")
     expect(info.ituZone).toEqual(31)
+
+    info = annotateFromCountryFile({ call: "VP2EAAA", baseCall: "VP2EAAA", prefix: "VP2", isoPrefix: "VP" })
+    expect(info.entityPrefix).toEqual("VP2E")
+
+    info = annotateFromCountryFile({ call: "VP2EAAA", baseCall: "VP2EAAA", prefix: "VP2", isoPrefix: "VP" })
+    expect(info.entityPrefix).toEqual("VP2E")
+  })
+
+  it("should know about the extended list of countries used for WAE contests", () => {
+    let info = annotateFromCountryFile({ call: "IG9AAA" })
+    expect(info.entityPrefix).toEqual("I")
+    expect(info.ituZone).toEqual(28)
+    expect(info.continent).toEqual("EU")
+
+    info = annotateFromCountryFile({ call: "IG9AAA" }, { wae: true })
+    expect(info.entityPrefix).toEqual("*IG9")
+    expect(info.ituZone).toEqual(37)
+    expect(info.continent).toEqual("AF")
+
+    info = annotateFromCountryFile({ call: "IY9A" }, { wae: true })
+    expect(info.entityPrefix).toEqual("*IG9")
+    expect(info.ituZone).toEqual(37)
+    expect(info.continent).toEqual("AF")
   })
 })
+
+// *IG9,African Italy,248,AF,33,37,35.67,-12.67,-1.0,IG9 IH9 =IO9Y =IY9A;
