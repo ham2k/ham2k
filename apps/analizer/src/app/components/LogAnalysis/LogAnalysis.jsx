@@ -9,12 +9,12 @@ import { selectContestQSOs, selectContestRef, selectContestQSON } from "../../st
 import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
 import { ChartQSOs } from "./ChartQSOs"
 import analyzeAll from "../../../analysis/analyzer"
+import { TopTenCallsigns, TopTenContinents, TopTenCQZones, TopTenEntities, TopTenITUZones } from "./TopTenLists"
 
 export function LogAnalysis() {
   const qson = useSelector(selectContestQSON)
   const ref = useSelector(selectContestRef)
   const qsos = useSelector(selectContestQSOs)
-  console.log("LogAnalysis", qson)
 
   const analysis = useMemo(() => analyzeAll(qson), [qson])
 
@@ -34,7 +34,6 @@ export function LogAnalysis() {
           <i>Unknown duration</i>
         )}
       </Typography>
-
       <p>
         {fmtInteger(qsos.length)} QSOs
         {" in "}
@@ -42,11 +41,8 @@ export function LogAnalysis() {
         {fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} q/h (
         {fmtMinutesAsHM(analysis.times.inactiveMinutes)} inactive)
       </p>
-
       <ChartQSOs analysis={analysis} />
-
       <h2>Periods</h2>
-
       {analysis.times && analysis.times.periods ? (
         analysis.times.periods.map((period) => (
           <p key={period.startMillis}>
@@ -57,6 +53,12 @@ export function LogAnalysis() {
       ) : (
         <p>No periods</p>
       )}
+      <h2>QSOs</h2>
+      <TopTenEntities entities={analysis.calls.entities} />
+      <TopTenContinents continents={analysis.calls.continents} />
+      <TopTenCallsigns calls={analysis.calls.calls} />
+      <TopTenCQZones cqZones={analysis.calls.cqZones} />
+      <TopTenITUZones ituZones={analysis.calls.ituZones} />
     </section>
   )
 }

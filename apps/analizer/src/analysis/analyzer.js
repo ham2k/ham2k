@@ -1,6 +1,7 @@
 import analyzeQSOs from "./analizeQSOs"
 import analyzeRates from "./analizeRates"
 import analyzeTimes from "./analyzeTimes"
+import analyzeCalls from "./analizeCalls"
 
 const options = {
   minimumBreak: 15,
@@ -11,6 +12,7 @@ const analizers = {
   times: { name: "Time Periods", analizer: analyzeTimes },
   rates: { name: "Rates", analizer: analyzeRates },
   qsos: { name: "QSOs", analizer: analyzeQSOs },
+  calls: { name: "Callsigns", analizer: analyzeCalls },
 }
 
 export default function analyzeAll(qson) {
