@@ -1,3 +1,9 @@
+http://w5wz.com/sh5/w5wz/2022/2022-Jan-NAQP-SSB/index.htm
+
+http://analyzer.adventureradio.de/
+
+---
+
 Tom & Barb Valosin valosin@midtel.net via groups.io
 1:13 PM (7 hours ago)
 to hvcdx@groups.io

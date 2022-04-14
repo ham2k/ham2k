@@ -6,5 +6,6 @@ function useBuiltinCountryFile() {
 }
 
 module.exports = {
+  CTYData,
   useBuiltinCountryFile,
 }
