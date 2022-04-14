@@ -18,7 +18,7 @@ function parseCountryFile(data) {
       const entity = {}
       entity.entityPrefix = lineParts[0]
       entity.name = lineParts[1]
-      entity.dxccId = Number.parseInt(lineParts[2])
+      entity.dxccCode = Number.parseInt(lineParts[2])
       entity.continent = lineParts[3]
       entity.cqZone = Number.parseInt(lineParts[4])
       entity.ituZone = Number.parseInt(lineParts[5])

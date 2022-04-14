@@ -1,0 +1,11 @@
+{
+  "name": "@ham2k/data/dxcc",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "devDependencies": {
+    "csv": "^6.0.5"
+  },
+  "scripts": {
+    "generate": "node ./scripts/generate.js"
+  }
+}

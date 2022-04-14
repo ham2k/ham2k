@@ -1,0 +1,120 @@
+{
+  "4": {
+    "dxccName": "Agalega & St. Brandon Is.",
+    "fullName": "Agalega & Saint Brandon Islands",
+    "name": "Agalega & St. Brandon Is.",
+    "shortName": "Agalega & St. Brandon",
+    "lotwName": "AGALEGA & SAINT BRANDON ISLANDS",
+    "clublogName": "AGALEGA & SAINT BRANDON ISLANDS"
+  },
+  "16": {
+    "name": "New Zealand Subantarctic Is.",
+    "shortName": "NZ Subantarctic Is."
+  },
+  "31": {
+    "dxccName": "C. Kiribati (British Phoenix Is.)",
+    "name": "Central Kiribati",
+    "shortName": "C. Kiribati",
+    "lotwName": "CENTRAL KIRIBATI",
+    "clublogName": "CENTRAL KIRIBATI"
+  },
+  "48": {
+    "dxccName": "E. Kiribati (Line Is.)",
+    "name": "Eastern Kiribati",
+    "shortName": "E. Kiribati",
+    "lotwName": "EASTERN KIRIBATI",
+    "clublogName": "EASTERN KIRIBATI"
+  },
+  "117": {
+    "fullName": "International Telecommunications Union Headquarters",
+    "name": "ITU Headquarters",
+    "dxccName": "ITU HQ",
+    "shortName": "ITU HQ",
+    "lotwName": "ITU HQ",
+    "clublogName": "ITU HQ"
+  },
+  "137": {
+    "shortName": "South Korea"
+  },
+  "154": {
+    "shortName": "Yemen"
+  },
+  "213": {
+    "name": "St. Martin",
+    "shortName": "St. Martin"
+  },
+  "230": {
+    "shortName": "Germany"
+  },
+  "246": {
+    "shortName": "SMO of Malta",
+    "lotwName": "SOVEREIGN MILITARY ORDER OF MALTA",
+    "clublogName": "SOV MILITARY ORDER OF MALTA"
+  },
+  "283": {
+    "shortName": "UK SBA on Cyprus"
+  },
+  "289": {
+    "name": "UN Headquarters",
+    "shortName": "UN HQ"
+  },
+  "291": {
+    "name": "United States",
+    "shortName": "United States"
+  },
+  "301": {
+    "dxccName": "W. Kiribati (Gilbert Is. )",
+    "name": "Western Kiribati",
+    "shortName": "W. Kiribati",
+    "lotwName": "WESTERN KIRIBATI",
+    "clublogName": "WESTERN KIRIBATI"
+  },
+  "344": {
+    "shortName": "North Korea"
+  },
+  "412": {
+    "name": "Congo-Brazzaville",
+    "shortName": "Congo-Brazzaville"
+  },
+  "414": {
+    "name": "DR of Congo-Kinshasa",
+    "shortName": "DR Congo-Kinshasa"
+  },
+  "468": {
+    "otherNames": ["Swaziland"]
+  },
+  "490": {
+    "dxccName": "Banaba I. (Ocean I.)",
+    "fullName": "Banaba Island (Ocean Island)",
+    "name": "Banaba Island",
+    "shortName": "Banaba",
+    "lotwName": "BANABA ISLAND",
+    "clublogName": "BANABA ISLAND"
+  },
+  "502": {
+    "dxccName": "North Macedonia (Republic of)",
+    "name": "North Macedonia",
+    "fullName": "Republic of North Macedonia",
+    "shortName": "N. Macedonia",
+    "clublogName": "NORTH MACEDONIA",
+    "lotwName": "NORTH MACEDONIA"
+  },
+  "504": {
+    "shortName": "Slovakia"
+  },
+  "511": {
+    "lotwName": "TIMOR - LESTE",
+    "clublogName": "TIMOR-LESTE"
+  },
+  "516": {
+    "name": "Saint Barthelemy",
+    "shortName": "St. Barths"
+  },
+  "521": {
+    "name": "Republic of South Sudan",
+    "shortName": "South Sudan"
+  },
+  "522": {
+    "shortName": "Kosovo"
+  }
+}

@@ -4,5 +4,9 @@
   "type": "commonjs",
   "scripts": {
     "preprocess": "node ./scripts/preprocess.js"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./builtinData": "./src/builtinData.js"
   }
 }

@@ -19,6 +19,8 @@
       "@ham2k/data/contests": ["libs/data/contests/src/index.js"],
       "@ham2k/data/country-file": ["libs/data/country-file/src/index.js"],
       "@ham2k/data/country-file/builtinData": ["libs/data/country-file/src/builtinData.js"],
+      "@ham2k/data/cqzones": ["libs/data/cqzones/src/index.js"],
+      "@ham2k/data/dxcc": ["libs/data/dxcc/src/index.js"],
       "@ham2k/data/operation": ["libs/data/operation/src/index.js"],
       "@ham2k/qson/cabrillo": ["libs/qson/cabrillo/src/index.js"]
     }

@@ -1,0 +1,33 @@
+{
+  "root": "libs/data/dxcc",
+  "sourceRoot": "libs/data/dxcc/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/data/dxcc",
+        "main": "libs/data/dxcc/src/index.js",
+        "tsConfig": "libs/data/dxcc/tsconfig.lib.json",
+        "assets": ["libs/data/dxcc/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/data/dxcc/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/data/dxcc"],
+      "options": {
+        "jestConfig": "libs/data/dxcc/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

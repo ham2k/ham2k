@@ -6,6 +6,8 @@
     "data-callsigns": "libs/data/callsigns",
     "data-contests": "libs/data/contests",
     "data-country-file": "libs/data/country-file",
+    "data-cqzones": "libs/data/cqzones",
+    "data-dxcc": "libs/data/dxcc",
     "data-operation": "libs/data/operation",
     "qson-cabrillo": "libs/qson/cabrillo"
   }

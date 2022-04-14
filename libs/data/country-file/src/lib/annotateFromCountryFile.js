@@ -35,12 +35,13 @@ function annotateFromCountryFile(info, options = {}) {
     const entity = CTYIndexes.entities[match.p]
     info.entityPrefix = entity.entityPrefix
     info.entityName = entity.name
-    info.dxccId = entity.dxccId
+    info.dxccCode = entity.dxccCode
     info.continent = match.o || entity.continent
     info.cqZone = match.c || entity.cqZone
     info.ituZone = match.i || entity.ituZone
     info.lat = match.y || entity.lat
     info.lon = match.x || entity.lon
+    info.locSource = "prefix"
     info.gmtOffset = entity.gmtOffset
   }
 
