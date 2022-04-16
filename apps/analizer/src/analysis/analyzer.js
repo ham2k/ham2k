@@ -18,7 +18,7 @@ const analizers = {
 export default function analyzeAll(qson) {
   const results = {}
   const scratchpads = {}
-
+  console.log("analizeAll")
   for (let key in analizers) {
     results[key] = {}
     scratchpads[key] = {}
@@ -32,5 +32,11 @@ export default function analyzeAll(qson) {
     }
   }
 
-  return results
+  // Clone the results so we can components can detect their attributes have changed
+  const newResults = {}
+  for (let key in analizers) {
+    newResults[key] = { ...results[key] }
+  }
+
+  return newResults
 }

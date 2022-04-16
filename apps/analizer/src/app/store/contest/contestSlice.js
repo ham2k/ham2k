@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { cabrilloToQSON } from "@ham2k/qson/cabrillo"
-import analyzeAll from "apps/analizer/src/analysis/analyzer"
+import { parseCallsign } from "@ham2k/data/callsigns"
+import { annotateFromCountryFile } from "@ham2k/data/country-file"
+import { useBuiltinCountryFile } from "@ham2k/data/country-file/builtinData"
+
+// Not sure why ESLint thinks this is a hook 🤷
+useBuiltinCountryFile() // eslint-disable-line react-hooks/rules-of-hooks
 
 const initialState = {
   status: "idle",
@@ -20,7 +25,12 @@ export const contestSlice = createSlice({
 
     loadCabrillo: (state, action) => {
       const qson = cabrilloToQSON(action.payload)
-      console.log("loadCabrillo", qson)
+      qson.qsos.forEach((qso) => {
+        parseCallsign(qso.their.call, qso.their)
+        annotateFromCountryFile(qso.their)
+      })
+
+      console.log("Loaded Cabrillo", qson)
 
       state.qson = qson
       state.qsos = qson.qsos

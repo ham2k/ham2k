@@ -64,7 +64,6 @@ export function ChartQSOs({ analysis }) {
         pointLabelYOffset={-12}
         useMesh={true}
         tooltip={({ point }) => {
-          console.log(point)
           return (
             <div
               style={{

@@ -1,19 +1,29 @@
 /* eslint-disable no-unused-vars */
 import React, { useMemo } from "react"
+import { CONTINENTS, ENTITIES } from "@ham2k/data/dxcc"
+import { CQZONES } from "@ham2k/data/cqzones"
+import { parseCallsign } from "@ham2k/data/callsigns"
+import { annotateFromCountryFile } from "@ham2k/data/country-file"
 
-export function TopTenEntities({ entities }) {
-  const sorted = useMemo(() => Object.entries(entities || {}).sort((a, b) => b[1] - a[1]), [entities])
+export function TopTenEntities({ dxcc }) {
+  const sorted = useMemo(() => Object.entries(dxcc || {}).sort((a, b) => b[1] - a[1]), [dxcc])
 
-  if (entities) {
+  if (dxcc) {
     return (
       <div>
         <h3>{sorted.length} DXCC Entities</h3>
 
-        {sorted.slice(0, 10).map((pair) => (
-          <div key={pair[0]}>
-            {pair[1]} {pair[0]}
-          </div>
-        ))}
+        <table>
+          <tbody>
+            {sorted.slice(0, 10).map((pair) => (
+              <tr key={pair[0]}>
+                <td align="right">{pair[1]}</td>
+                <td>{ENTITIES[pair[0]].flag}</td>
+                <td>{ENTITIES[pair[0]].name}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     )
   } else {
@@ -29,11 +39,16 @@ export function TopTenContinents({ continents }) {
       <div>
         <h3>{sorted.length} Continents</h3>
 
-        {sorted.slice(0, 10).map((pair) => (
-          <div key={pair[0]}>
-            {pair[1]} {pair[0]}
-          </div>
-        ))}
+        <table>
+          <tbody>
+            {sorted.slice(0, 10).map((pair) => (
+              <tr key={pair[0]}>
+                <td align="right">{pair[1]}</td>
+                <td>{CONTINENTS[pair[0]]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     )
   } else {
@@ -48,12 +63,21 @@ export function TopTenCallsigns({ calls }) {
     return (
       <div>
         <h3>{sorted.length} Unique Callsigns</h3>
-
-        {sorted.slice(0, 10).map((pair) => (
-          <div key={pair[0]}>
-            {pair[1]} {pair[0]}
-          </div>
-        ))}
+        <table>
+          <tbody>
+            {sorted.slice(0, 10).map((pair) => {
+              const callInfo = parseCallsign(pair[0])
+              annotateFromCountryFile(callInfo)
+              return (
+                <tr key={pair[0]}>
+                  <td align="right">{pair[1]}</td>
+                  <td>{ENTITIES[callInfo.dxccCode].flag}</td>
+                  <td>{pair[0]}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     )
   } else {
@@ -69,11 +93,18 @@ export function TopTenCQZones({ cqZones }) {
       <div>
         <h3>{sorted.length} CQ Zones</h3>
 
-        {sorted.slice(0, 10).map((pair) => (
-          <div key={pair[0]}>
-            {pair[1]} Zone {pair[0]}
-          </div>
-        ))}
+        <table>
+          <tbody>
+            {sorted.slice(0, 10).map((pair) => (
+              <tr key={pair[0]}>
+                <td align="right">{pair[1]}</td>
+                <td>
+                  CQ Zone {pair[0]} - {CQZONES[pair[0]].name}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     )
   } else {
@@ -89,11 +120,16 @@ export function TopTenITUZones({ ituZones }) {
       <div>
         <h3>{sorted.length} ITU Zones</h3>
 
-        {sorted.slice(0, 10).map((pair) => (
-          <div key={pair[0]}>
-            {pair[1]} Zone {pair[0]}
-          </div>
-        ))}
+        <table>
+          <tbody>
+            {sorted.slice(0, 10).map((pair) => (
+              <tr key={pair[0]}>
+                <td align="right">{pair[1]}</td>
+                <td>ITU Zone {pair[0]}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     )
   } else {

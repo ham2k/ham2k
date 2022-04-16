@@ -54,7 +54,7 @@ export function LogAnalysis() {
         <p>No periods</p>
       )}
       <h2>QSOs</h2>
-      <TopTenEntities entities={analysis.calls.entities} />
+      <TopTenEntities dxcc={analysis.calls.dxcc} />
       <TopTenContinents continents={analysis.calls.continents} />
       <TopTenCallsigns calls={analysis.calls.calls} />
       <TopTenCQZones cqZones={analysis.calls.cqZones} />
