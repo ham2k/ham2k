@@ -1,0 +1,162 @@
+{
+  "1": {
+    "cqName": "Northwestern Zone of North America",
+    "name": "Northwestern North America"
+  },
+  "2": {
+    "cqName": "Northeastern Zone of North America",
+    "name": "Northeastern North America"
+  },
+  "3": {
+    "cqName": "Western Zone of North America",
+    "name": "Western North America"
+  },
+  "4": {
+    "cqName": "Central Zone of North America",
+    "name": "Central North America"
+  },
+  "5": {
+    "cqName": "Eastern Zone of North America",
+    "name": "Eastern North America"
+  },
+  "6": {
+    "cqName": "Southern Zone of North America",
+    "name": "Southern North America"
+  },
+  "7": {
+    "cqName": "Central American Zone",
+    "name": "Central America"
+  },
+  "8": {
+    "cqName": "Western Indies Zone",
+    "name": "Western Indies"
+  },
+  "9": {
+    "cqName": "Northern Zone of South America",
+    "name": "Northern South America"
+  },
+  "10": {
+    "cqName": "Western Zone of South America",
+    "name": "Western South America"
+  },
+  "11": {
+    "cqName": "Central Zone of South America",
+    "name": "Central South America"
+  },
+  "12": {
+    "cqName": "Southwest Zone of South America",
+    "name": "Southwestern South America"
+  },
+  "13": {
+    "cqName": "Southeast Zone of South America",
+    "name": "Southeastern South America"
+  },
+  "14": {
+    "cqName": "Western Zone of Europe",
+    "name": "Western Europe"
+  },
+  "15": {
+    "cqName": "Central European Zone",
+    "name": "Central Europe"
+  },
+  "16": {
+    "cqName": "Eastern Zone of Europe",
+    "name": "Eastern Europe"
+  },
+  "17": {
+    "cqName": "Western Zone of Siberia",
+    "name": "Western Siberia"
+  },
+  "18": {
+    "cqName": "Central Siberian Zone",
+    "name": "Central Siberia"
+  },
+  "19": {
+    "cqName": "Eastern Siberian Zone",
+    "name": "Eastern Siberia"
+  },
+  "20": {
+    "cqName": "Balkan Zone",
+    "name": "Balkans"
+  },
+  "21": {
+    "cqName": "Southwestern Zone of Asia",
+    "name": "Southwestern Asia"
+  },
+  "22": {
+    "cqName": "Southern Zone of Asia",
+    "name": "Southern Asia"
+  },
+  "23": {
+    "cqName": "Central Zone of Asia",
+    "name": "Central Asia"
+  },
+  "24": {
+    "cqName": "Eastern Zone of Asia",
+    "name": "Eastern Asia"
+  },
+  "25": {
+    "cqName": "Japanese Zone",
+    "name": "Japan"
+  },
+  "26": {
+    "cqName": "Southeastern Zone of Asia",
+    "name": "Southeastern Asia"
+  },
+  "27": {
+    "cqName": "Philipine Zone",
+    "name": "Philipines"
+  },
+  "28": {
+    "cqName": "Indonesian Zone",
+    "name": "Indonesia"
+  },
+  "29": {
+    "cqName": "Western Zone of Australia",
+    "name": "Western Australia"
+  },
+  "30": {
+    "cqName": "Eastern Zone of Australia",
+    "name": "Eastern Australia"
+  },
+  "31": {
+    "cqName": "Central Pacific Zone",
+    "name": "Central Pacific"
+  },
+  "32": {
+    "cqName": "New Zealand Zone",
+    "name": "New Zealand"
+  },
+  "33": {
+    "cqName": "Northwestern Zone of Africa",
+    "name": "Northwestern Africa"
+  },
+  "34": {
+    "cqName": "Northeastern Zone of Africa",
+    "name": "Northeastern Africa"
+  },
+  "35": {
+    "cqName": "Central Zone of Africa",
+    "name": "Central Africa"
+  },
+  "36": {
+    "cqName": "Equatorial Zone of Africa",
+    "name": "Equatorial Africa"
+  },
+  "37": {
+    "cqName": "Eastern Zone of Africa",
+    "name": "Eastern Africa"
+  },
+  "38": {
+    "cqName": "South African Zone",
+    "name": "South Africa"
+  },
+  "39": {
+    "cqName": "Madagascar Zone",
+    "name": "Madagascar"
+  },
+  "40": {
+    "cqName": "North Atlantic Zone",
+    "name": "North Atlantic"
+  }
+}

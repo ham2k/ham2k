@@ -1,0 +1,33 @@
+{
+  "root": "libs/data/cqzones",
+  "sourceRoot": "libs/data/cqzones/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/data/cqzones",
+        "main": "libs/data/cqzones/src/index.js",
+        "tsConfig": "libs/data/cqzones/tsconfig.lib.json",
+        "assets": ["libs/data/cqzones/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/data/cqzones/**/*.js"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/data/cqzones"],
+      "options": {
+        "jestConfig": "libs/data/cqzones/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
