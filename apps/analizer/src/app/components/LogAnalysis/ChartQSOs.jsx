@@ -1,49 +1,45 @@
 import React, { useEffect, useRef } from "react"
-import { ResponsiveLine } from "@nivo/line"
+import { Bar } from "@nivo/bar"
 import { fmtContestTimestampZulu } from "../../utils/format/dateTime"
 
 export function ChartQSOs({ analysis }) {
   const svgRef = useRef(null)
   const wrapperRef = useRef(null)
-  const width = 400
-  const height = 100
+  const width = 1600
+  const height = 300
   const margin = { top: 10, right: 80, bottom: 40, left: 60 }
 
-  if (!analysis?.qsos?.slices || !analysis.rates?.all) {
+  if (!analysis?.qsos?.bins || !analysis.rates?.all) {
     return null
   }
 
-  const slices = Object.values(analysis.qsos.slices)
+  const bins = Object.values(analysis.qsos.bins)
   const rates = Object.values(analysis.rates.all)
 
-  const chartData = [
-    // {
-    //   id: "QSOs",
-    //   data: slices.map((slice, i) => ({ x: new Date(slice.startMillis), y: slice.qsos.all * 4, slice })),
-    // },
-    {
-      id: "Rates",
-      data: rates.map((entry, i) => ({ x: new Date(entry.qso.startMillis), y: entry.rate, entry })),
-    },
-  ]
+  const chartData = bins.map((bin, i) => ({ i, date: new Date(bin.startMillis), all: bin.qsos.all, bin }))
 
   return (
-    <div style={{ height: 200 }}>
-      <ResponsiveLine
+    <div style={{ height }}>
+      <Bar
+        width={width}
+        height={height}
+        margin={margin}
+        keys={["all"]}
         curve="monotoneX"
         data={chartData}
-        margin={margin}
+        indexBy="i"
         xScale={{ type: "time" }}
-        yScale={{ type: "linear", min: "auto", max: "auto", stacked: true, reverse: false }}
+        yScale={{ type: "linear", min: "auto", max: "auto", stacked: true }}
         axisTop={null}
         axisRight={null}
         axisBottom={{
           orient: "bottom",
+          // type: "time",
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
           tickValues: 8,
-          format: (d) => fmtContestTimestampZulu(d.valueOf()),
+          format: (d) => String(d), //fmtContestTimestampZulu(d.valueOf()),
           legend: "Time",
           legendOffset: 36,
           legendPosition: "middle",
@@ -57,13 +53,16 @@ export function ChartQSOs({ analysis }) {
           legendOffset: -40,
           legendPosition: "middle",
         }}
+        enableLabel={false}
         pointSize={5}
         pointColor={{ theme: "background" }}
         pointBorderWidth={2}
         pointBorderColor={{ from: "serieColor" }}
         pointLabelYOffset={-12}
         useMesh={true}
-        tooltip={({ point }) => {
+        tooltip={(args) => {
+          console.log(args)
+          const { point } = args
           return (
             <div
               style={{
@@ -74,10 +73,10 @@ export function ChartQSOs({ analysis }) {
             >
               <div>
                 <b>
-                  {point.data.y} {point.serieId}
+                  {point?.data?.y} {point?.serieId}
                 </b>
               </div>
-              <div>{point?.data?.slice ? fmtContestTimestampZulu(point.data.slice.startMillis) : "?"}</div>
+              <div>{point?.data?.bin ? fmtContestTimestampZulu(point?.data?.bin?.startMillis) : "?"}</div>
             </div>
           )
         }}
@@ -122,12 +121,12 @@ export function ChartQSOs({ analysis }) {
 
   //   const xScale = d3
   //     .scaleTime()
-  //     .domain(d3.extent(slices, (slice) => new Date(slice.startMilis)))
+  //     .domain(d3.extent(bins, (bin) => new Date(bin.startMilis)))
   //     .range([0, width])
 
   //   const yScale = d3
   //     .scaleLinear()
-  //     .domain(d3.extent(slices, (slice) => slice.qsos.all))
+  //     .domain(d3.extent(bins, (bin) => bin.qsos.all))
   //     .range([0, height])
 
   //   const xAxis = d3.axisBottom(xScale).ticks(5).tickSize(-height)

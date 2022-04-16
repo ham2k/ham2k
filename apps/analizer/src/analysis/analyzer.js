@@ -4,7 +4,7 @@ import analyzeTimes from "./analyzeTimes"
 import analyzeCalls from "./analizeCalls"
 
 const options = {
-  minimumBreak: 15,
+  minimumBreak: 30,
   officialBreak: 60,
 }
 

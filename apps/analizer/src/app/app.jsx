@@ -98,7 +98,7 @@ export function App() {
           </div>
         </Toolbar>
       </AppBar>
-      <Container maxWidth="md" className={classes.content}>
+      <Container className={classes.content}>
         <LogAnalysis />
         <LogLoader />
       </Container>

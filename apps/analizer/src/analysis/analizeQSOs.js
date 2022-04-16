@@ -3,22 +3,27 @@ import { findContestInfoForId } from "@ham2k/data/contests"
 export default function analyzeQSOs(qso, options, results, scratchpad) {
   scratchpad.contestInfo = scratchpad.contestInfo || findContestInfoForId(scratchpad.contest)
 
-  options.sliceLength = options.sliceLength || 15
-  results.slices = results.slices || {}
+  options.binLength = options.binLength || 15
+  results.bins = results.bins || {}
+  results.bands = results.bands || {}
+  results.modes = results.modes || {}
   results.totals = results.totals || {}
 
-  const sliceMillis = qso.startMillis - (qso.startMillis % (options.sliceLength * 60 * 1000))
-  const sliceTime = new Date(sliceMillis).toISOString()
+  const binMillis = qso.startMillis - (qso.startMillis % (options.binLength * 60 * 1000))
+  const binTime = new Date(binMillis).toISOString()
 
-  results.slices[sliceTime] = results.slices[sliceTime] || {
-    startMillis: sliceMillis,
-    start: sliceTime,
+  results.bands[qso.band] = true
+  results.modes[qso.mode] = true
+
+  results.bins[binTime] = results.bins[binTime] || {
+    startMillis: binMillis,
+    start: binTime,
     qsos: {},
   }
 
-  results.slices[sliceTime].qsos["all"] = (results.slices[sliceTime].qsos["all"] || 0) + 1
+  results.bins[binTime].qsos["all"] = (results.bins[binTime].qsos["all"] || 0) + 1
   if (qso.band) {
-    results.slices[sliceTime].qsos[qso.band] = (results.slices[sliceTime].qsos[qso.band] || 0) + 1
+    results.bins[binTime].qsos[qso.band] = (results.bins[binTime].qsos[qso.band] || 0) + 1
   }
 
   results.totals["all"] = (results.totals["all"] || 0) + 1
