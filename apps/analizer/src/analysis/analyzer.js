@@ -18,7 +18,7 @@ const analizers = {
 export default function analyzeAll(qson) {
   const results = {}
   const scratchpads = {}
-  console.log("analizeAll")
+
   for (let key in analizers) {
     results[key] = {}
     scratchpads[key] = {}

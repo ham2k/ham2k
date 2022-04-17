@@ -3,15 +3,8 @@ import { fmtContestTimestampZulu } from "../../utils/format/dateTime"
 import ApexChart from "react-apexcharts"
 import SunCalc from "suncalc"
 import { DateTime } from "luxon"
-
-const BAND_COLORS = {
-  "160m": "#0d47a1",
-  "80m": "#0288d1",
-  "40m": "#64b5f6",
-  "20m": "#fdd835",
-  "15m": "#ff9800",
-  "10m": "#e64a19",
-}
+import { Typography } from "@mui/material"
+import { BAND_COLORS } from "../../styles/bandColors"
 
 export function ChartQSOs({ analysis }) {
   const height = 300
@@ -38,7 +31,7 @@ export function ChartQSOs({ analysis }) {
   }
 
   const maxQSOs = Math.max(...bins.map((bin) => bin.qsos.all || 0))
-  console.log(maxQSOs)
+
   const series = [
     {
       type: "column",
@@ -170,6 +163,9 @@ export function ChartQSOs({ analysis }) {
         formatter: (y) => `${y} QSOs`,
       },
     },
+    // title: {
+    //   text: "QSOs by Band",
+    // },
     xaxis: {
       type: "datetime",
       labels: {
@@ -177,7 +173,14 @@ export function ChartQSOs({ analysis }) {
       },
     },
     yaxis: [
-      { seriesName: "10m", title: "QSOs", forceNiceScale: true, min: 0, max: maxQSOs },
+      {
+        seriesName: "10m",
+        // title: { text: "QSOs in 15m intervals" },
+        show: true,
+        forceNiceScale: true,
+        min: 0,
+        max: maxQSOs,
+      },
       { seriesName: "10m", show: false, min: 0, max: maxQSOs },
       { seriesName: "10m", show: false, min: 0, max: maxQSOs },
       { seriesName: "10m", show: false, min: 0, max: maxQSOs },
@@ -194,7 +197,11 @@ export function ChartQSOs({ analysis }) {
   }
 
   return (
-    <div style={{ height }}>
+    <div>
+      <Typography component="h2" variant="h5">
+        QSOs in 15 minute intervals
+      </Typography>
+
       <ApexChart options={options} series={series} type="bar" height={height} />
     </div>
   )

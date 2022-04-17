@@ -16,6 +16,7 @@
     "@mui/styles": "^5.5.0",
     "@reduxjs/toolkit": "^1.8.0",
     "apexcharts": "^3.35.0",
+    "classnames": "^2.3.1",
     "core-js": "^3.6.5",
     "d3": "^7.4.4",
     "luxon": "^2.3.1",

@@ -10,11 +10,48 @@ import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
 import { ChartQSOs } from "./ChartQSOs"
 import analyzeAll from "../../../analysis/analyzer"
 import { TopTenCallsigns, TopTenContinents, TopTenCQZones, TopTenEntities, TopTenITUZones } from "./TopTenLists"
+import { LogSummary } from "./LogSummary"
+import { findContestInfoForId } from "@ham2k/data/contests"
+import { makeStyles } from "@mui/styles"
+import commonStyles from "../../styles/common"
+
+const useStyles = makeStyles((theme) => ({
+  ...commonStyles(theme),
+
+  root: {
+    "& .nice-table": {
+      borderCollapse: "collapse",
+    },
+    "& .nice-table th": {
+      borderBottom: "1px solid #666",
+      margin: 0,
+      paddingLeft: "0.5em",
+      paddingRight: "0.5em",
+    },
+    "& .nice-table td": {
+      margin: 0,
+      paddingLeft: "0.5em",
+      paddingRight: "0.5em",
+    },
+    "& .nice-table tr.totals": {
+      borderTop: "1px solid #666",
+    },
+    "& h2": {
+      marginTop: "1em",
+      borderBottom: "2px solid #333",
+    },
+  },
+}))
 
 export function LogAnalysis() {
+  const classes = useStyles()
   const qson = useSelector(selectContestQSON)
   const ref = useSelector(selectContestRef)
   const qsos = useSelector(selectContestQSOs)
+  const contest = useMemo(() => {
+    const ref = qson?.refs && qson.refs.find((ref) => ref.contest)
+    return ref && findContestInfoForId(ref.contest)
+  }, [qson])
 
   const analysis = useMemo(() => analyzeAll(qson), [qson])
 
@@ -23,11 +60,11 @@ export function LogAnalysis() {
   }
 
   return (
-    <section>
+    <section className={classes.root}>
       <Typography component="h1" variant="h3">
         {ref.callsign}
         <i> in </i>
-        {ref.contest}
+        {contest.longName}
         {analysis.times && analysis.times.periods ? (
           <i> {fmtDateMonthYear(analysis.times.periods[0].startMillis)}</i>
         ) : (
@@ -41,7 +78,11 @@ export function LogAnalysis() {
         {fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} q/h (
         {fmtMinutesAsHM(analysis.times.inactiveMinutes)} inactive)
       </p>
-      <ChartQSOs analysis={analysis} />
+
+      <LogSummary qson={qson} analysis={analysis} contest={contest} />
+
+      <ChartQSOs qson={qson} analysis={analysis} contest={contest} />
+
       <h2>Periods</h2>
       {analysis.times && analysis.times.periods ? (
         analysis.times.periods.map((period) => (
