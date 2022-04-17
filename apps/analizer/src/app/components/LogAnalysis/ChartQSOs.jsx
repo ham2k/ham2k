@@ -1,144 +1,201 @@
-import React, { useEffect, useRef } from "react"
-import { Bar } from "@nivo/bar"
+import React from "react"
 import { fmtContestTimestampZulu } from "../../utils/format/dateTime"
+import ApexChart from "react-apexcharts"
+import SunCalc from "suncalc"
+import { DateTime } from "luxon"
+
+const BAND_COLORS = {
+  "160m": "#0d47a1",
+  "80m": "#0288d1",
+  "40m": "#64b5f6",
+  "20m": "#fdd835",
+  "15m": "#ff9800",
+  "10m": "#e64a19",
+}
 
 export function ChartQSOs({ analysis }) {
-  const svgRef = useRef(null)
-  const wrapperRef = useRef(null)
-  const width = 1600
   const height = 300
-  const margin = { top: 10, right: 80, bottom: 40, left: 60 }
+
+  const qthLat = 41.70168092475149
+  const qthLon = -74.55250628884201
+  const qthTZ = "America/New_York"
+
+  // const qthLat = 37.49789779972847
+  // const qthLon = -122.47404265443625
+  // const qthTZ = "America/Los_Angeles"
 
   if (!analysis?.qsos?.bins || !analysis.rates?.all) {
     return null
   }
-
   const bins = Object.values(analysis.qsos.bins)
-  const rates = Object.values(analysis.rates.all)
 
-  const chartData = bins.map((bin, i) => ({ i, date: new Date(bin.startMillis), all: bin.qsos.all, bin }))
+  const completeBins = []
+  let startMillis = bins[0].startMillis
+  let lastMillis = bins[bins.length - 1].startMillis
+  while (startMillis <= lastMillis) {
+    completeBins.push({ startMillis, start: new Date(startMillis).toISOString() })
+    startMillis += 15 * 60 * 1000
+  }
+
+  const maxQSOs = Math.max(...bins.map((bin) => bin.qsos.all || 0))
+  console.log(maxQSOs)
+  const series = [
+    {
+      type: "column",
+      name: "10m",
+      data: bins.map((bin, i) => ({ x: bin.startMillis, y: bin.qsos["10m"] || null, bin })),
+    },
+    {
+      type: "column",
+      name: "15m",
+      data: bins.map((bin, i) => ({ x: bin.startMillis, y: bin.qsos["15m"] || null, bin })),
+    },
+    {
+      type: "column",
+      name: "20m",
+      data: bins.map((bin, i) => ({ x: bin.startMillis, y: bin.qsos["20m"] || null, bin })),
+    },
+    {
+      type: "column",
+      name: "40m",
+      data: bins.map((bin, i) => ({ x: bin.startMillis, y: bin.qsos["40m"] || null, bin })),
+    },
+    {
+      type: "column",
+      name: "80m",
+      data: bins.map((bin, i) => ({ x: bin.startMillis, y: bin.qsos["80m"] || null, bin })),
+    },
+    {
+      type: "column",
+      name: "160m",
+      data: bins.map((bin, i) => ({ x: bin.startMillis, y: bin.qsos["160m"] || null, bin })),
+    },
+    {
+      type: "area",
+      name: "Night",
+      data: completeBins.map((bin, i) => {
+        const date = new Date(bin.startMillis)
+        const sun = SunCalc.getTimes(date, qthLat, qthLon)
+        const minutesToSunrise = (bin.startMillis - sun.sunrise.valueOf()) / (60 * 1000)
+        const minutesToSunset = (bin.startMillis - sun.sunset.valueOf()) / (60 * 1000)
+
+        if (minutesToSunset < minutesToSunrise && minutesToSunset > 0) {
+          if (minutesToSunset <= -30) return { x: bin.startMillis, y: 0 }
+          if (minutesToSunset <= 0) return { x: bin.startMillis, y: 5 }
+          if (minutesToSunset <= 15) return { x: bin.startMillis, y: 20 }
+          if (minutesToSunset <= 30) return { x: bin.startMillis, y: 40 }
+          if (minutesToSunset <= 45) return { x: bin.startMillis, y: 60 }
+          if (minutesToSunset <= 60) return { x: bin.startMillis, y: 80 }
+          if (minutesToSunset <= 75) return { x: bin.startMillis, y: 95 }
+          else return { x: bin.startMillis, y: 100 }
+        } else {
+          if (minutesToSunrise <= -75) return { x: bin.startMillis, y: 100 }
+          if (minutesToSunrise <= -60) return { x: bin.startMillis, y: 95 }
+          if (minutesToSunrise <= -45) return { x: bin.startMillis, y: 80 }
+          if (minutesToSunrise <= -30) return { x: bin.startMillis, y: 60 }
+          if (minutesToSunrise <= -15) return { x: bin.startMillis, y: 40 }
+          if (minutesToSunrise <= 0) return { x: bin.startMillis, y: 20 }
+          if (minutesToSunrise <= 15) return { x: bin.startMillis, y: 5 }
+          else return { x: bin.startMillis, y: 0 }
+        }
+      }),
+    },
+  ]
+
+  const options = {
+    chart: {
+      type: "line",
+      height,
+      stacked: true,
+      toolbar: {
+        show: true,
+        // tools: {
+        //   download: false,
+        //   selection: false,
+        //   zoom: true,
+        //   zoomin: true,
+        //   zoomout: true,
+        //   pan: true,
+        //   reset: true,
+        // },
+      },
+      zoom: {
+        enabled: true,
+      },
+    },
+    stroke: {
+      width: [0, 0, 0, 0, 0, 0, 0],
+      curve: ["straight", "straight", "straight", "straight", "straight", "straight", "straight"],
+    },
+    fill: {
+      opacity: [1, 1, 1, 1, 1, 1, 0.5],
+    },
+    colors: [
+      BAND_COLORS["10m"],
+      BAND_COLORS["15m"],
+      BAND_COLORS["20m"],
+      BAND_COLORS["40m"],
+      BAND_COLORS["80m"],
+      BAND_COLORS["160m"],
+      "#C0C0C0",
+    ],
+    responsive: [
+      {
+        breakpoint: 800,
+        options: {
+          legend: {
+            position: "bottom",
+            offsetX: -10,
+            offsetY: 0,
+          },
+        },
+      },
+    ],
+    dataLabels: { enabled: false },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        borderRadius: 0,
+      },
+    },
+    tooltip: {
+      enabled: true,
+      // shared: true,
+      // intersect: false,
+      followCursor: false,
+      x: {
+        formatter: (x) => fmtContestTimestampZulu(x),
+      },
+      y: {
+        formatter: (y) => `${y} QSOs`,
+      },
+    },
+    xaxis: {
+      type: "datetime",
+      labels: {
+        formatter: (x) => fmtContestTimestampZulu(x),
+      },
+    },
+    yaxis: [
+      { seriesName: "10m", title: "QSOs", forceNiceScale: true, min: 0, max: maxQSOs },
+      { seriesName: "10m", show: false, min: 0, max: maxQSOs },
+      { seriesName: "10m", show: false, min: 0, max: maxQSOs },
+      { seriesName: "10m", show: false, min: 0, max: maxQSOs },
+      { seriesName: "10m", show: false, min: 0, max: maxQSOs },
+      { seriesName: "10m", show: false, min: 0, max: maxQSOs },
+      { seriesName: "Night", opposite: true, show: false, min: 0, max: 100 },
+    ],
+    legend: {
+      position: "right",
+      offsetY: 40,
+      showForNullSeries: false,
+      inverseOrder: true,
+    },
+  }
 
   return (
     <div style={{ height }}>
-      <Bar
-        width={width}
-        height={height}
-        margin={margin}
-        keys={["all"]}
-        curve="monotoneX"
-        data={chartData}
-        indexBy="i"
-        xScale={{ type: "time" }}
-        yScale={{ type: "linear", min: "auto", max: "auto", stacked: true }}
-        axisTop={null}
-        axisRight={null}
-        axisBottom={{
-          orient: "bottom",
-          // type: "time",
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          tickValues: 8,
-          format: (d) => String(d), //fmtContestTimestampZulu(d.valueOf()),
-          legend: "Time",
-          legendOffset: 36,
-          legendPosition: "middle",
-        }}
-        axisLeft={{
-          orient: "left",
-          tickSize: 5,
-          tickPadding: 5,
-          tickRotation: 0,
-          legend: "QSO/h",
-          legendOffset: -40,
-          legendPosition: "middle",
-        }}
-        enableLabel={false}
-        pointSize={5}
-        pointColor={{ theme: "background" }}
-        pointBorderWidth={2}
-        pointBorderColor={{ from: "serieColor" }}
-        pointLabelYOffset={-12}
-        useMesh={true}
-        tooltip={(args) => {
-          console.log(args)
-          const { point } = args
-          return (
-            <div
-              style={{
-                background: "white",
-                padding: "9px 12px",
-                border: "1px solid #ccc",
-              }}
-            >
-              <div>
-                <b>
-                  {point?.data?.y} {point?.serieId}
-                </b>
-              </div>
-              <div>{point?.data?.bin ? fmtContestTimestampZulu(point?.data?.bin?.startMillis) : "?"}</div>
-            </div>
-          )
-        }}
-        legends={[
-          {
-            anchor: "bottom-right",
-            direction: "column",
-            justify: false,
-            translateX: 100,
-            translateY: 0,
-            itemsSpacing: 0,
-            itemDirection: "left-to-right",
-            itemWidth: 80,
-            itemHeight: 20,
-            itemOpacity: 0.75,
-            symbolSize: 12,
-            symbolShape: "circle",
-            symbolBorderColor: "rgba(0, 0, 0, .5)",
-            effects: [
-              {
-                on: "hover",
-                style: {
-                  itemBackground: "rgba(0, 0, 0, .03)",
-                  itemOpacity: 1,
-                },
-              },
-            ],
-          },
-        ]}
-      />
-    </div>
-  )
-  // useEffect(() => {
-  //   const svgElement = d3.select(svgRef.current)
-  //   svgElement
-  //     .attr("width", width + margin.left + margin.right)
-  //     .attr("height", height + margin.top + margin.bottom)
-  //     .append("g")
-  //     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-
-  //   svgElement.selectAll("*").remove()
-
-  //   const xScale = d3
-  //     .scaleTime()
-  //     .domain(d3.extent(bins, (bin) => new Date(bin.startMilis)))
-  //     .range([0, width])
-
-  //   const yScale = d3
-  //     .scaleLinear()
-  //     .domain(d3.extent(bins, (bin) => bin.qsos.all))
-  //     .range([0, height])
-
-  //   const xAxis = d3.axisBottom(xScale).ticks(5).tickSize(-height)
-  //   svgElement
-  //     .append("g")
-  //     .attr("transform", "translate(0," + height + ")")
-  //     .call(d3.axisBottom(xAxis))
-  // })
-
-  return (
-    <div ref={wrapperRef}>
-      <svg ref={svgRef} />
+      <ApexChart options={options} series={series} type="bar" height={height} />
     </div>
   )
 }
