@@ -48,9 +48,12 @@ export function LogAnalysis() {
   const qson = useSelector(selectContestQSON)
   const ref = useSelector(selectContestRef)
   const qsos = useSelector(selectContestQSOs)
+  const contestRef = useMemo(() => qson?.refs && qson.refs.find((ref) => ref.contest), [qson])
   const contest = useMemo(() => {
     const ref = qson?.refs && qson.refs.find((ref) => ref.contest)
-    return ref && findContestInfoForId(ref.contest)
+    const contest = ref && findContestInfoForId(ref.contest)
+    contest && contest.score(qson)
+    return contest
   }, [qson])
 
   const analysis = useMemo(() => analyzeAll(qson), [qson])
@@ -77,6 +80,10 @@ export function LogAnalysis() {
         {fmtMinutesAsHM(analysis.times.activeMinutes)} {" at "}
         {fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} q/h (
         {fmtMinutesAsHM(analysis.times.inactiveMinutes)} inactive)
+      </p>
+      <p>
+        Claimed Score: {fmtInteger(contestRef?.claimedScore)} - Calculated Score:{" "}
+        {fmtInteger(contest?.scoringResults?.total || 0)}
       </p>
 
       <LogSummary qson={qson} analysis={analysis} contest={contest} />

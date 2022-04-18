@@ -9,6 +9,7 @@ module.exports = {
   transform: {
     "^.+\\.[tj]s$": "ts-jest",
   },
+  transformIgnorePatterns: ["<rootDir>/node_modules/(?!auto-bind/.*)"],
   moduleFileExtensions: ["ts", "js", "html"],
   coverageDirectory: "../../../coverage/libs/data/contests",
 }

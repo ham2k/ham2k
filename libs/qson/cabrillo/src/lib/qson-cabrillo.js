@@ -104,6 +104,8 @@ function selectContestSplitter(headers) {
     fields = ["name", "state"]
   } else if (contest.match(/^CQ-VHF-/)) {
     fields = ["rst", "grid"]
+  } else if (contest.match(/^ARRL-DX-/)) {
+    fields = ["rst", "sectionOrPower"]
   } else if (contest.match(/^ARRL-160-/)) {
     fields = ["rst", "section"]
   } else if (contest.match(/^ARRL-VHF-/)) {
@@ -123,14 +125,19 @@ function selectContestSplitter(headers) {
     const qso = { our: {}, their: {} }
     qso.our.call = parts[4]
     qso.their.call = parts[4 + len + 1]
-
+    qso.our.sent = {}
+    qso.their.sent = {}
     fields.forEach((field, i) => {
       if (isNumeric[field]) {
         qso.our[field] = Number.parseInt(parts[4 + 1 + i])
         qso.their[field] = Number.parseInt(parts[4 + 1 + len + 1 + i])
+        qso.our.sent[field] = Number.parseInt(parts[4 + 1 + i])
+        qso.their.sent[field] = Number.parseInt(parts[4 + 1 + len + 1 + i])
       } else {
         qso.our[field] = parts[4 + 1 + i]
         qso.their[field] = parts[4 + 1 + len + 1 + i]
+        qso.our.sent[field] = parts[4 + 1 + i]
+        qso.their.sent[field] = parts[4 + 1 + len + 1 + i]
       }
     })
     if (fields.length % 2 === 0) {

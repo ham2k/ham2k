@@ -21,6 +21,38 @@ class ARRLDXContestInfo extends BaseContestInfo {
   get bands() {
     return ["160m", "80m", "40m", "20m", "15m", "10m"]
   }
+  get multipliers() {
+    return ["multipliers"]
+  }
+
+  scoringInfoForQSO(qso) {
+    const info = { unique: {}, score: {} }
+
+    info.unique.qso = `${qso.their.call}-${qso.band}`
+
+    if (
+      (qso.our.entityPrefix === "K" || qso.our.entityPrefix === "VE") &&
+      (qso.their.entityPrefix === "K" || qso.their.entityPrefix === "VE")
+    ) {
+      info.score.points = undefined
+      return info
+    }
+
+    info.score.points = 3
+
+    if (qso.their.entityPrefix === "K" || qso.their.entityPrefix === "VE") {
+      info.unique.multipliers = `${qso.band}-${qso.their.sent?.sectionOrPower}`
+    } else {
+      info.unique.multipliers = `${qso.band}-${qso.their.entityPrefix}`
+    }
+    info.score.multipliers = 1
+
+    return info
+  }
+
+  calculateScoreTotal() {
+    return this.scoring.score.points * this.scoring.score.multipliers
+  }
 }
 
 class ARRLDXSSBContestInfo extends ARRLDXContestInfo {
@@ -33,8 +65,8 @@ class ARRLDXSSBContestInfo extends ARRLDXContestInfo {
   get longName() {
     return "ARRL DX Contest - SSB"
   }
-  get mode() {
-    return MODES.SSB
+  get modes() {
+    return [MODES.SSB]
   }
   get periods() {
     const date = roundDateToMonth(this.options.near, MONTHS.March)
@@ -53,8 +85,8 @@ class ARRLDXCWContestInfo extends ARRLDXContestInfo {
   get longName() {
     return "ARRL DX Contest - CW"
   }
-  get mode() {
-    return MODES.CW
+  get modes() {
+    return [MODES.CW]
   }
   get periods() {
     const date = roundDateToMonth(this.options.near, MONTHS.February)

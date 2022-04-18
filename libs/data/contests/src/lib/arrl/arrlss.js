@@ -33,8 +33,8 @@ class ARRLSSSSBContestInfo extends ARRLSSContestInfo {
   get longName() {
     return "ARRL November Sweepstakes - SSB"
   }
-  get mode() {
-    return MODES.SSB
+  get modes() {
+    return [MODES.SSB]
   }
   get periods() {
     const date = roundDateToMonth(this.options.near, MONTHS.November)
@@ -55,8 +55,8 @@ class ARRLSSCWContestInfo extends ARRLSSContestInfo {
   get longName() {
     return "ARRL November Sweepstakes - CW"
   }
-  get mode() {
-    return MODES.CW
+  get modes() {
+    return [MODES.CW]
   }
   get periods() {
     const date = roundDateToMonth(this.options.near, MONTHS.November)
@@ -64,6 +64,35 @@ class ARRLSSCWContestInfo extends ARRLSSContestInfo {
     period[0] = period[0].set({ hour: 21 })
     period[1] = period[1].plus({ hour: 3 })
     return [period.map((d) => d.toISO())]
+  }
+  get multipliers() {
+    return ["sections"]
+  }
+
+  scoringInfoForQSO(qso) {
+    const info = { unique: {}, score: {} }
+
+    info.unique.qso = `${qso.their.call}`
+
+    if (
+      (qso.our.entityPrefix !== "K" && qso.our.entityPrefix !== "VE") ||
+      (qso.their.entityPrefix !== "K" && qso.their.entityPrefix !== "VE")
+    ) {
+      // Only K/VE contacts are valid
+      info.score.points = undefined
+      return info
+    }
+
+    info.score.points = 2
+
+    info.unique.sections = `${qso.their.sent?.section}`
+    info.score.sections = 1
+
+    return info
+  }
+
+  calculateScoreTotal() {
+    return this.scoring.score.points * this.scoring.score.multipliers
   }
 }
 

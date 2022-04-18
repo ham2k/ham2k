@@ -18,8 +18,8 @@ class CQWWVHFContestInfo extends BaseContestInfo {
   get name() {
     return "CQ World Wide VHF Contest"
   }
-  get mode() {
-    return MODES.SSB
+  get modes() {
+    return [MODES.SSB]
   }
   get periods() {
     const date = roundDateToMonth(this.options.near, MONTHS.October)
@@ -36,6 +36,30 @@ class CQWWVHFContestInfo extends BaseContestInfo {
   }
   get bands() {
     return ["6m", "2m"]
+  }
+  get multipliers() {
+    return ["grids"]
+  }
+
+  scoringInfoForQSO(qso) {
+    const info = { unique: {}, score: {} }
+
+    info.unique.qso = `${qso.their.call}-${qso.band}-${qso.their.sent?.grid}-${qso.our.sent?.grid}`
+
+    if (qso.band === "6m") {
+      info.score.points = 1
+    } else if (qso.band === "2m") {
+      info.score.points = 2
+    }
+
+    info.unique.grids = `${qso.band}-${qso.their.sent?.grid}-${qso.our.sent?.grid}`
+    info.score.grids = 1
+
+    return info
+  }
+
+  calculateScoreTotal() {
+    return this.scoring.score.points * this.scoring.score.grids
   }
 }
 

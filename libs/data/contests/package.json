@@ -1,5 +1,8 @@
 {
   "name": "@ham2k/data/contests",
   "version": "0.0.1",
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "auto-bind": "^5.0.1"
+  }
 }
