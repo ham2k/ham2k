@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
   root: {
     position: "absolute",
-    top: 10,
+    top: 0,
     right: 0,
     left: 0,
     bottom: 0,
@@ -75,7 +75,6 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flex: 1,
-    overflow: "auto",
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
