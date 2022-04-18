@@ -1,8 +1,8 @@
 {
   "version": 2,
   "projects": {
-    "analizer": "apps/analizer",
-    "analizer-e2e": "apps/analizer-e2e",
+    "analyzer": "apps/analyzer",
+    "analyzer-e2e": "apps/analyzer-e2e",
     "data-callsigns": "libs/data/callsigns",
     "data-contests": "libs/data/contests",
     "data-country-file": "libs/data/country-file",

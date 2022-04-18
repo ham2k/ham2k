@@ -1,6 +1,6 @@
 {
-  "root": "apps/analizer",
-  "sourceRoot": "apps/analizer/src",
+  "root": "apps/analyzer",
+  "sourceRoot": "apps/analyzer/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -9,14 +9,14 @@
       "defaultConfiguration": "production",
       "options": {
         "compiler": "babel",
-        "outputPath": "dist/apps/analizer",
-        "index": "apps/analizer/src/index.html",
+        "outputPath": "dist/apps/analyzer",
+        "index": "apps/analyzer/src/index.html",
         "baseHref": "/",
-        "main": "apps/analizer/src/main.jsx",
-        "polyfills": "apps/analizer/src/polyfills.js",
-        "tsConfig": "apps/analizer/tsconfig.app.json",
-        "assets": ["apps/analizer/src/assets"],
-        "styles": ["apps/analizer/src/styles.scss"],
+        "main": "apps/analyzer/src/main.jsx",
+        "polyfills": "apps/analyzer/src/polyfills.js",
+        "tsConfig": "apps/analyzer/tsconfig.app.json",
+        "assets": ["apps/analyzer/src/assets"],
+        "styles": ["apps/analyzer/src/styles.scss"],
         "scripts": [],
         "webpackConfig": "@nrwl/react/plugins/webpack"
       },
@@ -24,8 +24,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/analizer/src/environments/environment.js",
-              "with": "apps/analizer/src/environments/environment.prod.js"
+              "replace": "apps/analyzer/src/environments/environment.js",
+              "with": "apps/analyzer/src/environments/environment.prod.js"
             }
           ],
           "optimization": true,
@@ -40,12 +40,12 @@
     "serve": {
       "executor": "@nrwl/web:dev-server",
       "options": {
-        "buildTarget": "analizer:build",
+        "buildTarget": "analyzer:build",
         "hmr": true
       },
       "configurations": {
         "production": {
-          "buildTarget": "analizer:build:production",
+          "buildTarget": "analyzer:build:production",
           "hmr": false
         }
       }
@@ -54,14 +54,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/analizer/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/analyzer/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/analizer"],
+      "outputs": ["coverage/apps/analyzer"],
       "options": {
-        "jestConfig": "apps/analizer/jest.config.js",
+        "jestConfig": "apps/analyzer/jest.config.js",
         "passWithNoTests": true
       }
     }

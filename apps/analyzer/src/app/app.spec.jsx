@@ -23,6 +23,6 @@ describe("App", () => {
       </Provider>
     )
 
-    expect(getAllByText(/Ham2K Analizer/gi)).toBeTruthy()
+    expect(getAllByText(/Ham2K Analyzer/gi)).toBeTruthy()
   })
 })

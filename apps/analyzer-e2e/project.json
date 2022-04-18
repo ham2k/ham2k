@@ -1,17 +1,17 @@
 {
-  "root": "apps/analizer-e2e",
-  "sourceRoot": "apps/analizer-e2e/src",
+  "root": "apps/analyzer-e2e",
+  "sourceRoot": "apps/analyzer-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/analizer-e2e/cypress.json",
-        "devServerTarget": "analizer:serve"
+        "cypressConfig": "apps/analyzer-e2e/cypress.json",
+        "devServerTarget": "analyzer:serve"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "analizer:serve:production"
+          "devServerTarget": "analyzer:serve:production"
         }
       }
     },
@@ -19,10 +19,10 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/analizer-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/analyzer-e2e/**/*.{js,ts}"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["analizer"]
+  "implicitDependencies": ["analyzer"]
 }

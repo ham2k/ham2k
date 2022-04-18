@@ -90,7 +90,7 @@ export function App() {
         <Toolbar className={classes.toolbar}>
           <div className={classes.untitledLeft}>
             <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.titleMain}>
-              Ham2K Contest Analizer
+              Ham2K Contest Analyzer
             </Typography>
             <Typography component="div" color="inherit" noWrap className={classes.version}>
               v0.1
@@ -103,7 +103,7 @@ export function App() {
         <LogLoader />
       </Container>
       <footer className={classes.footer}>
-        <b>Ham2K Contest Analizer</b> developed by <a href="https://www.qrz.com/db/KI2D">KI2D</a> Sebastian Delmont{" "}
+        <b>Ham2K Contest Analyzer</b> developed by <a href="https://www.qrz.com/db/KI2D">KI2D</a> Sebastian Delmont{" "}
         <a href="https://twitter.com/sd">@sd</a> - v0.1
       </footer>
     </div>
