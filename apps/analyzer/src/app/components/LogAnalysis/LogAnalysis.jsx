@@ -78,11 +78,12 @@ export function LogAnalysis() {
         )}
       </Typography>
       <p>
-        {fmtInteger(qsos.length)} QSOs
+        <b>{fmtInteger(qsos.length)} QSOs</b>
         {" in "}
         {fmtMinutesAsHM(analysis.times.activeMinutes)} {" at "}
-        {fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} q/h. &nbsp;&nbsp;&nbsp; Claimed Score:{" "}
-        {fmtInteger(contestRef?.claimedScore)} - Calculated Score: {fmtInteger(contest?.scoringResults?.total || 0)}
+        <b>{fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} QSO/h</b>. &nbsp;&nbsp;&nbsp; Claimed
+        Score: {fmtInteger(contestRef?.claimedScore)} - Calculated Score:{" "}
+        {fmtInteger(contest?.scoringResults?.total || 0)}
       </p>
 
       <LogSummary qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} />

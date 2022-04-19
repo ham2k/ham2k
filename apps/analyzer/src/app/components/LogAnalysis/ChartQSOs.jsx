@@ -24,8 +24,9 @@ export function ChartQSOs({ analysis, contest }) {
 
   const periods = contest.periods
   const completeBins = []
-  let startMillis = periods ? new Date(periods[0][0]).valueOf() : bins[0].startMillis
-  let lastMillis = periods ? new Date(periods[periods.length - 1][1]).valueOf() : bins[bins.length - 1].startMillis
+  let startMillis = periods && periods[0] ? new Date(periods[0][0]).valueOf() : bins[0].startMillis
+  let lastMillis =
+    periods && periods[0] ? new Date(periods[periods.length - 1][1]).valueOf() : bins[bins.length - 1].startMillis
 
   while (startMillis <= lastMillis) {
     completeBins.push({ startMillis, start: new Date(startMillis).toISOString() })

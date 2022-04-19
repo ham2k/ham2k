@@ -21,14 +21,12 @@ export function TimeAnalysis({ qson, analysis, contest, contestRef }) {
         Times
       </Typography>
 
-      {contestPeriodInfo.periods.length > 0 && (
-        <ExpandOnTimes
-          contestPeriodInfo={contestPeriodInfo}
-          contest={contest}
-          analysis={analysis}
-          contestRef={contestRef}
-        />
-      )}
+      <ExpandOnTimes
+        contestPeriodInfo={contestPeriodInfo}
+        contest={contest}
+        analysis={analysis}
+        contestRef={contestRef}
+      />
 
       {analysis.times && analysis.times.periods ? (
         analysis.times.periods.map((period) => (
@@ -45,26 +43,29 @@ export function TimeAnalysis({ qson, analysis, contest, contestRef }) {
 }
 
 function ExpandOnTimes({ contestPeriodInfo, contest, analysis, contestRef }) {
-  const parts = []
-  parts.push(
-    <span key="a">
-      Contest goes for <b>{fmtInteger(contestPeriodInfo.totalMinutes / 60)} hours</b>
-    </span>
-  )
-  if (contest.maximumOperationInMinutes < contestPeriodInfo.totalMinutes) {
-    parts.push(
-      <span key="b">
-        , operating for a <b>maximum of {fmtInteger(contest.maximumOperationInMinutes / 60)} hours</b> with{" "}
-        {fmtInteger(contest.minimumBreakInMinutes)} minute minimum breaks
+  const sentences = []
+  let sentence = []
+  if (contestPeriodInfo.periods.length > 0) {
+    sentence.push(
+      <span key="a">
+        Contest goes for <b>{fmtInteger(contestPeriodInfo.totalMinutes / 60)} hours</b>
       </span>
     )
-  }
-  parts.push(<span key="z">.</span>)
 
-  return (
-    <>
-      <p>{parts}</p>
-      <p>
+    if (contest.maximumOperationInMinutes < contestPeriodInfo.totalMinutes) {
+      sentence.push(
+        <span key="b">
+          , operating for a <b>maximum of {fmtInteger(contest.maximumOperationInMinutes / 60)} hours</b> with{" "}
+          {fmtInteger(contest.minimumBreakInMinutes)} minute minimum breaks
+        </span>
+      )
+    }
+
+    sentence.push(<span key="z">.</span>)
+    sentences.push(sentence)
+
+    sentences.push(
+      <>
         {contestRef?.callsign} <b>operated for {fmtMinutesAsHM(analysis.times.activeMinutes)}</b> (
         {fmtPercent(analysis.times.activeMinutes / contestPeriodInfo.totalMinutes, "integer")} of allowed time){" "}
         {analysis.times.inactiveMinutes > 0 ? (
@@ -72,7 +73,26 @@ function ExpandOnTimes({ contestPeriodInfo, contest, analysis, contestRef }) {
         ) : (
           <span>without breaks.</span>
         )}
-      </p>
+      </>
+    )
+  } else {
+    sentences.push(
+      <>
+        {contestRef?.callsign} <b>operated for {fmtMinutesAsHM(analysis.times.activeMinutes)}</b>,{" "}
+        {analysis.times.inactiveMinutes > 0 ? (
+          <span>with {fmtMinutesAsHM(analysis.times.inactiveMinutes)} of breaks.</span>
+        ) : (
+          <span>without breaks.</span>
+        )}
+      </>
+    )
+  }
+
+  return (
+    <>
+      {sentences.map((sentence) => (
+        <p>{sentence}</p>
+      ))}
     </>
   )
 }

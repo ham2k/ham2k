@@ -42,6 +42,9 @@ function parseCabrillo(str) {
       }
     }
   })
+
+  qsos.sort((a, b) => a.startMillis - b.startMillis)
+
   return {
     source: "cabrillo",
     rawCabrillo: headers,
