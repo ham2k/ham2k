@@ -75,6 +75,23 @@ describe("annotateFromCountryFile", () => {
     expect(info.ituZone).toEqual(37)
     expect(info.continent).toEqual("AF")
   })
-})
 
-// *IG9,African Italy,248,AF,33,37,35.67,-12.67,-1.0,IG9 IH9 =IO9Y =IY9A;
+  it("should handle Guantanamo as a special case", () => {
+    let info
+    // Guantanamo callsigns use KG4, but with a 2 letter suffix. One and three letters are regular USA calls
+    info = annotateFromCountryFile({ call: "KG4AB" })
+    expect(info.entityPrefix).toEqual("KG4")
+
+    info = annotateFromCountryFile({ call: "KG4A" })
+    expect(info.entityPrefix).toEqual("K")
+
+    info = annotateFromCountryFile({ call: "KG4ABC" })
+    expect(info.entityPrefix).toEqual("K")
+
+    info = annotateFromCountryFile({ call: "N0CALL/KG4", postindicators: ["KG4"], prefix: "KG4" })
+    expect(info.entityPrefix).toEqual("KG4")
+
+    info = annotateFromCountryFile({ call: "KG4ABC/KG4", postindicators: ["KG4"], prefix: "KG4" })
+    expect(info.entityPrefix).toEqual("KG4")
+  })
+})
