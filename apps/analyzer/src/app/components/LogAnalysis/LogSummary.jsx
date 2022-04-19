@@ -141,7 +141,7 @@ export function LogSummary({ qson, analysis, contest }) {
           ))}
           <tr className="totals">
             <td className="band">TOTAL</td>
-            <td className="qsos">{analysis.qsos.totals.all || "-"}</td>
+            <td className="qsos">{fmtInteger(analysis.qsos.totals.all) || "-"}</td>
             <td className="percent"></td>
             <td className="points">{contestSummary.points ? fmtInteger(contestSummary.points.all) : "-"}</td>
             <td className="percent"></td>

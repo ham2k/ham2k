@@ -32,7 +32,7 @@ function numberFormatterGenerator(format) {
       n = Number.parseFloat(n)
     }
 
-    return n.toLocaleString(locale, FORMATS[format])
+    return n ? n.toLocaleString(locale, FORMATS[format]) : ""
   }
 }
 

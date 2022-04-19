@@ -33,8 +33,6 @@ export const contestSlice = createSlice({
         annotateFromCountryFile(qso.their)
       })
 
-      console.log("Loaded Cabrillo", qson)
-
       state.qson = qson
       state.qsos = qson.qsos
       state.ref = qson.refs.filter((ref) => ref.contest)[0] || {}

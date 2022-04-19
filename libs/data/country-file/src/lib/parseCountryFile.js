@@ -22,9 +22,10 @@ function parseCountryFile(data) {
       entity.continent = lineParts[3]
       entity.cqZone = Number.parseInt(lineParts[4])
       entity.ituZone = Number.parseInt(lineParts[5])
-      entity.lat = lineParts[6]
-      entity.lon = lineParts[7]
-      entity.gmtOffset = lineParts[8]
+      entity.lat = Number.parseFloat(lineParts[6])
+      entity.lon = Number.parseFloat(lineParts[7])
+      const offset = Number.parseFloat(lineParts[8])
+      entity.tz = offset > 0 ? `GMT+${offset}` : `GMT${offset}`
 
       indexes.entities[entity.entityPrefix] = entity
 

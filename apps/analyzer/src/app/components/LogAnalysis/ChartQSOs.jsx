@@ -6,14 +6,18 @@ import { DateTime } from "luxon"
 import { Typography } from "@mui/material"
 import { BAND_COLORS } from "../../styles/bandColors"
 
-export function ChartQSOs({ analysis, contest }) {
+export function ChartQSOs({ analysis, contest, qson }) {
   const height = 300
 
-  const qthLat = 41.70168092475149
-  const qthLon = -74.55250628884201
-  const qthTZ = "America/New_York"
+  let qthLat = (qson.qsos && qson.qsos[0].our.lat) || 41
+  let qthLon = (qson.qsos && qson.qsos[0].our.lon) || -74
+  let qthTZ = (qson.qsos && qson.qsos[0].our.gmtOffset) || "America/New_York"
 
-  // const qthLat = 37.49789779972847
+  qthLat = 41.70168092475149
+  qthLon = -74.55250628884201
+  qthTZ = "America/New_York"
+
+  // let qthLat = 37.49789779972847
   // const qthLon = -122.47404265443625
   // const qthTZ = "America/Los_Angeles"
 

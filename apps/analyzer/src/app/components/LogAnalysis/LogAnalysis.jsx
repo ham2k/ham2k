@@ -67,7 +67,7 @@ export function LogAnalysis() {
 
   const analysis = useMemo(() => analyzeAll(qson), [qson])
 
-  if (!analysis || !ref) {
+  if (!analysis || !ref || !contest) {
     return null
   }
 

@@ -23,7 +23,6 @@ export function LogLoader() {
     dispatch(resetContest())
   }
 
-  console.log(ref)
   return (
     <section>
       {ref ? (

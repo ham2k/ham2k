@@ -5,7 +5,7 @@ function isOrIncludes(a, b) {
     } else {
       return a === b
     }
-  } else if (a.includes) {
+  } else if (a && a.includes) {
     return a.includes(b)
   }
 }
