@@ -25,9 +25,9 @@ export function LogLoader() {
 
   console.log(ref)
   return (
-    <section style={{ textAlign: "center" }}>
+    <section>
       {ref ? (
-        <>
+        <div style={{ textAlign: "center" }}>
           <hr />
           <p>To analyze a different contest, please select a new Cabrillo file.</p>
           <p>
@@ -47,19 +47,27 @@ export function LogLoader() {
               Reset
             </Button>
           </p>
-        </>
+        </div>
       ) : (
-        <>
-          <p>Please select a Cabrillo file to analyze.</p>
-          <p>Your files will be processed locally on your own browser, nothing will be uploaded anywhere.</p>
+        <div>
           <p>
-            {" "}
+            Please select a Cabrillo file to analyze:{" "}
             <Button variant="contained" startIcon={<FolderOpenIcon />} component="label" onChange={handleFileSelected}>
               Load Cabrillo
               <input type="file" hidden />
             </Button>
           </p>
-        </>
+          <hr />
+          <p>Your files will be processed locally on your own browser, nothing will be uploaded anywhere.</p>
+          <p>
+            We can analyze any Cabrillo file, but we provide deeper analysis for the following contests:
+            <ul>
+              <li>ARRL DX, Sweepstakes, IARU HF</li>
+              <li>CQ WW, WPX, WW VHF</li>
+            </ul>
+            We'll be adding more soon.
+          </p>
+        </div>
       )}
     </section>
   )
