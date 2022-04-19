@@ -2,18 +2,21 @@
 import React, { useMemo } from "react"
 import { Typography } from "@mui/material"
 import { useSelector } from "react-redux"
+import { makeStyles } from "@mui/styles"
 
-import { fmtContestTimestampZulu, fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
+import commonStyles from "../../styles/common"
+
+import { findContestInfoForId } from "@ham2k/data/contests"
+import { fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
+import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
 
 import { selectContestQSOs, selectContestRef, selectContestQSON } from "../../store/contest/contestSlice"
-import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
-import { ChartQSOs } from "./ChartQSOs"
 import analyzeAll from "../../../analysis/analyzer"
-import { TopTenCallsigns, TopTenContinents, TopTenCQZones, TopTenEntities, TopTenITUZones } from "./TopTenLists"
+
+import { TimeAnalysis } from "./TimeAnalysis"
+import { ChartQSOs } from "./ChartQSOs"
 import { LogSummary } from "./LogSummary"
-import { findContestInfoForId } from "@ham2k/data/contests"
-import { makeStyles } from "@mui/styles"
-import commonStyles from "../../styles/common"
+import { TopTenCallsigns, TopTenContinents, TopTenCQZones, TopTenEntities, TopTenITUZones } from "./TopTenLists"
 
 const useStyles = makeStyles((theme) => ({
   ...commonStyles(theme),
@@ -51,7 +54,7 @@ export function LogAnalysis() {
   const contestRef = useMemo(() => qson?.refs && qson.refs.find((ref) => ref.contest), [qson])
   const contest = useMemo(() => {
     const ref = qson?.refs && qson.refs.find((ref) => ref.contest)
-    const contest = ref && findContestInfoForId(ref.contest)
+    const contest = ref && findContestInfoForId(ref.contest, { near: qson.qsos[0].start })
     contest && contest.score(qson)
     return contest
   }, [qson])
@@ -78,29 +81,16 @@ export function LogAnalysis() {
         {fmtInteger(qsos.length)} QSOs
         {" in "}
         {fmtMinutesAsHM(analysis.times.activeMinutes)} {" at "}
-        {fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} q/h (
-        {fmtMinutesAsHM(analysis.times.inactiveMinutes)} inactive)
-      </p>
-      <p>
-        Claimed Score: {fmtInteger(contestRef?.claimedScore)} - Calculated Score:{" "}
-        {fmtInteger(contest?.scoringResults?.total || 0)}
+        {fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} q/h. &nbsp;&nbsp;&nbsp; Claimed Score:{" "}
+        {fmtInteger(contestRef?.claimedScore)} - Calculated Score: {fmtInteger(contest?.scoringResults?.total || 0)}
       </p>
 
-      <LogSummary qson={qson} analysis={analysis} contest={contest} />
+      <LogSummary qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} />
 
-      <ChartQSOs qson={qson} analysis={analysis} contest={contest} />
+      <ChartQSOs qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} />
 
-      <h2>Periods</h2>
-      {analysis.times && analysis.times.periods ? (
-        analysis.times.periods.map((period) => (
-          <p key={period.startMillis}>
-            {period.qsos.length} QSOs from {fmtContestTimestampZulu(period.startMillis)} to{" "}
-            {fmtContestTimestampZulu(period.endMillis)} - {fmtMinutesAsHM(period.activeMinutes)}
-          </p>
-        ))
-      ) : (
-        <p>No periods</p>
-      )}
+      <TimeAnalysis qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} />
+
       <h2>QSOs</h2>
       <TopTenEntities dxcc={analysis.calls.dxcc} />
       <TopTenContinents continents={analysis.calls.continents} />

@@ -99,11 +99,11 @@ class CQWWRTTYContestInfo extends CQWWContestInfo {
     // IV-B. Stations may be contacted once on each band.
     info.unique.qso = `${qso.their.call}-${qso.band}-${qso.mode}`
 
-    if (qso.their.entityPrefix === this.scoringScratchpad.our.entityPrefix) {
+    if (qso.their.entityPrefix === qso.our.entityPrefix) {
       // IV-B-3. Contacts between stations in the same country have zero (0) QSO point value,
       // but count for zone and country multiplier credit.
       info.score.points = 0
-    } else if (qso.their.continent != this.scoringScratchpad.our.continent) {
+    } else if (qso.their.continent != qso.our.continent) {
       // IV-B-1. Contacts between stations on different continents count three (3) points.
       info.score.points = 3
     } else {

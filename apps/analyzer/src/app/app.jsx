@@ -73,8 +73,11 @@ const useStyles = makeStyles((theme) => ({
 
     textAlign: "center",
   },
-  content: {
+  contentWrapper: {
     flex: 1,
+    overflow: "auto",
+  },
+  content: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
   },
@@ -97,10 +100,12 @@ export function App() {
           </div>
         </Toolbar>
       </AppBar>
-      <Container className={classes.content}>
-        <LogAnalysis />
-        <LogLoader />
-      </Container>
+      <div className={classes.contentWrapper}>
+        <Container className={classes.content}>
+          <LogAnalysis />
+          <LogLoader />
+        </Container>
+      </div>
       <footer className={classes.footer}>
         <b>Ham2K Contest Analyzer</b> developed by <a href="https://www.qrz.com/db/KI2D">KI2D</a> Sebastian Delmont{" "}
         <a href="https://twitter.com/sd">@sd</a> - v0.1

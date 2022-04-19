@@ -21,6 +21,35 @@ class ARRLSSContestInfo extends BaseContestInfo {
   get bands() {
     return ["160m", "80m", "40m", "20m", "15m", "10m"]
   }
+  get multipliers() {
+    return ["sections"]
+  }
+
+  scoringInfoForQSO(qso) {
+    const info = { unique: {}, score: {} }
+
+    info.unique.qso = `${qso.their.call}`
+
+    if (
+      (qso.our.entityPrefix !== "K" && qso.our.entityPrefix !== "VE") ||
+      (qso.their.entityPrefix !== "K" && qso.their.entityPrefix !== "VE")
+    ) {
+      // Only K/VE contacts are valid
+      info.score.points = undefined
+      return info
+    }
+
+    info.score.points = 2
+
+    info.unique.sections = `${qso.their.sent?.section}`
+    info.score.sections = 1
+
+    return info
+  }
+
+  calculateScoreTotal() {
+    return this.scoring.score.points * this.scoring.score.sections
+  }
 }
 
 class ARRLSSSSBContestInfo extends ARRLSSContestInfo {
@@ -64,35 +93,6 @@ class ARRLSSCWContestInfo extends ARRLSSContestInfo {
     period[0] = period[0].set({ hour: 21 })
     period[1] = period[1].plus({ hour: 3 })
     return [period.map((d) => d.toISO())]
-  }
-  get multipliers() {
-    return ["sections"]
-  }
-
-  scoringInfoForQSO(qso) {
-    const info = { unique: {}, score: {} }
-
-    info.unique.qso = `${qso.their.call}`
-
-    if (
-      (qso.our.entityPrefix !== "K" && qso.our.entityPrefix !== "VE") ||
-      (qso.their.entityPrefix !== "K" && qso.their.entityPrefix !== "VE")
-    ) {
-      // Only K/VE contacts are valid
-      info.score.points = undefined
-      return info
-    }
-
-    info.score.points = 2
-
-    info.unique.sections = `${qso.their.sent?.section}`
-    info.score.sections = 1
-
-    return info
-  }
-
-  calculateScoreTotal() {
-    return this.scoring.score.points * this.scoring.score.multipliers
   }
 }
 

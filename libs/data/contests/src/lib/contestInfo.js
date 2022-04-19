@@ -74,15 +74,19 @@ class BaseContestInfo {
   }
 
   prepareOneQSO(qso) {
+    if (!this.scoringScratchpad?.our?.prefix) {
+      this.scoringScratchpad.our = { ...qso.our }
+      parseCallsign(this.scoringScratchpad.our.call)
+      annotateFromCountryFile(this.scoringScratchpad.our)
+    }
+
+    if (!qso.our?.prefix) {
+      qso.our = { ...qso.our, ...this.scoringScratchpad.our }
+    }
+
     if (!qso.their?.prefix) {
       parseCallsign(qso.their.call, qso.their)
       annotateFromCountryFile(qso.their)
-    }
-
-    if (!this.scoringScratchpad?.our?.prefix) {
-      this.scoringScratchpad.our = { ...qso.our }
-      parseCallsign(this.scoringScratchpad.our.call, this.scoringScratchpad.our)
-      annotateFromCountryFile(this.scoringScratchpad.our)
     }
   }
 

@@ -38,3 +38,11 @@ function numberFormatterGenerator(format) {
 
 export const fmtInteger = numberFormatterGenerator("integer")
 export const fmtOneDecimal = numberFormatterGenerator("oneDecimal")
+
+export function fmtPercent(n, format = "oneDecimal") {
+  if (typeof n === "string") {
+    n = Number.parseFloat(n)
+  }
+  n = n * 100
+  return fmtNumber(n, format) + "%"
+}

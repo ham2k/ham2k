@@ -115,7 +115,7 @@ function selectContestSplitter(headers) {
   } else if (contest.match(/^CQ-WW-/)) {
     fields = ["rst", "cqZone"]
   } else if (contest.match(/^IARU-HF/)) {
-    fields = ["rst", "ituZone"]
+    fields = ["rst", "zoneOrHQ"]
   } else {
     fields = ["rst", "exchange"]
   }

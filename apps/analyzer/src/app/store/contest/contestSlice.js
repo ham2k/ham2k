@@ -26,6 +26,9 @@ export const contestSlice = createSlice({
     loadCabrillo: (state, action) => {
       const qson = cabrilloToQSON(action.payload)
       qson.qsos.forEach((qso) => {
+        parseCallsign(qso.our.call, qso.our)
+        annotateFromCountryFile(qso.our)
+
         parseCallsign(qso.their.call, qso.their)
         annotateFromCountryFile(qso.their)
       })

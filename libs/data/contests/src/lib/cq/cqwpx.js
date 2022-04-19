@@ -35,10 +35,10 @@ class CQWPXContestInfo extends BaseContestInfo {
     // V-B. QSO Points: A station may be worked once on each band for QSO point credit:
     info.unique.qso = `${qso.their.call}-${qso.band}-${qso.mode}`
 
-    if (qso.their.entityPrefix === this.scoringScratchpad.our.entityPrefix) {
+    if (qso.their.entityPrefix === qso.our.entityPrefix) {
       // V-B-3. Contacts between stations in the same country are worth 1 point regardless of band.
       info.score.points = 1
-    } else if (qso.their.continent != this.scoringScratchpad.our.continent) {
+    } else if (qso.their.continent != qso.our.continent) {
       // V-B-1. Contacts between stations on different continents are worth three (3) points on 28, 21,
       // and 14 MHz and six (6) points on 7, 3.5, and 1.8 MHz.
       if (qso.band === "160m" || qso.band === "80m" || qso.band === "40m") {

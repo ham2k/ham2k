@@ -15,10 +15,10 @@ describe("cabrilloToQSON", () => {
     expect(qson.qsos[0].mode).toEqual("CW")
     expect(qson.qsos[0].our.call).toEqual("KI2D")
     expect(qson.qsos[0].our.rst).toEqual("599")
-    expect(qson.qsos[0].our.ituZone).toEqual(8)
+    expect(qson.qsos[0].our.zoneOrHQ).toEqual("08")
     expect(qson.qsos[0].their.call).toEqual("VE3MGY")
     expect(qson.qsos[0].their.rst).toEqual("599")
-    expect(qson.qsos[0].their.ituZone).toEqual(4)
+    expect(qson.qsos[0].their.zoneOrHQ).toEqual("04")
     expect(qson.refs[0].contest).toEqual("IARU-HF")
   })
 

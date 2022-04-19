@@ -16,7 +16,7 @@ class ARRLDXContestInfo extends BaseContestInfo {
     return 48 * 60
   }
   get minimumBreakInMinutes() {
-    return 5
+    return 30
   }
   get bands() {
     return ["160m", "80m", "40m", "20m", "15m", "10m"]

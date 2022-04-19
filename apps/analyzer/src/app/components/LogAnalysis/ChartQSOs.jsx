@@ -6,7 +6,7 @@ import { DateTime } from "luxon"
 import { Typography } from "@mui/material"
 import { BAND_COLORS } from "../../styles/bandColors"
 
-export function ChartQSOs({ analysis }) {
+export function ChartQSOs({ analysis, contest }) {
   const height = 300
 
   const qthLat = 41.70168092475149
@@ -22,9 +22,11 @@ export function ChartQSOs({ analysis }) {
   }
   const bins = Object.values(analysis.qsos.bins)
 
+  const periods = contest.periods
   const completeBins = []
-  let startMillis = bins[0].startMillis
-  let lastMillis = bins[bins.length - 1].startMillis
+  let startMillis = periods ? new Date(periods[0][0]).valueOf() : bins[0].startMillis
+  let lastMillis = periods ? new Date(periods[periods.length - 1][1]).valueOf() : bins[bins.length - 1].startMillis
+
   while (startMillis <= lastMillis) {
     completeBins.push({ startMillis, start: new Date(startMillis).toISOString() })
     startMillis += 15 * 60 * 1000

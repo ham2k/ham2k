@@ -3,6 +3,7 @@ const { CQWWCWContestInfo, CQWWSSBContestInfo, CQWWRTTYContestInfo } = require("
 const { GenericContestInfo } = require("./contestInfo")
 const { ARRLDXCWContestInfo, ARRLDXSSBContestInfo } = require("./arrl/arrldx")
 const { ARRLSSSSBContestInfo, ARRLSSCWContestInfo } = require("./arrl/arrlss")
+const { IARUHFContestInfo } = require("./arrl/iaru")
 
 const CONTEST_MAP = {
   "CQ-WPX-SSB": CQWPXSSBContestInfo,
@@ -15,6 +16,7 @@ const CONTEST_MAP = {
   "ARRL-DX-CW": ARRLDXCWContestInfo,
   "ARRL-SS-SSB": ARRLSSSSBContestInfo,
   "ARRL-SS-CW": ARRLSSCWContestInfo,
+  "IARU-HF": IARUHFContestInfo,
 }
 
 function findContestInfoForId(id, options = {}) {
