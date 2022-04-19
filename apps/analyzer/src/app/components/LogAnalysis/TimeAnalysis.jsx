@@ -90,8 +90,8 @@ function ExpandOnTimes({ contestPeriodInfo, contest, analysis, contestRef }) {
 
   return (
     <>
-      {sentences.map((sentence) => (
-        <p>{sentence}</p>
+      {sentences.map((sentence, i) => (
+        <p key={i}>{sentence}</p>
       ))}
     </>
   )

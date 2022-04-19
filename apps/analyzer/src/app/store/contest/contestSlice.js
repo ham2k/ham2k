@@ -40,10 +40,17 @@ export const contestSlice = createSlice({
       state.ref = qson.refs.filter((ref) => ref.contest)[0] || {}
       state.rawCabrillo = qson.rawCabrillo
     },
+
+    resetContest: (state, action) => {
+      state.qson = undefined
+      state.qsos = []
+      state.ref = undefined
+      state.rawCabrillo = undefined
+    },
   },
 })
 
-export const { loadCabrillo, setQSOs } = contestSlice.actions
+export const { loadCabrillo, setQSOs, resetContest } = contestSlice.actions
 
 export const selectContestQSOs = (state) => {
   return state && state.contest.qsos

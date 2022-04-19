@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useMemo } from "react"
-import { Typography } from "@mui/material"
-import { useSelector } from "react-redux"
+import { Button, IconButton, Typography } from "@mui/material"
+import { useDispatch, useSelector } from "react-redux"
 import { makeStyles } from "@mui/styles"
+import ClearIcon from "@mui/icons-material/Clear"
 
 import commonStyles from "../../styles/common"
 
@@ -10,7 +11,7 @@ import { findContestInfoForId } from "@ham2k/data/contests"
 import { fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
 import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
 
-import { selectContestQSOs, selectContestRef, selectContestQSON } from "../../store/contest/contestSlice"
+import { selectContestQSOs, selectContestRef, selectContestQSON, resetContest } from "../../store/contest/contestSlice"
 import analyzeAll from "../../../analysis/analyzer"
 
 import { TimeAnalysis } from "./TimeAnalysis"
@@ -47,6 +48,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export function LogAnalysis() {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const qson = useSelector(selectContestQSON)
   const ref = useSelector(selectContestRef)
@@ -59,6 +61,10 @@ export function LogAnalysis() {
     return contest
   }, [qson])
 
+  const clickReset = () => {
+    dispatch(resetContest())
+  }
+
   const analysis = useMemo(() => analyzeAll(qson), [qson])
 
   if (!analysis || !ref) {
@@ -68,6 +74,11 @@ export function LogAnalysis() {
   return (
     <section className={classes.root}>
       <Typography component="h1" variant="h3">
+        <div style={{ float: "right" }}>
+          <Button startIcon={<ClearIcon />} onClick={clickReset}>
+            Reset
+          </Button>
+        </div>
         {ref.callsign}
         <i> in </i>
         {contest.longName}

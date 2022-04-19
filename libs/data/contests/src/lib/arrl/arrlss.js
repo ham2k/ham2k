@@ -31,10 +31,10 @@ class ARRLSSContestInfo extends BaseContestInfo {
     info.unique.qso = `${qso.their.call}`
 
     if (
-      (qso.our.entityPrefix !== "K" && qso.our.entityPrefix !== "VE") ||
-      (qso.their.entityPrefix !== "K" && qso.their.entityPrefix !== "VE")
+      (qso.our.entityPrefix[0] !== "K" && qso.our.entityPrefix !== "VE") ||
+      (qso.their.entityPrefix[0] !== "K" && qso.their.entityPrefix !== "VE")
     ) {
-      // Only K/VE contacts are valid
+      // Only K*/VE contacts are valid
       info.score.points = undefined
       return info
     }
