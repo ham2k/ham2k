@@ -34,9 +34,11 @@ export function PerCallSettings({ settings }) {
 
   if (settings?.call) {
     return (
-      <Grid container direction="row" justifyContent="start" alignItems="baseline" spacing={2}>
+      <Grid container direction="row" justifyContent="start" alignItems="start" spacing={2}>
         <Grid item>
-          <Typography variant="h6">Settings for {settings.call}</Typography>
+          <Typography variant="h6" sx={{ paddingTop: "0.7em" }}>
+            Settings for {settings.call}
+          </Typography>
         </Grid>
         <Grid item>
           <TextField
@@ -52,7 +54,7 @@ export function PerCallSettings({ settings }) {
             disablePortal
             id="per-call-timezone"
             options={LuxonTimezones}
-            getOptionLabel={(option) => option.replace(/_/g, " ").replace(/\//g, ": ")}
+            getOptionLabel={(option) => option.replace(/_/g, " ").replace(/\//g, ": ").replace("Etc: ", "")}
             isOptionEqualToValue={(option, value) => option === value}
             value={settings.tz || null}
             onChange={handleTZChange}
