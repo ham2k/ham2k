@@ -18,3 +18,11 @@ Your workspace is currently public. Anybody with code access can view the worksp
 You can connect the workspace to your Nx Cloud account at https://nx.app/orgs/workspace-setup?accessToken=YjQ3NjYwZDgtYmU2ZS00NjlkLTk4YjQtMjEyMmI3MzBkZGY2fHJlYWQtd3JpdGU=. (You can do this later.)
 
 ---
+
+# TODO
+
+---
+
+# Snippets
+
+`lines.map(line => { qso = {band: line[0].toLowerCase(), mode: "SSB", their: {call: line[1]}, our: {call:"KI2D"}}; contest.prepareOneQSO(qso); return [line[1], Number.parseInt(line[3]), contest.scoringInfoForQSO(qso), qso] }).filter(line => line[1] != line[2].score.points)`

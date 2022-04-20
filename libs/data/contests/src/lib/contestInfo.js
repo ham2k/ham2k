@@ -76,7 +76,7 @@ class BaseContestInfo {
   prepareOneQSO(qso) {
     if (!this.scoringScratchpad?.our?.prefix) {
       this.scoringScratchpad.our = { ...qso.our }
-      parseCallsign(this.scoringScratchpad.our.call)
+      parseCallsign(this.scoringScratchpad.our.call, this.scoringScratchpad.our)
       annotateFromCountryFile(this.scoringScratchpad.our)
     }
 
@@ -99,32 +99,41 @@ class BaseContestInfo {
 
   processOneQSO(qso) {
     this.prepareOneQSO(qso)
-    const scoringInfo = this.scoringInfoForQSO(qso)
-    const { score, unique } = scoringInfo
-    if (unique.qso) {
-      if (score.points === undefined) {
-        console.log("Invalid QSO", qso, scoringInfo)
-        this.addToSummary(qso, "invalid", 1)
-      } else if (this.scoring.uniqueIndex[unique.qso]) {
-        this.addToSummary(qso, "dupes", 1)
-      } else {
-        this.scoring.uniqueIndex[unique.qso] = true
-        this.addToSummary(qso, "qsos", 1)
 
-        const keys = Object.keys(score)
-        keys.forEach((key) => {
-          if (unique[key]) {
-            if (!this.scoring.uniqueIndex[unique[key]]) {
-              this.scoring.uniqueIndex[unique[key]] = true
+    let score, unique
+    if (qso?.their?.baseCall) {
+      const scoringInfo = this.scoringInfoForQSO(qso)
+      score = scoringInfo.score
+      unique = scoringInfo.unique
+
+      if (unique?.qso) {
+        if (score.points === undefined) {
+          console.log("Invalid QSO", qso)
+          this.addToSummary(qso, "invalid", 1)
+        } else if (this.scoring.uniqueIndex[unique.qso]) {
+          this.addToSummary(qso, "dupes", 1)
+        } else {
+          this.scoring.uniqueIndex[unique.qso] = true
+          this.addToSummary(qso, "qsos", 1)
+
+          const keys = Object.keys(score)
+          keys.forEach((key) => {
+            if (unique[key]) {
+              if (!this.scoring.uniqueIndex[unique[key]]) {
+                this.scoring.uniqueIndex[unique[key]] = true
+                this.scoring.score[key] = (this.scoring.score[key] || 0) + score[key]
+                this.addToSummary(qso, key, score[key])
+              }
+            } else {
               this.scoring.score[key] = (this.scoring.score[key] || 0) + score[key]
               this.addToSummary(qso, key, score[key])
             }
-          } else {
-            this.scoring.score[key] = (this.scoring.score[key] || 0) + score[key]
-            this.addToSummary(qso, key, score[key])
-          }
-        })
+          })
+        }
       }
+    } else {
+      console.log("Invalid Callsign", qso?.their)
+      this.addToSummary(qso, "invalid", 1)
     }
 
     const prevTotal = this.scoring.total

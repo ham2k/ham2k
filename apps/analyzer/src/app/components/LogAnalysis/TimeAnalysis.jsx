@@ -5,6 +5,7 @@ import SunCalc from "suncalc"
 
 import { fmtContestTimestampZulu, fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
 import { fmtInteger, fmtOneDecimal, fmtPercent } from "../../utils/format/number"
+import { constants } from "buffer"
 
 export function TimeAnalysis({ qson, analysis, contest, contestRef, settings }) {
   const contestPeriodInfo = useMemo(() => {
@@ -26,7 +27,7 @@ export function TimeAnalysis({ qson, analysis, contest, contestRef, settings }) 
   }
 
   let sun
-  if (grid.lat && grid.lon) {
+  if (grid.lat && grid.lon && contest?.periods && contest.periods[0] && contest.periods[0][0]) {
     const date = Date.parse(contest.periods[0][0])
     sun = SunCalc.getTimes(date, grid.lat, grid.lon)
   }

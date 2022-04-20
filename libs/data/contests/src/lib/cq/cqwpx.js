@@ -33,7 +33,7 @@ class CQWPXContestInfo extends BaseContestInfo {
     const info = { unique: {}, score: {} }
 
     // V-B. QSO Points: A station may be worked once on each band for QSO point credit:
-    info.unique.qso = `${qso.their.call}-${qso.band}-${qso.mode}`
+    info.unique.qso = `${qso.their.call}-${qso.band}}`
 
     if (qso.their.entityPrefix === qso.our.entityPrefix) {
       // V-B-3. Contacts between stations in the same country are worth 1 point regardless of band.
@@ -62,9 +62,9 @@ class CQWPXContestInfo extends BaseContestInfo {
 
     // V-C. Prefix Multipliers: The prefix multiplier is the number of valid prefixes worked.
     // Each PREFIX is counted only once regardless of the band or number of times the same prefix is worked.
-    info.unique.prefixes = `${qso.their.cqPrefix || qso.their.prefix}`
+    info.unique.prefixes = qso.their.extendedPrefix || qso.their.prefix
     info.score.prefixes = 1
-
+    console.log(qso, info)
     return info
   }
 

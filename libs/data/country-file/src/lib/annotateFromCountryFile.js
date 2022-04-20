@@ -5,7 +5,7 @@ function setCountryFileData(indexes) {
 }
 
 function annotateFromCountryFile(info, options = {}) {
-  const { call, baseCall, prefix, preindicator } = info
+  const { call, baseCall, prefix } = info
   let match
 
   match = CTYIndexes.exact[call]
