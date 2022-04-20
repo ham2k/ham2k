@@ -83,7 +83,7 @@ const REGEXP_FOR_OPERATOR_LIST = /(,\s*|\s+)/
 function normalizeContestInfo(headers) {
   const info = {}
   info.contest = headers.contest
-  if (headers.callsign) info.callsign = headers.callsign
+  if (headers.callsign) info.call = headers.callsign
   if (headers.operators) info.operators = headers.operators.split(REGEXP_FOR_OPERATOR_LIST)
   if (headers.location) info.location = headers.location
   if (headers.gridLocation) info.grid = headers.gridLocation

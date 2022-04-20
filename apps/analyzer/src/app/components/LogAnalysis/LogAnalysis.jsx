@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useMemo } from "react"
-import { Button, IconButton, Typography } from "@mui/material"
+import { Button, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { makeStyles } from "@mui/styles"
 import ClearIcon from "@mui/icons-material/Clear"
@@ -18,6 +18,8 @@ import { TimeAnalysis } from "./TimeAnalysis"
 import { ChartQSOs } from "./ChartQSOs"
 import { LogSummary } from "./LogSummary"
 import { TopTenCallsigns, TopTenContinents, TopTenCQZones, TopTenEntities, TopTenITUZones } from "./TopTenLists"
+import { selectPerCallSettings } from "../../store/settings"
+import { PerCallSettings } from "./PerCallSettings"
 
 const useStyles = makeStyles((theme) => ({
   ...commonStyles(theme),
@@ -54,6 +56,7 @@ export function LogAnalysis() {
   const ref = useSelector(selectContestRef)
   const qsos = useSelector(selectContestQSOs)
   const contestRef = useMemo(() => qson?.refs && qson.refs.find((ref) => ref.contest), [qson])
+  const perCallSettings = useSelector(selectPerCallSettings(contestRef?.call))
   const contest = useMemo(() => {
     const ref = qson?.refs && qson.refs.find((ref) => ref.contest)
     const contest = ref && findContestInfoForId(ref.contest, { near: qson.qsos[0].start })
@@ -79,7 +82,7 @@ export function LogAnalysis() {
             Reset
           </Button>
         </div>
-        {ref.callsign}
+        {ref.call}
         <i> in </i>
         {contest.longName}
         {analysis.times && analysis.times.periods ? (
@@ -97,11 +100,25 @@ export function LogAnalysis() {
         {fmtInteger(contest?.scoringResults?.total || 0)}
       </p>
 
-      <LogSummary qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} />
+      <PerCallSettings settings={perCallSettings} contestRef={contestRef} />
 
-      <ChartQSOs qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} />
+      <LogSummary
+        qson={qson}
+        analysis={analysis}
+        contest={contest}
+        contestRef={contestRef}
+        settings={perCallSettings}
+      />
 
-      <TimeAnalysis qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} />
+      <ChartQSOs qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} settings={perCallSettings} />
+
+      <TimeAnalysis
+        qson={qson}
+        analysis={analysis}
+        contest={contest}
+        contestRef={contestRef}
+        settings={perCallSettings}
+      />
 
       <h2>QSOs</h2>
       <TopTenEntities dxcc={analysis.calls.dxcc} />

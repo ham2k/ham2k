@@ -1,9 +1,12 @@
 import { Typography } from "@mui/material"
 import React, { useMemo } from "react"
+import Maidenhead from "maidenhead"
+import SunCalc from "suncalc"
+
 import { fmtContestTimestampZulu, fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
 import { fmtInteger, fmtOneDecimal, fmtPercent } from "../../utils/format/number"
 
-export function TimeAnalysis({ qson, analysis, contest, contestRef }) {
+export function TimeAnalysis({ qson, analysis, contest, contestRef, settings }) {
   const contestPeriodInfo = useMemo(() => {
     const info = { periods: [], total: 0 }
     info.periods = contest?.periods || []
@@ -14,6 +17,19 @@ export function TimeAnalysis({ qson, analysis, contest, contestRef }) {
     )
     return info
   }, [contest])
+
+  const grid = new Maidenhead()
+  try {
+    grid.locator = settings?.grid
+  } catch (error) {
+    // Ignore grid location
+  }
+
+  let sun
+  if (grid.lat && grid.lon) {
+    const date = Date.parse(contest.periods[0][0])
+    sun = SunCalc.getTimes(date, grid.lat, grid.lon)
+  }
 
   return (
     <div>
@@ -28,6 +44,13 @@ export function TimeAnalysis({ qson, analysis, contest, contestRef }) {
         contestRef={contestRef}
       />
 
+      {sun ? (
+        <p>
+          Sunset: {fmtContestTimestampZulu(sun.sunset)} — Sunrise: {fmtContestTimestampZulu(sun.sunrise)}
+        </p>
+      ) : (
+        <p>Please enter a grid square location in settings to calculate sunset and sunrise times.</p>
+      )}
       {analysis.times && analysis.times.periods ? (
         analysis.times.periods.map((period) => (
           <p key={period.startMillis} style={{ marginLeft: "1em" }}>
@@ -66,7 +89,7 @@ function ExpandOnTimes({ contestPeriodInfo, contest, analysis, contestRef }) {
 
     sentences.push(
       <>
-        {contestRef?.callsign} <b>operated for {fmtMinutesAsHM(analysis.times.activeMinutes)}</b> (
+        {contestRef?.call} <b>operated for {fmtMinutesAsHM(analysis.times.activeMinutes)}</b> (
         {fmtPercent(analysis.times.activeMinutes / contestPeriodInfo.totalMinutes, "integer")} of allowed time){" "}
         {analysis.times.inactiveMinutes > 0 ? (
           <span>with {fmtMinutesAsHM(analysis.times.inactiveMinutes)} of breaks.</span>
@@ -78,7 +101,7 @@ function ExpandOnTimes({ contestPeriodInfo, contest, analysis, contestRef }) {
   } else {
     sentences.push(
       <>
-        {contestRef?.callsign} <b>operated for {fmtMinutesAsHM(analysis.times.activeMinutes)}</b>,{" "}
+        {contestRef?.call} <b>operated for {fmtMinutesAsHM(analysis.times.activeMinutes)}</b>,{" "}
         {analysis.times.inactiveMinutes > 0 ? (
           <span>with {fmtMinutesAsHM(analysis.times.inactiveMinutes)} of breaks.</span>
         ) : (

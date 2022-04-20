@@ -2,24 +2,20 @@ import React from "react"
 import { fmtContestTimestampZulu } from "../../utils/format/dateTime"
 import ApexChart from "react-apexcharts"
 import SunCalc from "suncalc"
-import { DateTime } from "luxon"
+import Maidenhead from "maidenhead"
+
 import { Typography } from "@mui/material"
 import { BAND_COLORS } from "../../styles/bandColors"
 
-export function ChartQSOs({ analysis, contest, qson }) {
+export function ChartQSOs({ analysis, contest, qson, settings }) {
   const height = 300
 
-  let qthLat = (qson.qsos && qson.qsos[0].our.lat) || 41
-  let qthLon = (qson.qsos && qson.qsos[0].our.lon) || -74
-  let qthTZ = (qson.qsos && qson.qsos[0].our.gmtOffset) || "America/New_York"
-
-  qthLat = 41.70168092475149
-  qthLon = -74.55250628884201
-  qthTZ = "America/New_York"
-
-  // let qthLat = 37.49789779972847
-  // const qthLon = -122.47404265443625
-  // const qthTZ = "America/Los_Angeles"
+  const grid = new Maidenhead()
+  try {
+    grid.locator = settings?.grid
+  } catch (error) {
+    // Ignore grid location
+  }
 
   if (!analysis?.qsos?.bins || !analysis.rates?.all) {
     return null
@@ -70,36 +66,6 @@ export function ChartQSOs({ analysis, contest, qson }) {
       name: "160m",
       data: bins.map((bin, i) => ({ x: bin.startMillis, y: bin.qsos["160m"] || null, bin })),
     },
-    {
-      type: "area",
-      name: "Night",
-      data: completeBins.map((bin, i) => {
-        const date = new Date(bin.startMillis)
-        const sun = SunCalc.getTimes(date, qthLat, qthLon)
-        const minutesToSunrise = (bin.startMillis - sun.sunrise.valueOf()) / (60 * 1000)
-        const minutesToSunset = (bin.startMillis - sun.sunset.valueOf()) / (60 * 1000)
-
-        if (minutesToSunset < minutesToSunrise && minutesToSunset > 0) {
-          if (minutesToSunset <= -30) return { x: bin.startMillis, y: 0 }
-          if (minutesToSunset <= 0) return { x: bin.startMillis, y: 5 }
-          if (minutesToSunset <= 15) return { x: bin.startMillis, y: 20 }
-          if (minutesToSunset <= 30) return { x: bin.startMillis, y: 40 }
-          if (minutesToSunset <= 45) return { x: bin.startMillis, y: 60 }
-          if (minutesToSunset <= 60) return { x: bin.startMillis, y: 80 }
-          if (minutesToSunset <= 75) return { x: bin.startMillis, y: 95 }
-          else return { x: bin.startMillis, y: 100 }
-        } else {
-          if (minutesToSunrise <= -75) return { x: bin.startMillis, y: 100 }
-          if (minutesToSunrise <= -60) return { x: bin.startMillis, y: 95 }
-          if (minutesToSunrise <= -45) return { x: bin.startMillis, y: 80 }
-          if (minutesToSunrise <= -30) return { x: bin.startMillis, y: 60 }
-          if (minutesToSunrise <= -15) return { x: bin.startMillis, y: 40 }
-          if (minutesToSunrise <= 0) return { x: bin.startMillis, y: 20 }
-          if (minutesToSunrise <= 15) return { x: bin.startMillis, y: 5 }
-          else return { x: bin.startMillis, y: 0 }
-        }
-      }),
-    },
   ]
 
   const options = {
@@ -124,11 +90,11 @@ export function ChartQSOs({ analysis, contest, qson }) {
       },
     },
     stroke: {
-      width: [0, 0, 0, 0, 0, 0, 0],
-      curve: ["straight", "straight", "straight", "straight", "straight", "straight", "straight"],
+      width: [0, 0, 0, 0, 0, 0],
+      curve: ["straight", "straight", "straight", "straight", "straight", "straight"],
     },
     fill: {
-      opacity: [1, 1, 1, 1, 1, 1, 0.5],
+      opacity: [1, 1, 1, 1, 1, 1],
     },
     colors: [
       BAND_COLORS["10m"],
@@ -137,7 +103,6 @@ export function ChartQSOs({ analysis, contest, qson }) {
       BAND_COLORS["40m"],
       BAND_COLORS["80m"],
       BAND_COLORS["160m"],
-      "#C0C0C0",
     ],
     responsive: [
       {
@@ -193,7 +158,6 @@ export function ChartQSOs({ analysis, contest, qson }) {
       { seriesName: "10m", show: false, min: 0, max: maxQSOs },
       { seriesName: "10m", show: false, min: 0, max: maxQSOs },
       { seriesName: "10m", show: false, min: 0, max: maxQSOs },
-      { seriesName: "Night", opposite: true, show: false, min: 0, max: 100 },
     ],
     legend: {
       position: "right",
@@ -201,6 +165,44 @@ export function ChartQSOs({ analysis, contest, qson }) {
       showForNullSeries: false,
       inverseOrder: true,
     },
+  }
+
+  if (grid.lat && grid.lon) {
+    options.stroke.width.push(0)
+    options.stroke.curve.push("straight")
+    options.fill.opacity.push(0.5)
+    options.colors.push("#C0C0C0")
+    options.yaxis.push({ seriesName: "Night", opposite: true, show: false, min: 0, max: 100 })
+    series.push({
+      type: "area",
+      name: "Night",
+      data: completeBins.map((bin, i) => {
+        const date = new Date(bin.startMillis)
+        const sun = SunCalc.getTimes(date, grid.lat, grid.lon)
+        const minutesToSunrise = (bin.startMillis - sun.sunrise.valueOf()) / (60 * 1000)
+        const minutesToSunset = (bin.startMillis - sun.sunset.valueOf()) / (60 * 1000)
+
+        if (minutesToSunset < minutesToSunrise && minutesToSunset > 0) {
+          if (minutesToSunset <= -30) return { x: bin.startMillis, y: 0 }
+          if (minutesToSunset <= 0) return { x: bin.startMillis, y: 5 }
+          if (minutesToSunset <= 15) return { x: bin.startMillis, y: 20 }
+          if (minutesToSunset <= 30) return { x: bin.startMillis, y: 40 }
+          if (minutesToSunset <= 45) return { x: bin.startMillis, y: 60 }
+          if (minutesToSunset <= 60) return { x: bin.startMillis, y: 80 }
+          if (minutesToSunset <= 75) return { x: bin.startMillis, y: 95 }
+          else return { x: bin.startMillis, y: 100 }
+        } else {
+          if (minutesToSunrise <= -75) return { x: bin.startMillis, y: 100 }
+          if (minutesToSunrise <= -60) return { x: bin.startMillis, y: 95 }
+          if (minutesToSunrise <= -45) return { x: bin.startMillis, y: 80 }
+          if (minutesToSunrise <= -30) return { x: bin.startMillis, y: 60 }
+          if (minutesToSunrise <= -15) return { x: bin.startMillis, y: 40 }
+          if (minutesToSunrise <= 0) return { x: bin.startMillis, y: 20 }
+          if (minutesToSunrise <= 15) return { x: bin.startMillis, y: 5 }
+          else return { x: bin.startMillis, y: 0 }
+        }
+      }),
+    })
   }
 
   return (

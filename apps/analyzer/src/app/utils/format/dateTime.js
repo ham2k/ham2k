@@ -28,7 +28,9 @@ const AFTER_FORMATS = {
 
 function dateFormatterGenerator(format) {
   return (dt) => {
-    if (typeof dt === "string") {
+    if (dt instanceof Date) {
+      dt = DateTime.fromISO(dt.toISOString())
+    } else if (typeof dt === "string") {
       dt = DateTime.parse(dt)
     } else if (typeof dt === "number") {
       dt = DateTime.fromMillis(dt)
