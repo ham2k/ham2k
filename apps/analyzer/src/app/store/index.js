@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
 import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
-import storage from "redux-persist/lib/storage" // defaults to localStorage for web
+// import storage from "redux-persist/lib/storage" // defaults to localStorage for web
+import localforage from "localforage"
 
 import contestReducer from "./contest"
 import settingsReducer from "./settings"
@@ -12,7 +13,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: localforage,
   whitelist: ["contest", "settings"],
 }
 
@@ -22,9 +23,7 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
       immutableCheck: false,
     }),
 })
