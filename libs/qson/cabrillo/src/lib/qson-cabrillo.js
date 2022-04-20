@@ -9,6 +9,14 @@ const REGEXP_FOR_END_OF_LINE = /\r?\n/
 const REGEXP_FOR_LINE_TAG = /^([A-Z-]+):\s*(.*)\s*$/
 const REGEXP_FOR_LINE_PARTS = /\s+/
 
+const CABRILLO_MODES_TO_QSON_MODES = {
+  RY: "RTTY",
+  CW: "CQ",
+  PH: "SSB",
+  FM: "FM",
+  DG: "DIGI",
+}
+
 function parseCabrillo(str) {
   const cache = {}
   const headers = {}
@@ -61,7 +69,7 @@ function parseCabrilloQSO(parts, headers, cache) {
 
   qso.freq = parseFrequency(parts[0])
   qso.band = bandForFrequency(qso.freq)
-  qso.mode = parts[1]
+  qso.mode = CABRILLO_MODES_TO_QSON_MODES[parts[1]] || parts[1]
   qso.start = `${parts[2]}T${parts[3].substring(0, 2)}:${parts[3].substring(2, 4)}:00Z`
   qso.startMillis = Date.parse(qso.start).valueOf()
   if (cache.hasTransmitterId) {

@@ -30,6 +30,8 @@ class CQWPXContestInfo extends BaseContestInfo {
   }
 
   scoringInfoForQSO(qso) {
+    // Please note that the RTTY has slightly diferent scoring, in case you modify this method.
+
     const info = { unique: {}, score: {} }
 
     // V-B. QSO Points: A station may be worked once on each band for QSO point credit:
@@ -37,7 +39,11 @@ class CQWPXContestInfo extends BaseContestInfo {
 
     if (qso.their.entityPrefix === qso.our.entityPrefix) {
       // V-B-3. Contacts between stations in the same country are worth 1 point regardless of band.
-      info.score.points = 1
+      if (qso.band === "160m" || qso.band === "80m" || qso.band === "40m") {
+        info.score.points = qso.mode == MODES.RTTY ? 2 : 1
+      } else {
+        info.score.points = qso.mode == MODES.RTTY ? 1 : 1
+      }
     } else if (qso.their.continent != qso.our.continent) {
       // V-B-1. Contacts between stations on different continents are worth three (3) points on 28, 21,
       // and 14 MHz and six (6) points on 7, 3.5, and 1.8 MHz.
@@ -54,9 +60,9 @@ class CQWPXContestInfo extends BaseContestInfo {
       // and four (4) points on 7, 3.5, and 1.8 MHz.
 
       if (qso.band === "160m" || qso.band === "80m" || qso.band === "40m") {
-        info.score.points = qso.their.continent == "NA" ? 4 : 2
+        info.score.points = qso.their.continent == "NA" || qso.mode == MODES.RTTY ? 4 : 2
       } else {
-        info.score.points = qso.their.continent == "NA" ? 2 : 1
+        info.score.points = qso.their.continent == "NA" || qso.mode == MODES.RTTY ? 2 : 1
       }
     }
 
@@ -64,7 +70,7 @@ class CQWPXContestInfo extends BaseContestInfo {
     // Each PREFIX is counted only once regardless of the band or number of times the same prefix is worked.
     info.unique.prefixes = qso.their.extendedPrefix || qso.their.prefix
     info.score.prefixes = 1
-    console.log(qso, info)
+
     return info
   }
 
@@ -127,6 +133,9 @@ class CQWPXRTTYContestInfo extends CQWPXContestInfo {
   }
   get longName() {
     return "CQ WPX Contest - RTTY"
+  }
+  get bands() {
+    return ["80m", "40m", "20m", "15m", "10m"] // No 160m for RTTY
   }
   get modes() {
     return [MODES.RTTY]
