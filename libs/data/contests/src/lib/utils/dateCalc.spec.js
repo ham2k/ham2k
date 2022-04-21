@@ -1,4 +1,10 @@
-const { lastFullWeekendInMonth, nthFullWeekendInMonth, roundDateToMonth, MONTHS } = require("./dateCalc")
+const {
+  lastFullWeekendInMonth,
+  lastSaturdayWeekendInMonth,
+  nthFullWeekendInMonth,
+  roundDateToMonth,
+  MONTHS,
+} = require("./dateCalc")
 const { DateTime } = require("luxon")
 
 describe("nthFullWeekendInMonth", () => {
@@ -113,6 +119,63 @@ describe("lastFullWeekendInMonth", () => {
   })
 })
 
+describe("lastSaturdayWeekendInMonth", () => {
+  it("should work", () => {
+    const days = lastSaturdayWeekendInMonth(DateTime.utc(2022, 1))
+    expect(days[0].toISO()).toEqual("2022-01-29T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2022-01-30T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Monday", () => {
+    const days = lastSaturdayWeekendInMonth("2021-05-01")
+    expect(days[0].toISO()).toEqual("2021-05-29T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2021-05-30T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Tuesday", () => {
+    const days = lastSaturdayWeekendInMonth("2021-11-01")
+    expect(days[0].toISO()).toEqual("2021-11-27T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2021-11-28T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Wednesday", () => {
+    const days = lastSaturdayWeekendInMonth("2021-06-01")
+    expect(days[0].toISO()).toEqual("2021-06-26T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2021-06-27T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Thursday", () => {
+    const days = lastFullWeekendInMonth("2021-09-01")
+    expect(days[0].toISO()).toEqual("2021-09-25T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2021-09-26T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Friday", () => {
+    const days = lastFullWeekendInMonth("2021-12-01")
+    expect(days[0].toISO()).toEqual("2021-12-25T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2021-12-26T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Friday", () => {
+    const days = lastSaturdayWeekendInMonth("2022-04-01")
+    expect(days[0].toISO()).toEqual("2022-04-30T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2022-05-01T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Saturday", () => {
+    const days = lastSaturdayWeekendInMonth("2022-04-01")
+    expect(days[0].toISO()).toEqual("2022-04-30T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2022-05-01T23:59:59.999Z")
+  })
+
+  it("should work when the month ends on a Sunday", () => {
+    const days = lastSaturdayWeekendInMonth("2021-10-01")
+    expect(days[0].toISO()).toEqual("2021-10-30T00:00:00.000Z")
+    expect(days[1].toISO()).toEqual("2021-10-31T23:59:59.999Z")
+  })
+  lastSaturdayWeekendInMonth
+})
+
 describe("roundDateToMonth", () => {
   it("should work", () => {
     expect(roundDateToMonth("2022-03-01", MONTHS.January).toISO()).toEqual("2022-01-01T00:00:00.000Z")
@@ -154,5 +217,10 @@ describe("roundDateToMonth", () => {
     expect(roundDateToMonth("2022-08-31", MONTHS.October).toISO()).toEqual("2022-10-31T00:00:00.000Z")
     expect(roundDateToMonth("2022-08-31", MONTHS.November).toISO()).toEqual("2022-11-30T00:00:00.000Z")
     expect(roundDateToMonth("2022-08-31", MONTHS.December).toISO()).toEqual("2022-12-31T00:00:00.000Z")
+  })
+
+  it("should accept multiple months", () => {
+    expect(roundDateToMonth("2022-08-31", [MONTHS.March, MONTHS.December]).toISO()).toEqual("2022-12-31T00:00:00.000Z")
+    expect(roundDateToMonth("2022-06-30", [MONTHS.March, MONTHS.December]).toISO()).toEqual("2022-03-30T00:00:00.000Z")
   })
 })

@@ -25,6 +25,7 @@ function parseCabrillo(str) {
 
   const lines = str.split(REGEXP_FOR_END_OF_LINE)
   lines.forEach((line) => {
+    line = line.toUpperCase()
     const matches = line.match(REGEXP_FOR_LINE_TAG)
     if (matches) {
       const tag = camelCase(matches[1])
@@ -112,7 +113,7 @@ function selectContestSplitter(headers) {
   } else if (contest.match(/^ARRL-FD-/)) {
     fields = ["category", "section"]
   } else if (contest.match(/^NAQP-/)) {
-    fields = ["name", "state"]
+    fields = ["name", "location"]
   } else if (contest.match(/^CQ-VHF-/)) {
     fields = ["rst", "grid"]
   } else if (contest.match(/^ARRL-DX-/)) {

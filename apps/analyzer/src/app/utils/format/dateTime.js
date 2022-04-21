@@ -20,6 +20,15 @@ const FORMATS = {
     year: "numeric",
     month: "long",
   },
+  niceDateTime: {
+    weekday: "short",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    timeZoneName: "short",
+  },
 }
 
 const AFTER_FORMATS = {
@@ -31,7 +40,7 @@ function dateFormatterGenerator(format) {
     if (dt instanceof Date) {
       dt = DateTime.fromISO(dt.toISOString())
     } else if (typeof dt === "string") {
-      dt = DateTime.parse(dt)
+      dt = DateTime.fromISO(dt)
     } else if (typeof dt === "number") {
       dt = DateTime.fromMillis(dt)
     }
@@ -44,7 +53,7 @@ function dateFormatterGenerator(format) {
 
 export function fmtDateTime(dt, format) {
   if (typeof dt === "string") {
-    dt = DateTime.parse(dt)
+    dt = DateTime.fromISO(dt)
   } else if (typeof dt === "number") {
     dt = DateTime.fromMillis(dt)
   }

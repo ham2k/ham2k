@@ -3,7 +3,7 @@ import React, { useMemo } from "react"
 import Maidenhead from "maidenhead"
 import SunCalc from "suncalc"
 
-import { fmtContestTimestampZulu, fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
+import { fmtContestTimestampZulu, fmtDateMonthYear, fmtDateTime, fmtMinutesAsHM } from "../../utils/format/dateTime"
 import { fmtInteger, fmtOneDecimal, fmtPercent } from "../../utils/format/number"
 import { constants } from "buffer"
 
@@ -72,7 +72,13 @@ function ExpandOnTimes({ contestPeriodInfo, contest, analysis, contestRef }) {
   if (contestPeriodInfo.periods.length > 0) {
     sentence.push(
       <span key="a">
-        Contest goes for <b>{fmtInteger(contestPeriodInfo.totalMinutes / 60)} hours</b>
+        Contest goes for <b>{fmtInteger(contestPeriodInfo.totalMinutes / 60)} hours</b> from{" "}
+        {fmtDateTime(contestPeriodInfo.periods[0][0], "niceDateTime")} to{" "}
+        {fmtDateTime(contestPeriodInfo.periods[contestPeriodInfo.periods.length - 1][1], "niceDateTime")}
+        {" ("}
+        {fmtContestTimestampZulu(contestPeriodInfo.periods[0][0], "niceDateTime")}
+        {" to "}
+        {fmtContestTimestampZulu(contestPeriodInfo.periods[contestPeriodInfo.periods.length - 1][1], "niceDateTime")})
       </span>
     )
 
