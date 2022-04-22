@@ -5,6 +5,7 @@ const { ARRLDXCWContestInfo, ARRLDXSSBContestInfo } = require("./arrl/arrldx")
 const { ARRLSSSSBContestInfo, ARRLSSCWContestInfo } = require("./arrl/arrlss")
 const { IARUHFContestInfo } = require("./arrl/iaru")
 const { NAQPCWContestInfo, NAQPSSBContestInfo, NAQPRTTYContestInfo } = require("./ncj/naqp")
+const { NYQPContestInfo } = require("./qp/nyqp")
 
 const CONTEST_MAP = {
   "CQ-WPX-SSB": CQWPXSSBContestInfo,
@@ -21,6 +22,7 @@ const CONTEST_MAP = {
   "NAQP-SSB": NAQPSSBContestInfo,
   "NAQP-CW": NAQPCWContestInfo,
   "NAQP-RTTY": NAQPRTTYContestInfo,
+  "NY-QSO-PARTY": NYQPContestInfo,
 }
 
 function findContestInfoForId(id, options = {}) {

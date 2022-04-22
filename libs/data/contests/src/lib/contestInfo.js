@@ -107,7 +107,7 @@ class BaseContestInfo {
       unique = scoringInfo.unique
 
       if (unique?.qso) {
-        if (score.points === undefined) {
+        if (score.points === undefined || score.points === null) {
           console.log("Invalid QSO", qso)
           this.addToSummary(qso, "invalid", 1)
         } else if (this.scoring.uniqueIndex[unique.qso]) {

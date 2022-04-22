@@ -58,14 +58,13 @@ export function LogLoader() {
           </p>
           <hr />
           <p>Your files will be processed locally on your own browser, nothing will be uploaded anywhere.</p>
-          <p>
-            We can analyze any Cabrillo file, but we provide deeper analysis for the following contests:
-            <ul>
-              <li>ARRL DX, Sweepstakes, IARU HF</li>
-              <li>CQ WW, WPX, WW VHF</li>
-            </ul>
-            We'll be adding more soon.
-          </p>
+          <p>We can analyze any Cabrillo file, but we provide deeper analysis for the following contests:</p>
+          <ul>
+            <li>ARRL DX, Sweepstakes, IARU HF</li>
+            <li>CQ WW, WPX, WW VHF</li>
+            <li>QSO Parties: North America, NY</li>
+          </ul>
+          We'll be adding more soon.
         </div>
       )}
     </section>

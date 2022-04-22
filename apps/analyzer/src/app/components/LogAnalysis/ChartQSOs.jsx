@@ -23,7 +23,7 @@ export function ChartQSOs({ analysis, contest, qson, settings }) {
   const bins = Object.values(analysis.qsos.bins)
 
   const periods = contest.periods
-  console.log(periods)
+
   const completeBins = []
   let startMillis = periods && periods[0] ? new Date(periods[0][0]).valueOf() : bins[0].startMillis
   let lastMillis =

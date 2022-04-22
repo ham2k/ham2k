@@ -11,7 +11,7 @@ const REGEXP_FOR_LINE_PARTS = /\s+/
 
 const CABRILLO_MODES_TO_QSON_MODES = {
   RY: "RTTY",
-  CW: "CQ",
+  CW: "CW",
   PH: "SSB",
   FM: "FM",
   DG: "DIGI",
@@ -114,6 +114,8 @@ function selectContestSplitter(headers) {
     fields = ["category", "section"]
   } else if (contest.match(/^NAQP-/)) {
     fields = ["name", "location"]
+  } else if (contest.match(/QSO-PARTY/)) {
+    fields = ["rst", "location"]
   } else if (contest.match(/^CQ-VHF-/)) {
     fields = ["rst", "grid"]
   } else if (contest.match(/^ARRL-DX-/)) {

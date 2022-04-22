@@ -28,7 +28,7 @@ class IARUHFContestInfo extends BaseContestInfo {
     return "IARU HF Championship"
   }
   get modes() {
-    return [MODES.SSB, MODES.CW]
+    return [MODES.SSB, MODES.CW, MODES.Mixed]
   }
   get periods() {
     const date = roundDateToMonth(this.options.near, MONTHS.July)
