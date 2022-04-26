@@ -20,7 +20,7 @@ function annotateFromCountryFile(info, options = {}) {
   if (!match) {
     // If call had an prefix or postfix modifier that replaces the call prefix, then use that for lookup,
     // otherwise use the base part of the callsign, which has been stripped out of any other indicators
-    let effectiveCall = baseCall || call
+    let effectiveCall = baseCall || call || ""
     if (prefix && effectiveCall && !effectiveCall.startsWith(prefix)) effectiveCall = prefix
 
     let i = effectiveCall.length

@@ -18,8 +18,8 @@ export function TopTenEntities({ dxcc }) {
             {sorted.slice(0, 10).map((pair) => (
               <tr key={pair[0]}>
                 <td align="right">{pair[1]}</td>
-                <td>{ENTITIES[pair[0]].flag}</td>
-                <td>{ENTITIES[pair[0]].name}</td>
+                <td>{ENTITIES[pair[0]]?.flag}</td>
+                <td>{ENTITIES[pair[0]]?.name}</td>
               </tr>
             ))}
           </tbody>
@@ -71,7 +71,7 @@ export function TopTenCallsigns({ calls }) {
               return (
                 <tr key={pair[0]}>
                   <td align="right">{pair[1]}</td>
-                  <td>{ENTITIES[callInfo.dxccCode].flag}</td>
+                  <td>{ENTITIES[callInfo.dxccCode]?.flag}</td>
                   <td>{pair[0]}</td>
                 </tr>
               )
