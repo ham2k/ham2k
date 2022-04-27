@@ -1,11 +1,11 @@
 import React from "react"
-import { fmtContestTimestampZulu } from "../../utils/format/dateTime"
+import { fmtContestTimestampZulu } from "../../../../utils/format/dateTime"
 import ApexChart from "react-apexcharts"
 import SunCalc from "suncalc"
 import Maidenhead from "maidenhead"
 
 import { Typography } from "@mui/material"
-import { BAND_COLORS } from "../../styles/bandColors"
+import { BAND_COLORS } from "../../../styles/bandColors"
 
 export function ChartQSOs({ analysis, contest, qson, settings }) {
   const height = 300

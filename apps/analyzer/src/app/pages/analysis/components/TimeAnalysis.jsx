@@ -3,8 +3,13 @@ import React, { useMemo } from "react"
 import Maidenhead from "maidenhead"
 import SunCalc from "suncalc"
 
-import { fmtContestTimestampZulu, fmtDateMonthYear, fmtDateTime, fmtMinutesAsHM } from "../../utils/format/dateTime"
-import { fmtInteger, fmtOneDecimal, fmtPercent } from "../../utils/format/number"
+import {
+  fmtContestTimestampZulu,
+  fmtDateMonthYear,
+  fmtDateTime,
+  fmtMinutesAsHM,
+} from "../../../../utils/format/dateTime"
+import { fmtInteger, fmtOneDecimal, fmtPercent } from "../../../../utils/format/number"
 import { constants } from "buffer"
 
 export function TimeAnalysis({ qson, analysis, contest, contestRef, settings }) {

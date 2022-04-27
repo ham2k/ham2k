@@ -1,10 +1,10 @@
 import React from "react"
 import { Typography } from "@mui/material"
 import { makeStyles } from "@mui/styles"
-import commonStyles from "../../styles/common"
+import commonStyles from "../../../styles/common"
 import classNames from "classnames"
-import { BAND_COLORS } from "../../styles/bandColors"
-import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
+import { BAND_COLORS } from "../../../styles/bandColors"
+import { fmtInteger, fmtOneDecimal } from "../../../../utils/format/number"
 
 const styles = {
   table: {

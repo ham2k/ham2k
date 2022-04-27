@@ -7,9 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 
 import commonStyles from "./styles/common"
 
-import { LogLoader } from "./components/LogLoader"
-import { LogAnalysis } from "./components/LogAnalysis"
-// import { LogAnalysis } from "./components/LogAnalysis"
+import { ContentRoutes } from "./routes"
 
 /* https://material.io/resources/color/ */
 let baseTheme = createTheme({
@@ -19,7 +17,7 @@ let baseTheme = createTheme({
     },
   },
 })
-// baseTheme = responsiveFontSizes(baseTheme)
+baseTheme = responsiveFontSizes(baseTheme)
 
 const useStyles = makeStyles((theme) => ({
   ...commonStyles(theme),
@@ -102,8 +100,7 @@ export function App() {
       </AppBar>
       <div className={classes.contentWrapper}>
         <Container className={classes.content}>
-          <LogAnalysis />
-          <LogLoader />
+          <ContentRoutes />
         </Container>
       </div>
       <footer className={classes.footer}>

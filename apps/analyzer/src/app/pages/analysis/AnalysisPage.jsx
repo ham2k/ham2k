@@ -1,25 +1,32 @@
 /* eslint-disable no-unused-vars */
 import React, { useMemo } from "react"
-import { Button, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { makeStyles } from "@mui/styles"
-import ClearIcon from "@mui/icons-material/Clear"
 
 import commonStyles from "../../styles/common"
 
 import { findContestInfoForId } from "@ham2k/data/contests"
-import { fmtDateMonthYear, fmtMinutesAsHM } from "../../utils/format/dateTime"
-import { fmtInteger, fmtOneDecimal } from "../../utils/format/number"
+import { fmtDateMonthYear, fmtMinutesAsHM } from "../../../utils/format/dateTime"
+import { fmtInteger, fmtOneDecimal } from "../../../utils/format/number"
 
 import { selectContestQSOs, selectContestRef, selectContestQSON, resetContest } from "../../store/contest/contestSlice"
+import { selectPerCallSettings } from "../../store/settings"
 import analyzeAll from "../../../analysis/analyzer"
 
-import { TimeAnalysis } from "./TimeAnalysis"
-import { ChartQSOs } from "./ChartQSOs"
-import { LogSummary } from "./LogSummary"
-import { TopTenCallsigns, TopTenContinents, TopTenCQZones, TopTenEntities, TopTenITUZones } from "./TopTenLists"
-import { selectPerCallSettings } from "../../store/settings"
-import { PerCallSettings } from "./PerCallSettings"
+import { LogLoader } from "../../components/LogLoader"
+import { LogResetter } from "../../components/LogResetter"
+import { TimeAnalysis } from "./components/TimeAnalysis"
+import { ChartQSOs } from "./components/ChartQSOs"
+import { LogSummary } from "./components/LogSummary"
+import {
+  TopTenCallsigns,
+  TopTenContinents,
+  TopTenCQZones,
+  TopTenEntities,
+  TopTenITUZones,
+} from "./components/TopTenLists"
+import { PerCallSettings } from "./components/PerCallSettings"
 
 const useStyles = makeStyles((theme) => ({
   ...commonStyles(theme),
@@ -49,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-export function LogAnalysis() {
+export function AnalysisPage() {
   const dispatch = useDispatch()
   const classes = useStyles()
   const qson = useSelector(selectContestQSON)
@@ -64,7 +71,7 @@ export function LogAnalysis() {
     return contest
   }, [qson])
 
-  const clickReset = () => {
+  const handleReset = () => {
     dispatch(resetContest())
   }
 
@@ -78,9 +85,7 @@ export function LogAnalysis() {
     <section className={classes.root}>
       <Typography component="h1" variant="h3">
         <div style={{ float: "right" }}>
-          <Button startIcon={<ClearIcon />} onClick={clickReset}>
-            Reset
-          </Button>
+          <LogResetter variant="text" size="large" />
         </div>
         {ref.call}
         <i> in </i>
@@ -126,6 +131,18 @@ export function LogAnalysis() {
       <TopTenCallsigns calls={analysis.calls.calls} />
       <TopTenCQZones cqZones={analysis.calls.cqZones} />
       <TopTenITUZones ituZones={analysis.calls.ituZones} />
+
+      <hr />
+
+      <div style={{ textAlign: "center" }}>
+        <hr />
+        <p>To analyze a different contest, please select a new Cabrillo file.</p>
+        <p>
+          <LogLoader />
+          &nbsp;&nbsp;&nbsp;&nbsp;
+          <LogResetter />
+        </p>
+      </div>
     </section>
   )
 }

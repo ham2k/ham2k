@@ -5,8 +5,8 @@ import { makeStyles } from "@mui/styles"
 import { DateTime } from "luxon"
 import tzdata from "tzdata"
 
-import commonStyles from "../../styles/common"
-import { setPerCallSettings } from "../../store/settings"
+import commonStyles from "../../../styles/common"
+import { setPerCallSettings } from "../../../store/settings"
 import { useDispatch } from "react-redux"
 
 const styles = {
