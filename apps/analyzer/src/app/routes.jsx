@@ -7,7 +7,7 @@ export function ContentRoutes() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      <Route path="/analysis" element={<AnalysisPage />} />
+      <Route path="/analysis/:logKey" element={<AnalysisPage />} />
     </Routes>
   )
 }

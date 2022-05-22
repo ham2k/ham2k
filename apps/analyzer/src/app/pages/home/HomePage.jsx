@@ -1,14 +1,27 @@
+import { makeStyles } from "@mui/styles"
 import * as React from "react"
-import { LogLoader } from "../../components/LogLoader"
+import commonStyles from "../../styles/common"
+import { LogsList } from "./components/LogsList"
+
+const useStyles = makeStyles((theme) => ({
+  ...commonStyles(theme),
+
+  root: {
+    "& h2": {
+      marginTop: "1em",
+      borderBottom: "2px solid #333",
+    },
+  },
+}))
 
 export function HomePage() {
+  const classes = useStyles()
+
   return (
-    <div>
-      <h1>Welcome to Ham2K Contest Analyzer</h1>
-      <p>
-        Please select a Cabrillo file to analyze: <LogLoader />
-      </p>
+    <div class={classes.root}>
+      <LogsList classes={classes} />
       <hr />
+      <h1>Welcome to Ham2K Contest Analyzer</h1>
       <p>Your files will be processed locally on your own browser, nothing will be uploaded anywhere.</p>
       <p>We can analyze any Cabrillo file, but we provide deeper analysis for the following contests:</p>
       <ul>

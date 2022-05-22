@@ -1,12 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit"
-import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist"
-// import storage from "redux-persist/lib/storage" // defaults to localStorage for web
+import { persistStore, persistReducer } from "redux-persist"
 import localforage from "localforage"
 
 import contestReducer from "./contest"
 import settingsReducer from "./settings"
+import contestLogsReducer from "./contestLogs"
 
 const rootReducer = combineReducers({
+  contestLogs: contestLogsReducer,
   contest: contestReducer,
   settings: settingsReducer,
 })
@@ -14,7 +15,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: "root",
   storage: localforage,
-  whitelist: ["contest", "settings"],
+  whitelist: ["contest", "settings", "contestLogs"],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

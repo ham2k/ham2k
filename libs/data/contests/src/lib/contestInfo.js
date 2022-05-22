@@ -36,10 +36,10 @@ class BaseContestInfo {
     throw "Not implemented"
   }
   get start() {
-    throw "Not implemented"
+    return this.periods && this.periods[0] && this.periods[0][0]
   }
   get end() {
-    throw "Not implemented"
+    return this.periods && this.periods[this.periods.length - 1] && this.periods[this.periods.length - 1][1]
   }
   get periods() {
     throw "Not implemented"
@@ -90,12 +90,14 @@ class BaseContestInfo {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   scoringInfoForQSO(qso) {
     throw "Not implemented"
   }
   calculateScoreTotal() {
     throw "Not implemented"
   }
+  o
 
   processOneQSO(qso) {
     this.prepareOneQSO(qso)
@@ -164,10 +166,10 @@ class GenericContestInfo extends BaseContestInfo {
     return this.options.homeUrl
   }
   get name() {
-    return this.options.name || `${this.id} (Unknown Contest)`
+    return this.options.name || `${this.id}`
   }
   get longName() {
-    return this.options.longName || this.name
+    return this.options.longName || `${this.id} (Generic)`
   }
   get id() {
     return this.options.id || "CONTEST"

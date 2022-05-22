@@ -3,10 +3,10 @@ import React from "react"
 import { Button } from "@mui/material"
 import FolderOpenIcon from "@mui/icons-material/FolderOpen"
 import { useDispatch } from "react-redux"
-import { loadCabrillo } from "../store/contest/contestSlice"
 import { useNavigate } from "react-router-dom"
+import { loadCabrilloLog } from "../../../store/contestLogs"
 
-export function LogLoader() {
+export function LogLoader({ title, classes }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
@@ -14,8 +14,9 @@ export function LogLoader() {
     const file = event.target.files[0]
     const reader = new FileReader()
     reader.onload = () => {
-      dispatch(loadCabrillo(reader.result))
-      navigate("/analysis")
+      dispatch(loadCabrilloLog(reader.result)).then((data) => {
+        navigate(`/analysis/${data.key}`)
+      })
     }
     reader.readAsText(file)
   }
@@ -29,7 +30,7 @@ export function LogLoader() {
       onChange={handleFileSelected}
       size="medium"
     >
-      Load Cabrillo
+      {title || "Load Cabrillo file"}
       <input type="file" hidden />
     </Button>
   )

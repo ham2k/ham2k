@@ -3,7 +3,6 @@ import { Typography } from "@mui/material"
 import { makeStyles } from "@mui/styles"
 import commonStyles from "../../../styles/common"
 import classNames from "classnames"
-import { BAND_COLORS } from "../../../styles/bandColors"
 import { fmtInteger, fmtOneDecimal } from "../../../../utils/format/number"
 
 const styles = {
@@ -34,15 +33,6 @@ const styles = {
     },
   },
 }
-Object.entries(BAND_COLORS).forEach((entry) => {
-  styles.table[`& .band-${entry[0]} .band-color`] = {
-    color: entry[1],
-    filter: "brightness(0.85)",
-  }
-  styles.table[`& .band-${entry[0]} .band-bgcolor`] = {
-    backgroundColor: entry[1],
-  }
-})
 
 const useStyles = makeStyles((theme) => ({ ...commonStyles(theme), ...styles }))
 
@@ -59,7 +49,7 @@ export function LogSummary({ qson, analysis, contest }) {
         Summary
       </Typography>
 
-      <table className={classNames("nice-table", classes.table)}>
+      <table className={classNames(classes.niceTable, classes.table, classes.bandColors)}>
         <thead>
           <tr>
             <th className="band">Band</th>

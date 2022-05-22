@@ -1,6 +1,9 @@
+import React, { forwardRef } from "react"
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
-import { AppBar, Container, CssBaseline, responsiveFontSizes, Toolbar, Typography } from "@mui/material"
+import { Link as RouterLink } from "react-router-dom"
+
+import { AppBar, Container, CssBaseline, Link, responsiveFontSizes, Toolbar, Typography } from "@mui/material"
 
 import { makeStyles } from "@mui/styles"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
@@ -9,11 +12,31 @@ import commonStyles from "./styles/common"
 
 import { ContentRoutes } from "./routes"
 
+const MuiToRouterLinkTranslator = forwardRef((props, ref) => {
+  const { href, ...other } = props
+  // Map href (MUI) -> to (react-router)
+  return <RouterLink ref={ref} to={href} {...other} />
+})
+
 /* https://material.io/resources/color/ */
 let baseTheme = createTheme({
   palette: {
     primary: {
       main: "#546e7a",
+    },
+  },
+
+  // Ensure MUI Links use React-Router links as their underlying component
+  components: {
+    MuiLink: {
+      defaultProps: {
+        component: MuiToRouterLinkTranslator,
+      },
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        LinkComponent: MuiToRouterLinkTranslator,
+      },
     },
   },
 })
@@ -31,6 +54,22 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
+    "& header": {
+      "& .MuiToolbar-root div": {
+        flexGrow: 1,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "start",
+        alignItems: "baseline",
+      },
+      "& h1": {
+        fontWeight: "500 !important",
+      },
+      "& h1 i": {
+        fontStyle: "normal",
+        fontWeight: "300 !important",
+      },
+    },
   },
   toolbar: {
     justifyContent: "space-around",
@@ -46,14 +85,6 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: theme.spacing(3),
       paddingRight: theme.spacing(3),
     },
-  },
-
-  untitledLeft: {
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "start",
-    alignItems: "baseline",
   },
 
   footer: {
@@ -78,6 +109,14 @@ const useStyles = makeStyles((theme) => ({
   content: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
+    paddingLeft: theme.spacing(4),
+    "& h1": {
+      fontWeight: "500 !important",
+    },
+    "& h1 i": {
+      fontStyle: "normal",
+      fontWeight: "300 !important",
+    },
   },
 }))
 
@@ -88,9 +127,11 @@ export function App() {
     <div className={classes.root}>
       <AppBar position="static" role="banner">
         <Toolbar className={classes.toolbar}>
-          <div className={classes.untitledLeft}>
+          <div>
             <Typography component="h1" variant="h4" color="inherit" noWrap className={classes.titleMain}>
-              Ham2K Contest Analyzer
+              <Link href="/" underline="hover" color="inherit" noWrap>
+                <i>Ham2K</i> Contest Analyzer
+              </Link>
             </Typography>
             <Typography component="div" color="inherit" noWrap className={classes.version}>
               v0.1
