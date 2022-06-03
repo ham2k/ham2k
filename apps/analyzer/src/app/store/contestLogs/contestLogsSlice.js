@@ -8,6 +8,7 @@ import { generateContestLogKey, guessStartOfContest } from "./contestLogsUtils"
 
 const initialState = {
   logs: [],
+  overrides: {},
 }
 
 export const contestLogsSlice = createSlice({
@@ -36,10 +37,14 @@ export const contestLogsSlice = createSlice({
     setLogList: (state, action) => {
       state.logs = action.payload
     },
+    setLogOverrides: (state, action) => {
+      state.overrides = state.overrides || {}
+      state.overrides[action.payload.key] = action.payload
+    },
   },
 })
 
-export const { setCurrentLog, addLog, removeLog, setLogList } = contestLogsSlice.actions
+export const { setCurrentLog, addLog, removeLog, setLogList, setLogOverrides } = contestLogsSlice.actions
 
 export const loadCabrilloLog = (data) => (dispatch) => {
   return contestLogsDB().then((db) => {
@@ -118,6 +123,10 @@ export const selectContestLogList = (state) => {
 
 export const selectCurrentContestLog = (state) => {
   return state?.contestLogs?.current
+}
+
+export const selectLogOverrides = (key) => (state) => {
+  return (state?.contestLogs?.overrides && state?.contestLogs?.overrides[key]) || {}
 }
 
 export default contestLogsSlice.reducer

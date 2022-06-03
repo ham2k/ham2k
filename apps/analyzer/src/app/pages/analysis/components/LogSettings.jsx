@@ -8,6 +8,7 @@ import tzdata from "tzdata"
 import commonStyles from "../../../styles/common"
 import { setPerCallSettings } from "../../../store/settings"
 import { useDispatch } from "react-redux"
+import { setLogOverrides } from "../../../store/contestLogs"
 
 const styles = {
   root: {},
@@ -15,29 +16,30 @@ const styles = {
 
 const useStyles = makeStyles((theme) => ({ ...commonStyles(theme), ...styles }))
 
-const LuxonTimezones = Object.entries(tzdata.zones)
-  .filter(([zoneName, v]) => Array.isArray(v))
-  .map(([zoneName, v]) => zoneName)
-  .filter((tz) => DateTime.local().setZone(tz).isValid)
+// const LuxonTimezones = Object.entries(tzdata.zones)
+//   .filter(([zoneName, v]) => Array.isArray(v))
+//   .map(([zoneName, v]) => zoneName)
+//   .filter((tz) => DateTime.local().setZone(tz).isValid)
 
-export function PerCallSettings({ settings }) {
+export function LogSettings({ log, overrides, contestRef }) {
   const dispatch = useDispatch()
   const classes = useStyles()
 
   const handleGridChange = (event) => {
-    dispatch(setPerCallSettings({ call: settings.call, grid: event.target.value }))
+    overrides.grid = event.target.value
+    dispatch(setLogOverrides({ ...overrides, key: log.key, grid: event.target.value }))
   }
-  const handleTZChange = (event, value) => {
-    console.log("handleTZChange", value, event)
-    dispatch(setPerCallSettings({ call: settings.call, tz: value }))
-  }
+  // const handleTZChange = (event, value) => {
+  //   console.log("handleTZChange", value, event)
+  //   dispatch(setPerCallSettings({ call: settings.call, tz: value }))
+  // }
 
-  if (settings?.call) {
+  if (log?.call) {
     return (
       <Grid container direction="row" justifyContent="start" alignItems="start" spacing={2}>
         <Grid item>
           <Typography variant="h6" sx={{ paddingTop: "0.7em" }}>
-            Settings for {settings.call}
+            Log Settings:
           </Typography>
         </Grid>
         <Grid item>
@@ -45,11 +47,13 @@ export function PerCallSettings({ settings }) {
             id="per-call-location"
             label="Grid Location"
             variant="standard"
-            value={settings.grid || ""}
+            InputLabelProps={{ shrink: true }}
+            placeholder={contestRef.grid || "123"}
+            value={overrides.grid || ""}
             onChange={handleGridChange}
           />
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Autocomplete
             disablePortal
             id="per-call-timezone"
@@ -61,7 +65,7 @@ export function PerCallSettings({ settings }) {
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Timezone" variant="standard" />}
           />
-        </Grid>
+        </Grid> */}
       </Grid>
     )
   } else {

@@ -4,7 +4,7 @@ import React, { useEffect, useMemo } from "react"
 import { Button, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { makeStyles } from "@mui/styles"
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos"
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
 
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -14,10 +14,8 @@ import { findContestInfoForId } from "@ham2k/data/contests"
 import { fmtDateMonthYear, fmtMinutesAsHM } from "../../../utils/format/dateTime"
 import { fmtInteger, fmtOneDecimal } from "../../../utils/format/number"
 
-import { selectPerCallSettings } from "../../store/settings"
 import analyzeAll from "../../../analysis/analyzer"
 
-import { LogResetter } from "../../components/LogResetter"
 import { TimeAnalysis } from "./components/TimeAnalysis"
 import { ChartQSOs } from "./components/ChartQSOs"
 import { LogSummary } from "./components/LogSummary"
@@ -28,8 +26,13 @@ import {
   TopTenEntities,
   TopTenITUZones,
 } from "./components/TopTenLists"
-import { PerCallSettings } from "./components/PerCallSettings"
-import { resetCurrentContestLog, selectCurrentContestLog, setCurrentContestLog } from "../../store/contestLogs"
+import { LogSettings } from "./components/LogSettings"
+import {
+  resetCurrentContestLog,
+  selectCurrentContestLog,
+  selectLogOverrides,
+  setCurrentContestLog,
+} from "../../store/contestLogs"
 
 const useStyles = makeStyles((theme) => ({
   ...commonStyles(theme),
@@ -57,9 +60,9 @@ export function AnalysisPage() {
   const qson = useMemo(() => log?.qson || {}, [log])
   const ref = useMemo(() => log?.qson?.refs && log?.qson.refs.find((ref) => ref.contest), [log])
   const qsos = useMemo(() => log?.qson?.qsos || [], [log])
+  const overrides = useSelector(selectLogOverrides(log.key))
 
   const contestRef = useMemo(() => qson?.refs && qson.refs.find((ref) => ref.contest), [qson])
-  const perCallSettings = useSelector(selectPerCallSettings(contestRef?.call))
   const contest = useMemo(() => {
     const contest = ref && findContestInfoForId(ref.contest, { near: qson.qsos[0].start })
     contest && contest.score(qson)
@@ -88,7 +91,7 @@ export function AnalysisPage() {
           <Button
             variant={"text"}
             color={"primary"}
-            startIcon={<ArrowBackIosIcon />}
+            startIcon={<ChevronLeftIcon />}
             onClick={handleBack}
             size={"large"}
           >
@@ -113,25 +116,13 @@ export function AnalysisPage() {
         {fmtInteger(contest?.scoringResults?.total || 0)}
       </p>
 
-      <PerCallSettings settings={perCallSettings} contestRef={contestRef} />
+      <LogSettings log={log} overrides={overrides} contestRef={contestRef} />
 
-      <LogSummary
-        qson={qson}
-        analysis={analysis}
-        contest={contest}
-        contestRef={contestRef}
-        settings={perCallSettings}
-      />
+      <LogSummary qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} overrides={overrides} />
 
-      <ChartQSOs qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} settings={perCallSettings} />
+      <ChartQSOs qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} overrides={overrides} />
 
-      <TimeAnalysis
-        qson={qson}
-        analysis={analysis}
-        contest={contest}
-        contestRef={contestRef}
-        settings={perCallSettings}
-      />
+      <TimeAnalysis qson={qson} analysis={analysis} contest={contest} contestRef={contestRef} overrides={overrides} />
 
       <h2>QSOs</h2>
       <TopTenEntities dxcc={analysis.calls.dxcc} />

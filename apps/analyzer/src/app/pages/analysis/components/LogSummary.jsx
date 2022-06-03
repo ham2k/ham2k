@@ -58,8 +58,10 @@ export function LogSummary({ qson, analysis, contest }) {
             <th className="points">Points</th>
             <th className="percent">%</th>
             <th className="points">/QSO</th>
-            <th className="mults">Mults</th>
-            <th className="percent">%</th>
+            {multNames[0] && <th className="mults">{multNames[0]}</th>}
+            {multNames[0] && <th className="percent">%</th>}
+            {multNames[1] && <th className="mults">{multNames[1]}</th>}
+            {multNames[1] && <th className="percent">%</th>}
             <th className="dupes">Dupes</th>
             <th className="percent">%</th>
             <th className="invalid">Invalid</th>
@@ -94,19 +96,34 @@ export function LogSummary({ qson, analysis, contest }) {
                   fmtOneDecimal(contestSummary.points[band] / contestSummary.qsos[band])) ||
                   "-"}
               </td>
-              <td className="mults">
-                {contestSummary && multNames[0] && contestSummary[multNames[0]] && contestSummary[multNames[0]][band]
-                  ? fmtInteger(contestSummary[multNames[0]][band])
-                  : "-"}
-              </td>
-              <td className="percent">
-                {contestSummary &&
-                multNames[0] &&
-                contestSummary[multNames[0]] &&
-                contestSummary[multNames[0]][band] > 0
-                  ? `${fmtInteger((contestSummary[multNames[0]][band] / contestSummary[multNames[0]].all) * 100)}%`
-                  : "-"}
-              </td>
+              {contestSummary && multNames[0] && (
+                <td className="mults">
+                  {contestSummary && multNames[0] && contestSummary[multNames[0]] && contestSummary[multNames[0]][band]
+                    ? fmtInteger(contestSummary[multNames[0]][band])
+                    : "-"}
+                </td>
+              )}
+              {contestSummary && multNames[0] && (
+                <td className="percent">
+                  {contestSummary[multNames[0]] && contestSummary[multNames[0]][band] > 0
+                    ? `${fmtInteger((contestSummary[multNames[0]][band] / contestSummary[multNames[0]].all) * 100)}%`
+                    : "-"}
+                </td>
+              )}
+              {contestSummary && multNames[1] && (
+                <td className="mults">
+                  {contestSummary && multNames[1] && contestSummary[multNames[1]] && contestSummary[multNames[1]][band]
+                    ? fmtInteger(contestSummary[multNames[1]][band])
+                    : "-"}
+                </td>
+              )}
+              {contestSummary && multNames[1] && (
+                <td className="percent">
+                  {contestSummary[multNames[1]] && contestSummary[multNames[1]][band] > 0
+                    ? `${fmtInteger((contestSummary[multNames[1]][band] / contestSummary[multNames[1]].all) * 100)}%`
+                    : "-"}
+                </td>
+              )}
               <td className="dupes">{(contestSummary.dupes && contestSummary.dupes[band]) || "-"}</td>
               <td className="percent">
                 {contestSummary.dupes && contestSummary.dupes[band] > 0
@@ -138,10 +155,18 @@ export function LogSummary({ qson, analysis, contest }) {
             <td className="perqso">
               {contestSummary?.qsos?.all > 0 ? fmtOneDecimal(contestSummary.points.all / contestSummary.qsos.all) : "-"}
             </td>
-            <td className="mults">
-              {multNames[0] && contestSummary[multNames[0]] ? fmtInteger(contestSummary[multNames[0]].all) : "-"}
-            </td>
-            <td className="percent"></td>
+            {multNames[0] && (
+              <td className="mults">
+                {multNames[0] && contestSummary[multNames[0]] ? fmtInteger(contestSummary[multNames[0]].all) : "-"}
+              </td>
+            )}
+            {multNames[0] && <td className="percent"></td>}
+            {multNames[1] && (
+              <td className="mults">
+                {multNames[1] && contestSummary[multNames[1]] ? fmtInteger(contestSummary[multNames[1]].all) : "-"}
+              </td>
+            )}
+            {multNames[1] && <td className="percent"></td>}
             <td className="dupes">{contestSummary.dupes ? fmtInteger(contestSummary.dupes.all) : "-"}</td>
             <td className="percent"></td>
             <td className="invalid">{contestSummary.invalid ? fmtInteger(contestSummary.invalid.all) : "-"}</td>

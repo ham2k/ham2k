@@ -90,13 +90,23 @@ function parseFrequency(freq) {
 const REGEXP_FOR_OPERATOR_LIST = /(,\s*|\s+)/
 
 function normalizeContestInfo(headers) {
-  const info = {}
+  const info = { category: {} }
   info.contest = headers.contest
   if (headers.callsign) info.call = headers.callsign
+  if (headers.club) info.club = headers.club
   if (headers.operators) info.operators = headers.operators.split(REGEXP_FOR_OPERATOR_LIST)
   if (headers.location) info.location = headers.location
-  if (headers.gridLocation) info.grid = headers.gridLocation
+  if (headers.gridLocator) info.grid = headers.gridLocator
   if (headers.claimedScore) info.claimedScore = headers.claimedScore
+
+  if (headers.categoryAssisted) info.categoryAssisted = headers.categoryAssisted
+  if (headers.categoryBand) info.categoryBand = headers.categoryBand
+  if (headers.categoryMode) info.categoryMode = headers.categoryMode
+  if (headers.categoryOperator) info.categoryOperator = headers.categoryOperator
+  if (headers.categoryMode) info.categoryMode = headers.categoryMode
+  if (headers.categoryOverlay) info.categoryOverlay = headers.categoryOverlay
+  if (headers.categoryStation) info.categoryStation = headers.categoryStation
+  if (headers.categoryTransmitter) info.categoryTransmitter = headers.categoryTransmitter
 
   return info
 }

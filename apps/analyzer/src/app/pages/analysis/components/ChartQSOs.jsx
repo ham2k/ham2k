@@ -7,12 +7,12 @@ import Maidenhead from "maidenhead"
 import { Typography } from "@mui/material"
 import { BAND_COLORS } from "../../../styles/bandColors"
 
-export function ChartQSOs({ analysis, contest, qson, settings }) {
+export function ChartQSOs({ analysis, contest, qson, contestRef, overrides }) {
   const height = 300
 
   const grid = new Maidenhead()
   try {
-    grid.locator = settings?.grid
+    grid.locator = overrides?.grid || contestRef?.grid
   } catch (error) {
     // Ignore grid location
   }

@@ -12,7 +12,7 @@ import {
 import { fmtInteger, fmtOneDecimal, fmtPercent } from "../../../../utils/format/number"
 import { constants } from "buffer"
 
-export function TimeAnalysis({ qson, analysis, contest, contestRef, settings }) {
+export function TimeAnalysis({ qson, analysis, contest, contestRef, overrides }) {
   const contestPeriodInfo = useMemo(() => {
     const info = { periods: [], total: 0 }
     info.periods = contest?.periods || []
@@ -26,7 +26,7 @@ export function TimeAnalysis({ qson, analysis, contest, contestRef, settings }) 
 
   const grid = new Maidenhead()
   try {
-    grid.locator = settings?.grid
+    grid.locator = overrides?.grid || contestRef?.grid
   } catch (error) {
     // Ignore grid location
   }
@@ -52,7 +52,7 @@ export function TimeAnalysis({ qson, analysis, contest, contestRef, settings }) 
 
       {sun ? (
         <p>
-          Sunset: {fmtContestTimestampZulu(sun.sunset)} — Sunrise: {fmtContestTimestampZulu(sun.sunrise)}
+          Local Sunset: {fmtContestTimestampZulu(sun.sunset)} — Local Sunrise: {fmtContestTimestampZulu(sun.sunrise)}
         </p>
       ) : (
         <p>Please enter a grid square location in settings to calculate sunset and sunrise times.</p>
