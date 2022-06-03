@@ -43,6 +43,9 @@ class IARUHFContestInfo extends BaseContestInfo {
   get multipliers() {
     return ["zones", "hqs"]
   }
+  get exchange() {
+    return ["zoneOrHq"]
+  }
 
   scoringInfoForQSO(qso) {
     const info = { unique: {}, score: {} }

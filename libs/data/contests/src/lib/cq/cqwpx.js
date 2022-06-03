@@ -28,6 +28,9 @@ class CQWPXContestInfo extends BaseContestInfo {
   get multipliers() {
     return ["prefixes"]
   }
+  get exchange() {
+    return ["serial"]
+  }
 
   scoringInfoForQSO(qso) {
     // Please note that the RTTY has slightly diferent scoring, in case you modify this method.

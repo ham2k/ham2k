@@ -40,6 +40,9 @@ class CQWWVHFContestInfo extends BaseContestInfo {
   get multipliers() {
     return ["grids"]
   }
+  get exchange() {
+    return ["grid"]
+  }
 
   scoringInfoForQSO(qso) {
     const info = { unique: {}, score: {} }

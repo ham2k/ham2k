@@ -28,13 +28,13 @@ export function LogsList({ classes }) {
             {logs.map((log, index) => (
               <tr key={log.key}>
                 <td>
-                  <Link href={`/analysis/${log.key}`}>{log.call}</Link>
+                  <Link href={`/contest/${log.key}`}>{log.call}</Link>
                 </td>
                 <td>
-                  <Link href={`/analysis/${log.key}`}>{log.name}</Link>
+                  <Link href={`/contest/${log.key}`}>{log.name}</Link>
                 </td>
                 <td>
-                  <Link href={`/analysis/${log.key}`}>{fmtDateMonthYear(log.start)}</Link>
+                  <Link href={`/contest/${log.key}`}>{fmtDateMonthYear(log.start)}</Link>
                 </td>
               </tr>
             ))}

@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useMemo } from "react"
 
-import { Button, Typography } from "@mui/material"
+import { Button, Link, Typography } from "@mui/material"
 import { useDispatch, useSelector } from "react-redux"
 import { makeStyles } from "@mui/styles"
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"
@@ -60,7 +60,7 @@ export function AnalysisPage() {
   const qson = useMemo(() => log?.qson || {}, [log])
   const ref = useMemo(() => log?.qson?.refs && log?.qson.refs.find((ref) => ref.contest), [log])
   const qsos = useMemo(() => log?.qson?.qsos || [], [log])
-  const overrides = useSelector(selectLogOverrides(log.key))
+  const overrides = useSelector(selectLogOverrides(logKey))
 
   const contestRef = useMemo(() => qson?.refs && qson.refs.find((ref) => ref.contest), [qson])
   const contest = useMemo(() => {
@@ -108,7 +108,9 @@ export function AnalysisPage() {
         )}
       </Typography>
       <p>
-        <b>{fmtInteger(qsos.length)} QSOs</b>
+        <Link href={`/contest/${logKey}/entries`}>
+          <b>{fmtInteger(qsos.length)} QSOs</b>
+        </Link>
         {" in "}
         {fmtMinutesAsHM(analysis.times.activeMinutes)} {" at "}
         <b>{fmtOneDecimal((qsos.length / analysis.times.activeMinutes) * 60)} QSO/h</b>. &nbsp;&nbsp;&nbsp; Claimed

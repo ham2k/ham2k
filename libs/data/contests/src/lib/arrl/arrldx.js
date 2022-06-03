@@ -24,6 +24,9 @@ class ARRLDXContestInfo extends BaseContestInfo {
   get multipliers() {
     return ["multipliers"]
   }
+  get exchange() {
+    return ["sectionOrPower"]
+  }
 
   scoringInfoForQSO(qso) {
     const info = { unique: {}, score: {} }

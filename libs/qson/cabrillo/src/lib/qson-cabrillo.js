@@ -23,8 +23,10 @@ function parseCabrillo(str) {
   const qsos = []
   const qsosOther = []
 
+  var qsoCount = 0
+
   const lines = str.split(REGEXP_FOR_END_OF_LINE)
-  lines.forEach((line) => {
+  lines.forEach((line, i) => {
     line = line.toUpperCase()
     const matches = line.match(REGEXP_FOR_LINE_TAG)
     if (matches) {
@@ -33,9 +35,15 @@ function parseCabrillo(str) {
 
       if (tag === "qso") {
         const qso = parseCabrilloQSO(data.split(REGEXP_FOR_LINE_PARTS), headers, cache)
+        qsoCount++
+        qso.number = qsoCount
+        qso.line = i + 1
         qsos.push(qso)
       } else if (tag === "xQso") {
         const qso = parseCabrilloQSO(data.split(REGEXP_FOR_LINE_PARTS), headers, cache)
+        qsoCount++
+        qso.number = qsoCount
+        qso.line = i + 1
         qsosOther.push(qso)
       } else {
         if (tag === "startOfLog") {

@@ -32,9 +32,11 @@ class NAQPContestInfo extends BaseContestInfo {
   get bands() {
     return ["160m", "80m", "40m", "20m", "15m", "10m"]
   }
-
   get multipliers() {
     return ["multipliers"]
+  }
+  get exchange() {
+    return ["name", "location"]
   }
 
   scoringInfoForQSO(qso) {

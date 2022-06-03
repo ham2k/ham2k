@@ -24,6 +24,9 @@ class ARRLSSContestInfo extends BaseContestInfo {
   get multipliers() {
     return ["sections"]
   }
+  get exchange() {
+    return ["serial", "prec", "check", "section"]
+  }
 
   scoringInfoForQSO(qso) {
     const info = { unique: {}, score: {} }

@@ -62,12 +62,14 @@ const commonStyles = (theme) => {
     niceTable: {
       borderCollapse: "collapse",
       "& th": {
+        boxSizing: "content-box",
         borderBottom: "1px solid #666",
         margin: 0,
         paddingLeft: "0.5em",
         paddingRight: "0.5em",
       },
       "& td": {
+        boxSizing: "content-box",
         margin: 0,
         paddingLeft: "0.5em",
         paddingRight: "0.5em",

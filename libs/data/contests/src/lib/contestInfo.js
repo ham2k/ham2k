@@ -53,6 +53,12 @@ class BaseContestInfo {
   get bands() {
     throw "Not implemented"
   }
+  get multipliers() {
+    throw "Not implemented"
+  }
+  get exchange() {
+    throw "Not implemented"
+  }
 
   // Contest Scoring
   get scoringResults() {
@@ -97,7 +103,6 @@ class BaseContestInfo {
   calculateScoreTotal() {
     throw "Not implemented"
   }
-  o
 
   processOneQSO(qso) {
     this.prepareOneQSO(qso)
@@ -188,6 +193,12 @@ class GenericContestInfo extends BaseContestInfo {
   }
   get minimumBreakInMinutes() {
     return this.options.minimumBreakInMinutes || 0
+  }
+  get multipliers() {
+    return this.options.multipliers || []
+  }
+  get exchange() {
+    return this.options.exchange || ["exchange"]
   }
 
   scoringInfoForQSO(qso) {

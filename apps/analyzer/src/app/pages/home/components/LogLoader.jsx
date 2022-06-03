@@ -15,7 +15,7 @@ export function LogLoader({ title, classes }) {
     const reader = new FileReader()
     reader.onload = () => {
       dispatch(loadCabrilloLog(reader.result)).then((data) => {
-        navigate(`/analysis/${data.key}`)
+        navigate(`/contest/${data.key}`)
       })
     }
     reader.readAsText(file)

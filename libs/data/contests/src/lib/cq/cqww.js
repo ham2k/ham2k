@@ -26,9 +26,11 @@ class CQWWContestInfo extends BaseContestInfo {
   get bands() {
     return ["160m", "80m", "40m", "20m", "15m", "10m"]
   }
-
   get multipliers() {
     return ["entities", "zones"]
+  }
+  get exchange() {
+    return ["cqZone"]
   }
 
   scoringInfoForQSO(qso) {
