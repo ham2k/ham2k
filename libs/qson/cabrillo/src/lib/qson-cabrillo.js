@@ -77,6 +77,9 @@ function parseCabrilloQSO(parts, headers, cache) {
   const qso = cache.contestSplitter(parts)
 
   qso.freq = parseFrequency(parts[0])
+  if (qso.freq == 50) {
+    console.log(qso)
+  }
   qso.band = bandForFrequency(qso.freq)
   qso.mode = CABRILLO_MODES_TO_QSON_MODES[parts[1]] || parts[1]
   qso.start = `${parts[2]}T${parts[3].substring(0, 2)}:${parts[3].substring(2, 4)}:00Z`
@@ -128,8 +131,8 @@ function selectContestSplitter(headers) {
     fields = ["rst", "serial"]
   } else if (contest.match(/^RSGB-160-|RSGB-COMM|RSGB-IOTA|RSGB-LOW/)) {
     fields = ["rst", "serial", "location"]
-  } else if (contest.match(/^ARRL-FD-/)) {
-    fields = ["category", "section"]
+  } else if (contest.match(/^ARRL-FD|ARRL-FIELD-DAY|WFD/)) {
+    fields = ["class", "section"]
   } else if (contest.match(/^NAQP-/)) {
     fields = ["name", "location"]
   } else if (contest.match(/QSO-PARTY/)) {

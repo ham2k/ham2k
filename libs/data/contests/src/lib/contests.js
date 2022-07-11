@@ -6,6 +6,7 @@ const { ARRLSSSSBContestInfo, ARRLSSCWContestInfo } = require("./arrl/arrlss")
 const { IARUHFContestInfo } = require("./arrl/iaru")
 const { NAQPCWContestInfo, NAQPSSBContestInfo, NAQPRTTYContestInfo } = require("./ncj/naqp")
 const { NYQPContestInfo } = require("./qp/nyqp")
+const { ARRLFieldDayContestInfo } = require("./arrl/fd")
 
 const CONTEST_MAP = {
   "CQ-WPX-SSB": CQWPXSSBContestInfo,
@@ -18,6 +19,7 @@ const CONTEST_MAP = {
   "ARRL-DX-CW": ARRLDXCWContestInfo,
   "ARRL-SS-SSB": ARRLSSSSBContestInfo,
   "ARRL-SS-CW": ARRLSSCWContestInfo,
+  "ARRL-FIELD-DAY": ARRLFieldDayContestInfo,
   "IARU-HF": IARUHFContestInfo,
   "NAQP-SSB": NAQPSSBContestInfo,
   "NAQP-CW": NAQPCWContestInfo,

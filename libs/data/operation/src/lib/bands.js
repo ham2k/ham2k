@@ -27,6 +27,10 @@ const COMMON_BANDS = ["160m", "80m", "60m", "40m", "30m", "20m", "17m", "15m", "
 const CONTEST_BANDS = ["160m", "80m", "40m", "20m", "15m", "10m"]
 
 function bandForFrequency(freq) {
+  return bandForExactFrequencyInMHz(freq) || bandForExactFrequencyInMHz(freq * 1000) || "other"
+}
+
+function bandForExactFrequencyInMHz(freq) {
   if (freq >= 130 && freq <= 140) return "2200m"
   else if (freq >= 450 && freq <= 500) return "630m"
   else if (freq >= 1700 && freq <= 2100) return "160m"
@@ -47,7 +51,7 @@ function bandForFrequency(freq) {
   else if (freq >= 900000 && freq <= 930000) return "33cm"
   else if (freq >= 1200000 && freq <= 1400000) return "23cm"
   else if (freq >= 2300000 && freq <= 2400000) return "13cm"
-  else return "other"
+  else return undefined
 }
 
 module.exports = {
